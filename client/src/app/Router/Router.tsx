@@ -1,0 +1,35 @@
+import { type JSX } from "react";
+import { BrowserRouter, Route, Routes } from "react-router";
+import Layout from "../Layout/Layout";
+import {
+  LoginPage,
+  MainPage,
+  SignUpPage,
+} from "@/pages";
+import { CLIENT_ROUTES } from "@/shared/enums/client_routes";
+import ProtectedRouter from "@/shared/HOCs/ProtectedRouter/ui/ProtectedRouter";
+import { useAppSelector } from "@/shared/hooks/hook";
+
+export default function Router(): JSX.Element {
+  const status = useAppSelector((state) => state.user.status);
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path={CLIENT_ROUTES.HOME} element={<MainPage />} />
+          <Route
+            element={
+              <ProtectedRouter
+                isAllowed={status !== "logged"}
+                redirectTo={CLIENT_ROUTES.HOME}
+              />
+            }
+          >
+            <Route path={CLIENT_ROUTES.SIGN_UP} element={<SignUpPage />} />
+            <Route path={CLIENT_ROUTES.LOGIN} element={<LoginPage />} />
+          </Route>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
+}
