@@ -3,7 +3,16 @@
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
-    static associate() {}
+    static associate(models) {
+      User.hasMany(models.Order, { foreignKey: 'user_id', as: 'orders' }); 
+      User.belongsToMany(models.Item, {
+        through: models.Favourite,
+        foreignKey: 'user_id',
+        otherKey: 'item_id',
+        as: 'items',
+      });
+      User.hasOne(models.Cart, { foreignKey: 'user_id', as: 'cart' }); 
+    }
 
     static validateSignup(user) {
       const { fullName, email, password } = user;
@@ -30,6 +39,7 @@ module.exports = (sequelize, DataTypes) => {
       return { isValid: true, error: null };
     }
   }
+
   User.init(
     {
       fullName: DataTypes.STRING,
@@ -38,7 +48,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     {
       sequelize,
-      modelfullName: 'User',
+      modelName: 'User',
     },
   );
   return User;
