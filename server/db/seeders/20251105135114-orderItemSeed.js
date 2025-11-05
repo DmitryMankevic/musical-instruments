@@ -14,6 +14,7 @@ module.exports = {
       {
         order_id: 1,
         item_id: 5,
+        quantity: 1,
         createdAt: new Date(),
         updatedAt: new Date(),
       },
