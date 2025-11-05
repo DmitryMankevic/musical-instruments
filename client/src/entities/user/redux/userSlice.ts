@@ -22,11 +22,7 @@ const initialState: UserState = {
 export const userSlice = createSlice({
   name: "user",
   initialState,
-  reducers: {
-    upperUserName: (state) => {
-      if (state.user) state.user.name = state.user.name.toUpperCase();
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(signupAsyncThunk.pending, (state) => {
@@ -82,6 +78,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { upperUserName } = userSlice.actions;
+// export const { upperUserName } = userSlice.actions;
 
 export default userSlice.reducer;

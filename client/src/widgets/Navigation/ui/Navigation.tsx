@@ -24,15 +24,13 @@ export default function Navigation(): JSX.Element {
     <Navbar bg="light" data-bs-theme="light">
       <Container>
         <Navbar.Brand>
-          {status === "logged" ? user?.name : "Guest"}
+          {status === "logged" ? user?.fullName : "Guest"}
         </Navbar.Brand>
         <Nav className="me-auto">
           <NavLink to={CLIENT_ROUTES.HOME} className="nav-link">
             Главная
           </NavLink>
-          <NavLink to={CLIENT_ROUTES.ADVICE} className="nav-link">
-            Советы
-          </NavLink>
+
           {status !== "logged" && (
             <>
               <NavLink to={CLIENT_ROUTES.LOGIN} className="nav-link">
