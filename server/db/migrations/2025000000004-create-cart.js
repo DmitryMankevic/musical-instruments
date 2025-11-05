@@ -1,50 +1,29 @@
 'use strict';
 
-
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Items', {
+    await queryInterface.createTable('Carts', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      title: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      desc: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      price: {
-        type: Sequelize.DECIMAL(10, 2),
-        allowNull: false,
-        defaultValue: 0.00
-      },
-      marker: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
-      category_id: {
+      user_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Categories',
+          model: 'Users',
           key: 'id',
         },
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
       },
-      article: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
-      img: {
-        type: Sequelize.STRING,
-        allowNull: false
+      total: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: false,
+        defaultValue: 0.00
       },
       createdAt: {
         allowNull: false,
@@ -55,10 +34,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.fn('now'),
-      },
+      }
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Items');
+    await queryInterface.dropTable('Carts');
   }
 };

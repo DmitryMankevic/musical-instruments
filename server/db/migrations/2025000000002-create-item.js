@@ -1,33 +1,49 @@
 'use strict';
+
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Favourites', {
+    await queryInterface.createTable('Items', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER,
+        type: Sequelize.INTEGER
       },
-      user_id: {
+      title: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      desc: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      price: {
+        type: Sequelize.DECIMAL(10, 2),
+        allowNull: false,
+        defaultValue: 0.00
+      },
+      marker: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      category_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
         references: {
-          model: 'Users',
+          model: 'Categories',
           key: 'id',
         },
+        onUpdate: 'CASCADE',
         onDelete: 'CASCADE',
-        update: 'CASCADE',
       },
-      item_id: {
-        type: Sequelize.INTEGER,
-        allowNull: false,
-        references: {
-          model: 'Items',
-          key: 'id',
-        },
-        onDelete: 'CASCADE',
-        update: 'CASCADE',
+      article: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      img: {
+        type: Sequelize.STRING,
+        allowNull: false
       },
       createdAt: {
         allowNull: false,
@@ -42,6 +58,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Favourites');
-  },
+    await queryInterface.dropTable('Items');
+  }
 };

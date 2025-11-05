@@ -1,10 +1,9 @@
 'use strict';
+
 const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class Item extends Model {
-
     static associate(models) {
-      // define association here
       Item.belongsTo(models.Category, { foreignKey: 'category_id', as: 'category' });
       Item.hasMany(models.CartItem, { foreignKey: 'item_id', as: 'cartItems' });
       Item.belongsToMany(models.Cart, {
