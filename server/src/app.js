@@ -16,5 +16,7 @@ app.use((req, res) => {
 const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
-  console.log(`Server started on port ${PORT}`);
+  console.log(
+    `\u001b[32m🍺🍺🍺🍺🍺🍺🍺🍺 Порт \u001b[35m${PORT} \u001b[32mзавёлся 🍺🍺🍺🍺🍺🍺🍺🍺`,
+  );
 });
