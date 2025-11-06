@@ -8,24 +8,24 @@ module.exports = {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
       title: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       desc: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       price: {
         type: Sequelize.DECIMAL(10, 2),
         allowNull: false,
-        defaultValue: 0.00
+        defaultValue: 0.0,
       },
       marker: {
         type: Sequelize.STRING,
-        allowNull: true
+        allowNull: true,
       },
       category_id: {
         type: Sequelize.INTEGER,
@@ -39,11 +39,16 @@ module.exports = {
       },
       article: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
       img: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
+      },
+      stock: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
       },
       createdAt: {
         allowNull: false,
@@ -59,5 +64,5 @@ module.exports = {
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('Items');
-  }
+  },
 };
