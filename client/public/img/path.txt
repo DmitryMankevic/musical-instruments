@@ -1,0 +1,1 @@
+ // <img src="../../public/img/yamaha-p225b.png" alt="Yamaha P-225 B" />
