@@ -3,11 +3,12 @@ import Carousel from "@/widgets/Carousel/ui/Carousel";
 import { Container, Row, Col } from "react-bootstrap";
 import CategoryCard from "@/widgets/CategoryCard/ui/CategoryCard";
 import { useAppSelector, useAppDispatch } from "@/shared/hooks/hook";
-import { getAllCategoriesThunk } from "@/entities/category/redux/categoryThunk"; 
+import { getAllCategoriesThunk } from "@/entities/category/redux/categoryThunk";
 
 export function MainPage(): JSX.Element {
-
-  const categoriesArr = useAppSelector((state) => state.categories.categoriesArr);
+  const categoriesArr = useAppSelector(
+    (state) => state.categories.categoriesArr
+  );
 
   const dispatch = useAppDispatch();
 
@@ -23,7 +24,6 @@ export function MainPage(): JSX.Element {
   // if (loading === true) {
   //   return <Container className="py-5 text-center">Загрузка...</Container>;
   // }
-
 
   return (
     <Container className="py-4">
