@@ -1,9 +1,14 @@
 import type { JSX } from "react";
 import styles from "./ItemCard.module.css";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Heart } from "lucide-react";
+import type { IItem } from "../../entities/item/model";
 
-export default function ItemCard(): JSX.Element {
+type Props = {
+  item?: IItem;
+};
+
+function ItemCard({ item }: Props): JSX.Element {
   const [liked, setLiked] = useState(false);
 
   return (
@@ -28,9 +33,11 @@ export default function ItemCard(): JSX.Element {
         />
       </div>
       <div className={styles.content}>
-        <h3 className={styles.title}>Yamaha P-225 B</h3>
-        <div className={styles.price}>8 000 P</div>
+        <h3 className={styles.title}>{item?.title}</h3>
+        <div className={styles.price}>{item?.price} P</div>
       </div>
     </div>
   );
 }
+
+export default React.memo(ItemCard);
