@@ -21,36 +21,52 @@ export default function Navigation(): JSX.Element {
   };
 
   return (
-    <Navbar bg="light" data-bs-theme="light">
-      <Container>
-        <Navbar.Brand>
-          {status === "logged" ? user?.fullName : "Guest"}
-        </Navbar.Brand>
-        <Nav className="me-auto">
-          <NavLink to={CLIENT_ROUTES.HOME} className="nav-link">
-            Главная
-          </NavLink>
+    <>
+    <h1>магазин</h1>
+    <Navbar bg="light" className="p-3 flex-column align-items-start">
+      <Container fluid>
+        <div className="w-100 d-flex justify-content-between mb-5">
+          <Navbar.Brand>
+            {status === "logged" ? user?.fullName : "Guest"}
+          </Navbar.Brand>
 
-          {status !== "logged" && (
-            <>
-              <NavLink to={CLIENT_ROUTES.LOGIN} className="nav-link">
-                Вход
-              </NavLink>
-              <NavLink to={CLIENT_ROUTES.SIGN_UP} className="nav-link">
-                Регистрация
-              </NavLink>
-            </>
+          {status === "logged" && (
+            <div className="d-flex gap-2">
+              <UserCard />
+              <Button variant="outline-dark" onClick={logoutHandler}>
+                Выход
+              </Button>
+            </div>
           )}
-        </Nav>
-        {status === "logged" && (
-          <>
-            <UserCard />
-            <Button variant="outline-dark" onClick={logoutHandler}>
-              Выход
-            </Button>
-          </>
-        )}
+        </div>
       </Container>
+
+      <div className="w-100 bg-dark border-top pt-2">
+        <Container fluid>
+          <Nav className="d-flex gap-3">
+            <NavLink to={CLIENT_ROUTES.HOME} className="nav-link text-white">
+              Главная
+            </NavLink>
+            {status !== "logged" && (
+              <>
+                <NavLink
+                  to={CLIENT_ROUTES.LOGIN}
+                  className="nav-link text-white"
+                >
+                  Вход
+                </NavLink>
+                <NavLink
+                  to={CLIENT_ROUTES.SIGN_UP}
+                  className="nav-link text-white"
+                >
+                  Регистрация
+                </NavLink>
+              </>
+            )}
+          </Nav>
+        </Container>
+      </div>
     </Navbar>
+    </>
   );
 }

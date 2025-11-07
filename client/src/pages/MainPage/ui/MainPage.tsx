@@ -1,8 +1,6 @@
-import { useAppSelector } from "@/shared/hooks/hook";
 import { useLayoutEffect, type JSX } from "react";
 
 export function MainPage(): JSX.Element {
-  const fullName = useAppSelector((state) => state.user.user?.fullName);
 
 
   useLayoutEffect(() => {
@@ -11,7 +9,7 @@ export function MainPage(): JSX.Element {
 
   return (
     <>
-      <div>Имя:{fullName}</div>
+      <h1>Главная страница</h1>
     </>
   );
 }
