@@ -1,7 +1,7 @@
 import { useLayoutEffect, type JSX } from "react";
+import styles from "./MainPage.module.css";
 
 export function MainPage(): JSX.Element {
-
 
   useLayoutEffect(() => {
     document.title = "Главная страница";
@@ -9,7 +9,7 @@ export function MainPage(): JSX.Element {
 
   return (
     <>
-      <h1>Главная страница</h1>
+      <h1 className={styles.container}>Главная страница</h1>
     </>
   );
 }
