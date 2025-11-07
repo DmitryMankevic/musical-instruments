@@ -1,7 +1,18 @@
 export interface IRawItem {
-  id: string;
-  name: string;
-  description: string;
+  title: string;
+  desc: string;
   price: number;
-  imageUrl: string;
+  marker: string;
+  article: string;
+  img: string;
+  stock: number; 
+  category_id: number; 
 }
+
+export interface IItem extends IRawItem {
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// От сюда начать
