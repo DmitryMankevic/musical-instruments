@@ -21,34 +21,29 @@ class OrderController {
   }
 
   // Получить все заказы (для админки)
-static async getAllForAdmin(req, res) {
-  try {
-    const { isAdmin } = res.locals.user;
+  static async getAllForAdmin(req, res) {
+    try {
+      const { isAdmin } = res.locals.user;
 
-    if (!isAdmin) {
-      return res
-        .status(403)
-        .json(formatResponse(403, 'Доступ только для администратора', null));
+      if (!isAdmin) {
+        return res
+          .status(403)
+          .json(formatResponse(403, 'Доступ только для администратора', null));
+      }
+
+      const orders = await OrderService.getAllOrders();
+
+      if (!orders.length) {
+        return res.status(200).json(formatResponse(204, 'Нет заказов в системе', []));
+      }
+
+      res.status(200).json(formatResponse(200, 'Все заказы получены', orders));
+    } catch ({ message }) {
+      res
+        .status(500)
+        .json(formatResponse(500, 'Ошибка сервера при получении заказов', null, message));
     }
-
-    const orders = await OrderService.getAllOrders();
-
-    if (!orders.length) {
-      return res
-        .status(200)
-        .json(formatResponse(204, 'Нет заказов в системе', []));
-    }
-
-    res
-      .status(200)
-      .json(formatResponse(200, 'Все заказы получены', orders));
-  } catch ({ message }) {
-    res
-      .status(500)
-      .json(formatResponse(500, 'Ошибка сервера при получении заказов', null, message));
   }
-}
-
 
   // Получить один заказ по ID
   static async getById(req, res) {
@@ -73,7 +68,7 @@ static async getAllForAdmin(req, res) {
   static async create(req, res) {
     try {
       const userId = res.locals.user.id;
-      const data = { ...req.body, userId };
+      const data = { ...req.body, user_id: userId };
       const newOrder = await OrderService.createOrder(data);
 
       res.status(201).json(formatResponse(201, 'Заказ успешно создан', newOrder));
@@ -99,7 +94,7 @@ static async getAllForAdmin(req, res) {
       }
 
       if (!order) {
-        res
+        return res
           .status(403)
           .json(formatResponse(403, 'Нет доступа к заказу или заказ не найден'));
       }
@@ -128,7 +123,7 @@ static async getAllForAdmin(req, res) {
       }
 
       if (!order) {
-        res
+        return res
           .status(403)
           .json(formatResponse(403, 'Нет доступа к заказу или заказ не найден'));
       }

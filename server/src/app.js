@@ -1,4 +1,6 @@
 const express = require('express');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./docs/swagger');
 const serverConfig = require('./configs/serverConfig');
 const apiRouter = require('./routes/apiRouter');
 require('dotenv').config();
@@ -8,6 +10,7 @@ const app = express();
 serverConfig(app);
 
 app.use('/api', apiRouter);
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use((req, res) => {
   res.status(404).send('Not found');
