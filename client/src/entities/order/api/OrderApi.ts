@@ -49,7 +49,7 @@ export class OrderApi {
     return data;
   }
 
-  // Удалить заказ
+  //  Удалить заказ
   static async deleteOrder(
     id: number
   ): Promise<AxiosResponse<IApiResponse<null>>> {

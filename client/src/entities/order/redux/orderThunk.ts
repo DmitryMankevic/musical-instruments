@@ -3,72 +3,72 @@ import { AxiosError } from "axios";
 import type { IOrder, IRawOrder } from "../model";
 import { OrderApi } from "../api/OrderApi";
 import type { IApiResponseError } from "@/shared/types";
-import type { RootState } from "@reduxjs/toolkit/query";
+import type { RootState } from "@/app/store/store";
 
 //
-// 🟢 Получить все заказы (юзер — свои, админ — все)
+// 🟢 Получить все заказы
 //
 export const getOrdersThunk = createAsyncThunk<
-  IOrder[], // ✅ Успешный ответ
-  void, // ✅ Аргумент (ничего не передаём)
-  { rejectValue: string } // ✅ Тип ошибки
+  IOrder[],
+  void,
+  { rejectValue: string }
 >("order/getAll", async (_, { rejectWithValue }) => {
   try {
     const response = await OrderApi.getOrders();
-    return response.data;
+    return response.data!; // 👈 гарантируем, что не null
   } catch (error) {
     const err = error as AxiosError<IApiResponseError>;
     return rejectWithValue(
-      err.response?.data.message || "Ошибка при загрузке заказов"
+      err.response?.data?.message ?? "Ошибка при загрузке заказов"
     );
   }
 });
 
 //
-// 🟢 Создать заказ (ожидает оплаты)
+// 🟢 Создать заказ
 //
 export const createOrderThunk = createAsyncThunk<
-  IOrder, // ✅ Ответ с созданным заказом
-  Omit<IRawOrder, "user_id">, // ✅ Аргумент (без user_id)
-  { rejectValue: string } // ✅ Тип ошибки
+  IOrder,
+  Omit<IRawOrder, "user_id">,
+  { rejectValue: string }
 >("order/create", async (order, { rejectWithValue }) => {
   try {
     const response = await OrderApi.createOrder(order);
-    return response.data;
+    return response.data!;
   } catch (error) {
     const err = error as AxiosError<IApiResponseError>;
     return rejectWithValue(
-      err.response?.data.message || "Ошибка при создании заказа"
+      err.response?.data?.message ?? "Ошибка при создании заказа"
     );
   }
 });
 
 //
-// 🟢 Оплатить заказ (меняет статус на «в обработке»)
+// 🟢 Оплатить заказ
 //
 export const payOrderThunk = createAsyncThunk<
-  IOrder, // ✅ Ответ — обновлённый заказ
-  number, // ✅ Аргумент — id заказа
-  { rejectValue: string } // ✅ Тип ошибки
+  IOrder,
+  number,
+  { rejectValue: string }
 >("order/pay", async (orderId, { rejectWithValue }) => {
   try {
     const response = await OrderApi.payOrder(orderId);
-    return response.data;
+    return response.data!;
   } catch (error) {
     const err = error as AxiosError<IApiResponseError>;
     return rejectWithValue(
-      err.response?.data.message || "Ошибка при оплате заказа"
+      err.response?.data?.message ?? "Ошибка при оплате заказа"
     );
   }
 });
 
 //
-// 🟢 Обновить заказ (админ может менять статус)
+// 🟢 Обновить заказ
 //
-
 export const updateOrderThunk = createAsyncThunk<
   IOrder,
-  { id: number; order: Partial<IOrder> }
+  { id: number; order: Partial<IOrder> },
+  { rejectValue: string; state: RootState }
 >("order/update", async ({ id, order }, { rejectWithValue, getState }) => {
   try {
     const state = getState() as RootState;
@@ -76,23 +76,25 @@ export const updateOrderThunk = createAsyncThunk<
 
     const response = await OrderApi.updateOrder(id, {
       ...order,
-      user_id: userId, // добавляем id пользователя
+      user_id: userId,
     });
 
-    return response.data;
+    return response.data!;
   } catch (error) {
     const err = error as AxiosError<IApiResponseError>;
-    return rejectWithValue(err.response?.data.message);
+    return rejectWithValue(
+      err.response?.data?.message ?? "Ошибка при обновлении заказа"
+    );
   }
 });
 
 //
-// 🟢 Удалить заказ (юзер или админ)
+// 🟢 Удалить заказ
 //
 export const deleteOrderThunk = createAsyncThunk<
-  number, // ✅ Возвращаем id удалённого заказа
-  number, // ✅ Аргумент — id заказа
-  { rejectValue: string } // ✅ Тип ошибки
+  number,
+  number,
+  { rejectValue: string }
 >("order/delete", async (orderId, { rejectWithValue }) => {
   try {
     await OrderApi.deleteOrder(orderId);
@@ -100,7 +102,7 @@ export const deleteOrderThunk = createAsyncThunk<
   } catch (error) {
     const err = error as AxiosError<IApiResponseError>;
     return rejectWithValue(
-      err.response?.data.message || "Ошибка при удалении заказа"
+      err.response?.data?.message ?? "Ошибка при удалении заказа"
     );
   }
 });
