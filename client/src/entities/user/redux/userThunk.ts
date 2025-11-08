@@ -48,17 +48,16 @@ export const logoutAsyncThunk = createAsyncThunk<void, void>(
   }
 );
 
-export const refreshAsyncThunk = createAsyncThunk<IUserToken | null>(
+export const refreshAsyncThunk = createAsyncThunk(
   "users/refreshTokens",
   async (_, { rejectWithValue }) => {
     try {
       const response = await UserApi.refreshTokens();
-      if (response.data) setAccessToken(response.data.accessToken);
-      return response.data; // action.payload
+      if (response.data?.accessToken) setAccessToken(response.data.accessToken);
+      return response.data?.user; 
     } catch (error) {
-      console.log(error);
       const err = error as AxiosError<IApiResponseError>;
-      return rejectWithValue(err.response?.data.message); // action.payload
+      return rejectWithValue(err.response?.data.message);
     }
   }
 );
