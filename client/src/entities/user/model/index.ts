@@ -9,6 +9,7 @@ export interface IUserSignUpData extends IUserLoginData {
 
 export interface IUserDB extends IUserSignUpData {
   id: number;
+  isAdmin: boolean;
   createdAt: string;
   updatedAt: string;
 }
