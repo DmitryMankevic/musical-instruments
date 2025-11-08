@@ -1,18 +1,30 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const OrderController = require('../controllers/OrderController');
-const { verifyAccessToken } = require('../middlewares/verifyTokens');
-
-// Все маршруты защищены авторизацией
-
-// ----------- Админские маршруты -----------
-router.get('/admin/all', verifyAccessToken, OrderController.getAllForAdmin); // Получить все заказы в системе (админка)
+const OrderController = require("../controllers/OrderController");
+const { verifyAccessToken } = require("../middlewares/verifyTokens");
 
 // ----------- Пользовательские маршруты -----------
-router.get('/', verifyAccessToken, OrderController.getAll); // Получить все свои заказы
-router.get('/:id', verifyAccessToken, OrderController.getById); // Получить конкретный заказ по ID
-router.post('/', verifyAccessToken, OrderController.create); // Создать заказ
-router.put('/:id', verifyAccessToken, OrderController.update); // Обновить заказ (например, статус)
-router.delete('/:id', verifyAccessToken, OrderController.delete); // Удалить заказ
+
+router.get("/", verifyAccessToken, OrderController.getAll); 
+// Получить все заказы текущего пользователя
+
+router.get("/:id", verifyAccessToken, OrderController.getById); 
+// Получить конкретный заказ пользователя
+
+router.post("/", verifyAccessToken, OrderController.create); 
+// Создать новый заказ
+
+router.put("/:id", verifyAccessToken, OrderController.update); 
+// Обновить заказ (например, изменить описание или статус)
+
+router.delete("/:id", verifyAccessToken, OrderController.delete); 
+// Удалить заказ
+
+router.put("/:id/pay", verifyAccessToken, OrderController.pay); 
+// Оплатить заказ (меняет статус на "в обработке")
+
+
+router.put("/admin/:id/status", verifyAccessToken, OrderController.update); 
+// Админ меняет статус любого заказа
 
 module.exports = router;

@@ -1,69 +1,65 @@
 import { createSlice } from "@reduxjs/toolkit";
-import type { IOrder } from "../model";
 import {
-  createOrderThunk,
   getOrdersThunk,
-  getOrderByIdThunk,
+  createOrderThunk,
+  payOrderThunk,
+  updateOrderThunk,
+  deleteOrderThunk,
 } from "./orderThunk";
+import type { IOrder } from "../model";
 
 type OrderState = {
-  order: IOrder | null;
   orders: IOrder[];
   loading: boolean;
-  errorMessage: string;
+  errorMessage: string | null;
 };
 
 const initialState: OrderState = {
-  order: null,
   orders: [],
   loading: false,
-  errorMessage: "",
+  errorMessage: null,
 };
 
-export const orderSlice = createSlice({
+const orderSlice = createSlice({
   name: "order",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
+      // Получение заказов
       .addCase(getOrdersThunk.pending, (state) => {
         state.loading = true;
-        state.errorMessage = "";
+        state.errorMessage = null;
       })
       .addCase(getOrdersThunk.fulfilled, (state, action) => {
         state.loading = false;
-        state.orders = action.payload ?? [];
+        state.orders = action.payload;
       })
       .addCase(getOrdersThunk.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload as string;
-      });
+      })
 
-    builder
-      .addCase(getOrderByIdThunk.pending, (state) => {
-        state.loading = true;
-        state.errorMessage = "";
-      })
-      .addCase(getOrderByIdThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.order = action.payload;
-      })
-      .addCase(getOrderByIdThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.errorMessage = action.payload as string;
-      });
-    builder
-      .addCase(createOrderThunk.pending, (state) => {
-        state.loading = true;
-        state.errorMessage = "";
-      })
+      // Создание заказа
       .addCase(createOrderThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        state.order = action.payload;
+        state.orders.push(action.payload);
       })
-      .addCase(createOrderThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.errorMessage = action.payload as string;
+
+      // Оплата заказа
+      .addCase(payOrderThunk.fulfilled, (state, action) => {
+        const index = state.orders.findIndex((o) => o.id === action.payload.id);
+        if (index !== -1) state.orders[index] = action.payload;
+      })
+
+      // Обновление (админ)
+      .addCase(updateOrderThunk.fulfilled, (state, action) => {
+        const index = state.orders.findIndex((o) => o.id === action.payload.id);
+        if (index !== -1) state.orders[index] = action.payload;
+      })
+
+      // Удаление заказа
+      .addCase(deleteOrderThunk.fulfilled, (state, action) => {
+        state.orders = state.orders.filter((o) => o.id !== action.payload);
       });
   },
 });

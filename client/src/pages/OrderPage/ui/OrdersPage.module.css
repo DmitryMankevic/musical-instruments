@@ -1,3 +1,4 @@
+/* Общий контейнер */
 .wrapper {
   padding: 20px;
 }
@@ -6,34 +7,155 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: 20px;
 }
 
+/* Карточка заказа */
 .orderCard {
-  background: #f8f8f8;
+  display: flex;
+  flex-direction: column;
+  background: #f9f9f9;
   border-radius: 12px;
-  padding: 16px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
-.header {
+/* Верхняя часть: название и крестик */
+.topRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-.status {
-  background-color: #000000;
-  color: white;
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-size: 14px;
+.orderTitle {
+  margin: 0;
+  font-size: 1.2rem;
+  font-weight: 700;
 }
 
+.deleteIcon {
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.deleteIcon:hover {
+  color: #dc3545;
+}
+
+/* Статус под заголовком */
+.statusRow {
+  margin-top: 8px;
+}
+
+.status {
+  display: inline-block;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 8px;
+  color: white;
+  text-transform: capitalize;
+}
+
+/* Цвета статусов */
+.new {
+  background-color: #007bff; /* синий — новый */
+}
+
+.processing {
+  background-color: #ffa500; /* оранжевый — в обработке */
+}
+
+.delivered {
+  background-color: #28a745; /* зелёный — доставлен */
+}
+
+.cancelled {
+  background-color: #dc3545; /* красный — отменён */
+}
+
+.sent {
+  background-color: #1e90ff; /* голубой — отправлен */
+}
+
+.ready {
+  background-color: #17a2b8; /* бирюзовый — готов к отправке */
+}
+
+/* Информация о заказе */
+.infoBlock {
+  margin-top: 12px;
+  font-size: 0.95rem;
+  color: #333;
+  line-height: 1.5;
+}
+
+/* Нижняя панель действий */
+.actionsBottom {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Кнопка оплаты */
+.payButton {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.payButton:hover {
+  background-color: #3e8e41;
+}
+
+/* Админский блок */
+.adminControls {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+
+.adminControls label {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.adminControls select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.adminControls select:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+/* Состояния загрузки / ошибки / пустоты */
 .loading,
 .error,
 .empty {
   text-align: center;
-  margin-top: 50px;
-  color: #666;
+  padding: 20px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.error {
+  color: #d9534f;
 }
