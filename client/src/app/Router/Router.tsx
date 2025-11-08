@@ -10,7 +10,7 @@ import {
   ItemsPage,
   CartPage,
   ProfilePage,
-  OrderPage,
+  OrdersPage,
 } from "@/pages";
 import { CLIENT_ROUTES } from "@/shared/enums/client_routes";
 import ProtectedRouter from "@/shared/HOCs/ProtectedRouter/ui/ProtectedRouter";
@@ -42,7 +42,7 @@ export default function Router(): JSX.Element {
             <Route path={CLIENT_ROUTES.PROFILE} element={<ProfilePage />} />
             <Route path={CLIENT_ROUTES.FAVOURITE} element={<FavouritePage />} />
             <Route path={CLIENT_ROUTES.CART} element={<CartPage />} />
-            <Route path={CLIENT_ROUTES.ORDER} element={<OrderPage />} />
+            <Route path={CLIENT_ROUTES.ORDER} element={<OrdersPage />} />
           </Route>
         </Route>
       </Routes>

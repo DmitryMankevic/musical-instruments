@@ -3,6 +3,7 @@ import userReducer from "@/entities/user/redux/userSlice";
 import itemReducer from "@/entities/item/redux/itemSlice";
 import categoryReducer from "@/entities/category/redux/categorySlise";
 import cartReducer from "@/entities/cart/redux/cartSlice";
+import orderReducer from "@/entities/order/redux/orderSlice";
 
 export const store = configureStore({
   reducer: {
@@ -10,8 +11,7 @@ export const store = configureStore({
     item: itemReducer,
     categories: categoryReducer,
     cart: cartReducer,
-    
-
+    order: orderReducer,
   },
 });
 

@@ -1,23 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { IOrder } from "../model";
 import {
-  getAllOrdersThunk,
   createOrderThunk,
+  getOrdersThunk,
   getOrderByIdThunk,
-  updateOrderThunk,
-  deleteOrderThunk,
 } from "./orderThunk";
 
 type OrderState = {
-  orderArr: IOrder[];
-  currentOrder: IOrder | null;
+  order: IOrder | null;
+  orders: IOrder[];
   loading: boolean;
   errorMessage: string;
 };
 
 const initialState: OrderState = {
-  orderArr: [],
-  currentOrder: null,
+  order: null,
+  orders: [],
   loading: false,
   errorMessage: "",
 };
@@ -28,15 +26,29 @@ export const orderSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(getAllOrdersThunk.pending, (state) => {
+      .addCase(getOrdersThunk.pending, (state) => {
         state.loading = true;
         state.errorMessage = "";
       })
-      .addCase(getAllOrdersThunk.fulfilled, (state, action) => {
+      .addCase(getOrdersThunk.fulfilled, (state, action) => {
         state.loading = false;
-        if (action.payload) state.orderArr = action.payload;
+        state.orders = action.payload ?? [];
       })
-      .addCase(getAllOrdersThunk.rejected, (state, action) => {
+      .addCase(getOrdersThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMessage = action.payload as string;
+      });
+
+    builder
+      .addCase(getOrderByIdThunk.pending, (state) => {
+        state.loading = true;
+        state.errorMessage = "";
+      })
+      .addCase(getOrderByIdThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.order = action.payload;
+      })
+      .addCase(getOrderByIdThunk.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload as string;
       });
@@ -47,59 +59,9 @@ export const orderSlice = createSlice({
       })
       .addCase(createOrderThunk.fulfilled, (state, action) => {
         state.loading = false;
-        if (action.payload) state.orderArr.push(action.payload);
+        state.order = action.payload;
       })
       .addCase(createOrderThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.errorMessage = action.payload as string;
-      });
-    builder
-      .addCase(getOrderByIdThunk.pending, (state) => {
-        state.loading = true;
-        state.errorMessage = "";
-      })
-      .addCase(getOrderByIdThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        if (action.payload) state.currentOrder = action.payload;
-      })
-      .addCase(getOrderByIdThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.errorMessage = action.payload as string;
-      });
-    builder
-      .addCase(updateOrderThunk.pending, (state) => {
-        state.loading = true;
-        state.errorMessage = "";
-      })
-      .addCase(updateOrderThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        if (action.payload) {
-          const index = state.orderArr.findIndex(
-            (order) => order.id === action.payload?.id
-          );
-          if (index !== -1) {
-            state.orderArr[index] = action.payload;
-          }
-        }
-      })
-      .addCase(updateOrderThunk.rejected, (state, action) => {
-        state.loading = false;
-        state.errorMessage = action.payload as string;
-      });
-    builder
-      .addCase(deleteOrderThunk.pending, (state) => {
-        state.loading = true;
-        state.errorMessage = "";
-      })
-      .addCase(deleteOrderThunk.fulfilled, (state, action) => {
-        state.loading = false;
-        if (action.payload) {
-          state.orderArr = state.orderArr.filter(
-            (order) => order.id !== action.payload
-          );
-        }
-      })
-      .addCase(deleteOrderThunk.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload as string;
       });

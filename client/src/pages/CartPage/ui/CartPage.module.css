@@ -49,3 +49,19 @@
   min-width: 220px;
   max-height: fit-content;
 }
+
+.checkoutButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.checkoutButton:hover {
+  background-color: #45a049;
+}

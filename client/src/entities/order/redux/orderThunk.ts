@@ -4,42 +4,39 @@ import { AxiosError } from "axios";
 import { OrderApi } from "../api/OrderApi";
 import type { IOrder, IRawOrder } from "../model";
 
-export const getAllOrdersThunk = createAsyncThunk<IOrder[] | null, void>(
-  "order/getAllOrders",
+export const getOrdersThunk = createAsyncThunk<IOrder[] | null, void>(
+  "order/getOrders",
   async (_, { rejectWithValue }) => {
     try {
-      const response = await OrderApi.getAllOrders();
+      const response = await OrderApi.getOrders();
       return response.data;
     } catch (error) {
-      console.log(error);
       const err = error as AxiosError<IApiResponseError>;
       return rejectWithValue(err.response?.data.message);
     }
   }
 );
 
-export const createOrderThunk = createAsyncThunk<IOrder | null, IRawOrder>(
-  "order/createOrder",
-  async (order: IRawOrder, { rejectWithValue }) => {
-    try {
-      const response = await OrderApi.createOrder(order);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      const err = error as AxiosError<IApiResponseError>;
-      return rejectWithValue(err.response?.data.message);
-    }
+export const createOrderThunk = createAsyncThunk<
+  IOrder | null,
+  Omit<IRawOrder, "user_id">
+>("order/createOrder", async (order, { rejectWithValue }) => {
+  try {
+    const response = await OrderApi.createOrder(order);
+    return response.data;
+  } catch (error) {
+    const err = error as AxiosError<IApiResponseError>;
+    return rejectWithValue(err.response?.data.message);
   }
-);
+});
 
 export const getOrderByIdThunk = createAsyncThunk<IOrder | null, number>(
   "order/getOrderById",
-  async (id: number, { rejectWithValue }) => {
+  async (id, { rejectWithValue }) => {
     try {
       const response = await OrderApi.getOrderById(id);
       return response.data;
     } catch (error) {
-      console.log(error);
       const err = error as AxiosError<IApiResponseError>;
       return rejectWithValue(err.response?.data.message);
     }
