@@ -1,4 +1,4 @@
-const { Category } = require('../../db/models');
+const { Category, Item } = require('../../db/models');
 
 class CategoryService {
   static async getAll() {
@@ -6,7 +6,9 @@ class CategoryService {
   }
 
   static async getOneCategoryById(id) {
-    const category = await Category.findByPk(id);
+    const category = await Category.findByPk(id,{
+      include: [{ model: Item, as: 'items' }],
+    });
     return category;
   }
 

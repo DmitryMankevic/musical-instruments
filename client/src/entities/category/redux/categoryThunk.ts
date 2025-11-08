@@ -60,6 +60,7 @@ export const deleteCategoryThunk = createAsyncThunk<number, number>(
       return rejectWithValue(err.response?.data.message || "Ошибка обновления");
     }
   }
+  
   )
 
 

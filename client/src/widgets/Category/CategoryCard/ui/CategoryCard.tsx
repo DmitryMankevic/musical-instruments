@@ -6,7 +6,7 @@ import styles from "./CategoryCard.module.css";
 import { deleteCategoryThunk } from "@/entities/category/redux/categoryThunk"; // ← уточни путь
 import { useCallback, useState } from "react";
 import ConfirmationModal from "@/widgets/Category/ConfirmationModal/ConfirmationModal"; // ← создадим ниже
-import CategoryEditModalForm from "../../ui/CategoryEditModalForm";
+import CategoryEditModalForm from "../../CategoryEditModalForm/ui/CategoryEditModalForm";
 
 interface CategoryCardProps {
   id: number;

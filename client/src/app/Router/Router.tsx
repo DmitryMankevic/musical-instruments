@@ -11,6 +11,7 @@ import {
   CartPage,
   ProfilePage,
   OrderPage,
+  CategoryPage,
 } from "@/pages";
 import { CLIENT_ROUTES } from "@/shared/enums/client_routes";
 import ProtectedRouter from "@/shared/HOCs/ProtectedRouter/ui/ProtectedRouter";
@@ -39,6 +40,7 @@ export default function Router(): JSX.Element {
             <Route path={CLIENT_ROUTES.SIGN_UP} element={<SignUpPage />} />
             <Route path={CLIENT_ROUTES.LOGIN} element={<LoginPage />} />
             <Route path={CLIENT_ROUTES.ORDER} element={<OrderPage />} />
+            <Route path={CLIENT_ROUTES.CATEGORY} element={<CategoryPage />} />
           </Route>
         </Route>
       </Routes>
