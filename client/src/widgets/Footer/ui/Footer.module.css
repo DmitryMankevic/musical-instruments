@@ -1,0 +1,17 @@
+.footerContainer {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+  padding: 0 15px;
+  height: 200px;
+  background-color: #212529;
+}
+.leftComponents {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 7px;
+  font-size: 10pt;
+  width: 100%;
+  max-width: 100px;
+}
