@@ -5,7 +5,8 @@ import { Heart } from "lucide-react";
 import type { IItem } from "../../entities/item/model";
 
 type Props = {
-  item?: IItem;
+  item: IItem;
+  quantity?: number;
 };
 
 function ItemCard({ item }: Props): JSX.Element {

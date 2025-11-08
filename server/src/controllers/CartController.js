@@ -4,10 +4,10 @@ const formatResponse = require('../utils/formatResponse');
 class CartController {
   static async getByUser(req, res) {
     try {
-      const { userId } = req.params;
+      const userId = res.locals.user.id;
       const cart = await CartService.getCartByUserId(userId);
       if (!cart) {
-        return res.status(404).json(formatResponse(404, 'Cart not found'));
+        return res.status(404).json(formatResponse(404, 'Корзины нет'));
       }
       res.json(formatResponse(200, 'Success', cart));
     } catch (err) {
@@ -20,7 +20,7 @@ class CartController {
 
   static async addItem(req, res) {
     try {
-      const { userId } = req.params;
+      const userId = res.locals.user.id;
       const { itemId, quantity } = req.body;
       const cart = await CartService.addItem(userId, itemId, quantity);
       res.status(200).json(formatResponse(200, 'Item added', cart));
@@ -34,7 +34,8 @@ class CartController {
 
   static async updateItem(req, res) {
     try {
-      const { userId, itemId } = req.params;
+      const userId = res.locals.user.id;
+      const { itemId } = req.params;
       const { quantity } = req.body;
       const cart = await CartService.updateQuantity(userId, itemId, quantity);
       res.status(200).json(formatResponse(200, 'Quantity updated', cart));
@@ -48,7 +49,8 @@ class CartController {
 
   static async removeItem(req, res) {
     try {
-      const { userId, itemId } = req.params;
+      const userId = res.locals.user.id;
+      const { itemId } = req.params;
       const cart = await CartService.removeItem(userId, itemId);
       res.status(200).json(formatResponse(200, 'Item removed', cart));
     } catch (err) {
@@ -61,7 +63,7 @@ class CartController {
 
   static async clearCart(req, res) {
     try {
-      const { userId } = req.params;
+      const userId = res.locals.user.id;
       const cart = await CartService.clearCart(userId);
       res.status(200).json(formatResponse(200, 'Cart cleared', cart));
     } catch (err) {

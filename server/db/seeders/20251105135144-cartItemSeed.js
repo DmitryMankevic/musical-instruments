@@ -13,13 +13,6 @@ module.exports = {
       },
       {
         cart_id: 1,
-        item_id: 2,
-        quantity: 2,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-      },
-      {
-        cart_id: 1,
         item_id: 3,
         quantity: 3,
         createdAt: new Date(),

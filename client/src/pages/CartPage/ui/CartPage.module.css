@@ -1,0 +1,51 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.controls button {
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid #000;
+  background-color: white;
+  cursor: pointer;
+}
+
+.controls span {
+  min-width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.summary {
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #f8f8f8;
+  min-width: 220px;
+  max-height: fit-content;
+}

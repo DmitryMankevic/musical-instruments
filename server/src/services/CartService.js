@@ -86,7 +86,8 @@ class CartService {
     });
 
     const total = cartItems.reduce(
-      (sum, ci) => sum + parseFloat(ci.quantity) * parseFloat(ci.item.price),
+      (sum, cartItem) =>
+        sum + parseFloat(cartItem.quantity) * parseFloat(cartItem.item.price),
       0,
     );
 
