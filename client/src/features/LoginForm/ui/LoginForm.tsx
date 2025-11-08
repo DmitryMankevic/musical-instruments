@@ -30,7 +30,7 @@ export default function LoginForm(): JSX.Element {
     }
   };
   return (
-    <Form onSubmit={loginHandler}>
+    <Form onSubmit={loginHandler} className="d-flex flex-column">
       <br />
       <InputGroup className="mb-3">
         <InputGroup.Text id="inputGroup-sizing-default">Почта</InputGroup.Text>

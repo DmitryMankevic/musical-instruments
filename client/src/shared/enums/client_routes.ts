@@ -7,5 +7,6 @@ export enum CLIENT_ROUTES {
   ITEM_CARD = "/item-card",
   ITEMS = "/items",
   CART = "/cart",
-  ORDER = "/order"
+  ORDER = "/order",
+  CATEGORY = "/category/:id"
 }
