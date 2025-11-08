@@ -51,7 +51,6 @@ module.exports = (sequelize, DataTypes) => {
       article: DataTypes.STRING,
       img: DataTypes.STRING,
       stock: {
-        // 👈 добавить это поле
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 0,
