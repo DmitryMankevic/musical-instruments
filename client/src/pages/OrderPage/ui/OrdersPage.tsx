@@ -1,7 +1,7 @@
 import { useEffect, type JSX } from "react";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/hook";
 import { getOrdersThunk } from "@/entities/order/redux/orderThunk";
-import styles from "./OrderPage.module.css";
+import styles from "./OrdersPage.module.css";
 
 export function OrdersPage(): JSX.Element {
   const dispatch = useAppDispatch();

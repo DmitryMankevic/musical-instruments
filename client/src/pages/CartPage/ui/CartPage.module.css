@@ -53,7 +53,7 @@
 .checkoutButton {
   margin-top: 20px;
   padding: 10px 20px;
-  background-color: #000000;
+  background-color: #2a2a2a;
   color: white;
   border: none;
   border-radius: 8px;
@@ -63,5 +63,5 @@
 }
 
 .checkoutButton:hover {
-  background-color: #45a049;
+  background-color: #000000;
 }
