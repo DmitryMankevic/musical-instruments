@@ -1,0 +1,67 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 24px;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.items {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  flex: 1;
+}
+
+.itemRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.controls button {
+  width: 32px;
+  height: 32px;
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid #000;
+  background-color: white;
+  cursor: pointer;
+}
+
+.controls span {
+  min-width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.summary {
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  background-color: #f8f8f8;
+  min-width: 220px;
+  max-height: fit-content;
+}
+
+.checkoutButton {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #000000;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.checkoutButton:hover {
+  background-color: #45a049;
+}
