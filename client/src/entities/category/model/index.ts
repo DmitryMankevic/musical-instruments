@@ -8,3 +8,7 @@ export interface ICategory extends IRawCategory {
    createdAt: string;
    updatedAt: string;
 }
+
+export interface IUpdateCategoryPayload extends IRawCategory {
+  id: number;
+}
