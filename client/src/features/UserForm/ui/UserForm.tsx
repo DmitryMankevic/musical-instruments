@@ -78,6 +78,17 @@ export default function UserForm({ onClose }: UserFormProps): JSX.Element {
               <li>Отправлено: {sentCount}</li>
             </ul>
           </div>
+          <br />
+          <button
+            className="btn btn-outline-dark w-100"
+            onClick={() => {
+              navigate(CLIENT_ROUTES.ORDER);
+              onClose();
+            }}
+          >
+            Мои заказы
+          </button>
+          <br />
         </>
       )}
     </>
