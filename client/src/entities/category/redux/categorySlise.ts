@@ -5,6 +5,7 @@ import {
   createCategoryThunk,
   deleteCategoryThunk,
   updateCategoryThunk,
+  getCategoryByIdThunk,
 } from "./categoryThunk";
 
 type CategoryState = {
@@ -64,17 +65,18 @@ const categorySlice = createSlice({
         state.loading = false;
         state.errorMessage = action.payload as string;
       });
-      builder
+    builder
       .addCase(updateCategoryThunk.pending, (state) => {
         state.loading = true;
       })
       .addCase(updateCategoryThunk.fulfilled, (state, action) => {
         state.loading = false;
         const updatedCategory = action.payload;
-        const index = state.categoriesArr.findIndex((b) => b.id === updatedCategory.id);
+        const index = state.categoriesArr.findIndex(
+          (b) => b.id === updatedCategory.id
+        );
         if (index !== -1) {
           state.categoriesArr[index] = updatedCategory;
-          
         }
         if (state.currentCategory?.id === updatedCategory.id) {
           state.currentCategory = updatedCategory;
@@ -83,7 +85,16 @@ const categorySlice = createSlice({
       .addCase(updateCategoryThunk.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload as string;
+      });
+    builder
+      .addCase(getCategoryByIdThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        if (action.payload) state.currentCategory = action.payload;
       })
+      .addCase(getCategoryByIdThunk.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMessage = action.payload as string;
+      });
   },
 });
 
