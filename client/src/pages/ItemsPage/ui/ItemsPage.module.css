@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 16px;
+  gap: 24px;
+}
+
+/* Левая колонка — фильтры */
+.filterContainer {
+  width: 250px;
+  background-color: #f7f7f7;
+  padding: 16px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.filterContainer h4 {
+  margin-bottom: 8px;
+  font-size: 18px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filterGroup label {
+  font-weight: 600;
+  font-size: 14px;
+  color: #333;
+}
+
+.filterGroup input,
+.filterGroup select {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.filterGroup input:focus,
+.filterGroup select:focus {
+  border-color: #212529;
+  outline: none;
+}
+
+
+.applyButton:hover {
+  background-color: #343a40;
+  transform: translateY(-1px);
+}
+
+/* Кнопка "Сбросить фильтры" */
+.resetButton {
+  margin-top: 8px;
+  padding: 8px 12px;
+  border: 1px solid #212529;
+  border-radius: 6px;
+  background-color: white;
+  color: #212529;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.resetButton:hover {
+  background-color: #212529;
+  color: white;
+}
+
+/* Правая колонка — карточки */
+.itemsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  flex: 1;
+}
+
+/* Сообщение при отсутствии товаров */
+.itemsContainer p {
+  font-size: 16px;
+  color: #555;
+  text-align: center;
+  width: 100%;
+}

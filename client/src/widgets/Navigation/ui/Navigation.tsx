@@ -48,19 +48,19 @@ export default function Navigation(): JSX.Element {
           {/* ЛЕВАЯ ЧАСТЬ */}
           <Nav className="d-flex gap-4 align-items-center">
             <NavLink
-              to={CLIENT_ROUTES.HOME}
+              to="/items?marker=Hot deals"
               className="navbar-brand m-0 fw-bold"
             >
               Hot deals
             </NavLink>
             <NavLink
-              to={CLIENT_ROUTES.HOME}
+              to="/items?marker=New"
               className="navbar-brand m-0 fw-bold"
             >
               New
             </NavLink>
             <NavLink
-              to={CLIENT_ROUTES.HOME}
+              to="/items?marker=Top-Seller"
               className="navbar-brand m-0 fw-bold"
             >
               Top-Seller
