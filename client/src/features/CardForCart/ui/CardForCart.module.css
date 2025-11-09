@@ -1,4 +1,6 @@
+/* ======== ОСНОВНАЯ КАРТОЧКА ======== */
 .card {
+  position: relative; /* нужно для крестика */
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -24,17 +26,55 @@
 }
 
 .imageWrapper {
+  position: relative; /* нужно для позиционирования сердца */
   width: 80px;
   height: 80px;
   border-radius: 10px;
   overflow: hidden;
   background-color: #f7f7f7;
+  cursor: pointer;
 }
 
 .image {
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+/* маленькое сердечко на картинке */
+.heartIcon {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  color: red;
+  border-radius: 50%;
+  padding: 3px;
+  width: 20px;
+  height: 20px;
+
+  pointer-events: none; /* чтобы клик не мешал */
+}
+
+/* подсказка при наведении */
+.heartIcon::after {
+  content: "В избранном";
+  position: absolute;
+  top: -28px;
+  right: 0;
+  background: #111;
+  color: #fff;
+  font-size: 10px;
+  padding: 3px 6px;
+  border-radius: 6px;
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.heartIcon:hover::after {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .info {
@@ -103,12 +143,17 @@
   text-align: right;
 }
 
+/* крестик удаления теперь в правом верхнем углу */
 .removeBtn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
   border: none;
   background: transparent;
   cursor: pointer;
   color: #999;
   transition: color 0.2s;
+  z-index: 2;
 }
 
 .removeBtn:hover {
@@ -162,5 +207,177 @@
 
   .total {
     font-size: 14px;
+  }
+}
+
+/* ======== МОДАЛЬНОЕ ОКНО (НЕ ЛОМАЕТ ВЁРСТКУ) ======== */
+
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(17, 17, 17, 0.6);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  animation: fadeIn 0.25s ease;
+}
+
+.modalContent {
+  background: #fff;
+  border-radius: 16px;
+  max-width: 700px;
+  width: 90%;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  position: relative;
+  animation: slideUp 0.25s ease;
+}
+
+.modalClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #777;
+  transition: color 0.2s ease;
+  z-index: 10;
+}
+
+.modalClose:hover {
+  color: #000;
+}
+
+.modalBody {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  align-items: flex-start;
+}
+
+.modalImage {
+  width: 260px;
+  height: 260px;
+  object-fit: contain;
+  flex-shrink: 0;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
+
+.modalInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+.modalTitle {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.modalDesc {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.modalPrice {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+}
+
+.modalStock {
+  font-size: 14px;
+  color: #666;
+}
+
+.modalArticle {
+  font-size: 14px;
+  color: #999;
+}
+
+/* ======== КНОПКА ИЗБРАННОГО ======== */
+.modalFavButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 12px;
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  color: #111;
+  transition: all 0.2s ease;
+  width: fit-content;
+}
+
+.modalFavButton:hover {
+  border-color: #111;
+}
+
+.favActive {
+  background-color: #000000;
+  border-color: #000000;
+  color: #fff;
+}
+
+.favActive:hover {
+  background-color: #000000;
+}
+
+/* ======== АНИМАЦИИ ======== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* ======== АДАПТИВ ДЛЯ МОДАЛКИ ======== */
+@media (max-width: 600px) {
+  .modalBody {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .modalImage {
+    width: 220px;
+    height: 220px;
+  }
+
+  .modalContent {
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  .modalTitle {
+    font-size: 20px;
+  }
+
+  .modalFavButton {
+    align-self: center;
   }
 }

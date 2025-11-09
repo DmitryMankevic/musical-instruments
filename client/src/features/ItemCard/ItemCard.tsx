@@ -46,7 +46,7 @@ function ItemCard({ item }: Props): JSX.Element {
           >
             <Heart
               size={20}
-              color={liked ? "red" : "gray"}
+              color={liked ? "red" : "none"}
               fill={liked ? "red" : "none"}
             />
           </button>
