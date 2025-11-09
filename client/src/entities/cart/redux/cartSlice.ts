@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import type { ICart } from "../model";
 import {
   getCartThunk,
-  createCartThunk,
+  addToCartThunk,
   updateCartItemThunk,
   deleteCartThunk,
 } from "./cartThunk";
@@ -41,11 +41,15 @@ export const cartSlice = createSlice({
 
     // Добавление товара
     builder
-      .addCase(createCartThunk.fulfilled, (state, action) => {
-        state.cart = action.payload;
-        state.loading = false;
+      .addCase(addToCartThunk.pending, (state) => {
+        state.loading = true;
+        state.errorMessage = "";
       })
-      .addCase(createCartThunk.rejected, (state, action) => {
+      .addCase(addToCartThunk.fulfilled, (state, action) => {
+        state.loading = false;
+        state.cart = action.payload;
+      })
+      .addCase(addToCartThunk.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload as string;
       });
@@ -65,7 +69,6 @@ export const cartSlice = createSlice({
     builder
       .addCase(deleteCartThunk.fulfilled, (state) => {
         state.loading = false;
-        // Просто обновляем корзину через getCartThunk снаружи
       })
       .addCase(deleteCartThunk.rejected, (state, action) => {
         state.loading = false;

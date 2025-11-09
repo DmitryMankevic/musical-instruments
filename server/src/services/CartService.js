@@ -40,17 +40,29 @@ class CartService {
   }
 
   static async updateQuantity(userId, itemId, quantity) {
-    const cart = await Cart.findOne({ where: { user_id: userId } });
-    if (!cart) throw new Error('Cart not found');
+    // Находим корзину пользователя
+    let cart = await Cart.findOne({ where: { user_id: userId } });
+    if (!cart) {
+      cart = await Cart.create({ user_id: userId });
+    }
 
-    const cartItem = await CartItem.findOne({
+    // Ищем товар в корзине
+    let cartItem = await CartItem.findOne({
       where: { cart_id: cart.id, item_id: itemId },
     });
 
-    if (!cartItem) throw new Error('Item not found in cart');
-
-    cartItem.quantity = quantity;
-    await cartItem.save();
+    if (cartItem) {
+      // Если товар уже есть — обновляем количество
+      cartItem.quantity = quantity;
+      await cartItem.save();
+    } else {
+      // Если товара нет — создаём новый CartItem
+      await CartItem.create({
+        cart_id: cart.id,
+        item_id: itemId,
+        quantity: quantity ?? 1,
+      });
+    }
 
     await this.recalculateTotal(cart.id);
     return this.getCartByUserId(userId);
