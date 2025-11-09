@@ -8,11 +8,8 @@ import { getCategoryByIdThunk } from "@/entities/category/redux/categoryThunk";
 export function CategoryPage(): JSX.Element {
   const { id } = useParams<{ id: string }>();
   const categoryId = Number(id);
-
   const dispatch = useAppDispatch();
-
   const category = useAppSelector((state) => state.categories.currentCategory);
-
   const categoryName = category?.name;
   const itemsArr = category?.items || [];
 
@@ -28,7 +25,7 @@ export function CategoryPage(): JSX.Element {
 
   return (
     <>
-      <h3 className={styles.container}>Товары категории "{categoryName}"</h3>
+      <h3 className={styles.ontainer}>Товары категории "{categoryName}"</h3>
       <div className={styles.itemsContainer}>
         {itemsArr.length > 0 ? (
           itemsArr.map((item) => <ItemCard key={item.id} item={item} />)

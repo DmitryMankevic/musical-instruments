@@ -46,6 +46,7 @@ function CategoryCard({
     }
   }, [dispatch, id]);
 
+  
   return (
     <>
       <Link to={`/category/${id}`} className={styles.card}>

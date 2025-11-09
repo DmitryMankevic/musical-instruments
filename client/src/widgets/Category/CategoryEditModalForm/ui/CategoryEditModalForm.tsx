@@ -6,7 +6,11 @@ import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { useForm } from "react-hook-form";
 import { useAppDispatch } from "@/shared/hooks/hook";
-import { getAllCategoriesThunk, updateCategoryThunk } from "@/entities/category/redux/categoryThunk";
+import {
+  getAllCategoriesThunk,
+  updateCategoryThunk,
+} from "@/entities/category/redux/categoryThunk";
+import { axiosInstance } from "@/shared/lib/axiosInstance";
 
 interface FormData {
   name: string;
@@ -79,20 +83,66 @@ export default function CategoryEditModalForm({
     if (file) setValue("photo", ""); // очищаем URL
   };
 
+  // const onSubmit = async (data: FormData): Promise<void> => {
+  //   try {
+  //     // ⚠️ Пока отправляем как есть (файлы требуют FormData + бэкенд)
+  //    await dispatch(
+  //       updateCategoryThunk({
+  //         id: categoryId,
+  //         name: data.name,
+  //         photo: data.photo,
+  //       })
+  //     ).unwrap();
+  //     await dispatch(getAllCategoriesThunk());
+  //     onClose();
+  //   } catch (err) {
+  //     console.error("Ошибка при обновлении категории:", err);
+  //   }
+  // };
+
   const onSubmit = async (data: FormData): Promise<void> => {
     try {
-      // ⚠️ Пока отправляем как есть (файлы требуют FormData + бэкенд)
-     await dispatch(
+      let photoValue = data.photo;
+
+      if (useFileUpload && imageFile) {
+        const formData = new FormData();
+        formData.append("image", imageFile); // важно: 'image' должно совпадать с upload.single('image')
+
+        // Проверим, что FormData содержит файл
+        for (let [key, value] of formData.entries()) {
+          console.log("FormData entry:", key, value);
+        }
+
+        const uploadResponse = await axiosInstance.post("/upload", formData, {
+          headers: {
+            "Content-Type": undefined, // браузер установит правильный boundary
+          },
+        });
+
+        const fileName = uploadResponse.data.fileName;
+        photoValue = import.meta.env.VITE_API + `/uploads/images/${fileName}`; // !!! указать путь на бэк
+      }
+
+      // ✅ ОБЯЗАТЕЛЬНО: отправляем обновление на бэкенд
+      await dispatch(
         updateCategoryThunk({
           id: categoryId,
-          name: data.name, 
-          photo: data.photo,
+          name: data.name,
+          photo: photoValue,
         })
       ).unwrap();
+
+      // ✅ Теперь перезапрашиваем список
       await dispatch(getAllCategoriesThunk());
+
+      // Сброс и закрытие
+      reset();
+      setImageFile(null);
+      setImagePreview(null);
+      setUseFileUpload(false);
       onClose();
     } catch (err) {
-      console.error("Ошибка при обновлении категории:", err);
+      console.error("Ошибка:", err);
     }
   };
 
@@ -127,7 +177,9 @@ export default function CategoryEditModalForm({
             <Form.Check
               type="switch"
               id="edit-category-photo-switch"
-              label={useFileUpload ? "Загрузить файл" : "Указать URL изображения"}
+              label={
+                useFileUpload ? "Загрузить файл" : "Указать URL изображения"
+              }
               checked={useFileUpload}
               onChange={(e) => setUseFileUpload(e.target.checked)}
             />
@@ -182,10 +234,18 @@ export default function CategoryEditModalForm({
           )}
 
           <div className="d-flex justify-content-end gap-2">
-            <Button variant="outline-danger" onClick={handleClose} disabled={isSubmitting}>
+            <Button
+              variant="outline-danger"
+              onClick={handleClose}
+              disabled={isSubmitting}
+            >
               Отмена
             </Button>
-            <Button variant="outline-success" type="submit" disabled={isSubmitting}>
+            <Button
+              variant="outline-success"
+              type="submit"
+              disabled={isSubmitting}
+            >
               {isSubmitting ? "Сохраняю..." : "Сохранить изменения"}
             </Button>
           </div>

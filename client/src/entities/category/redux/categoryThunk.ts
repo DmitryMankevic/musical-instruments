@@ -4,6 +4,7 @@ import { CategoryApi } from "../api/CategoryApi";
 import type { AxiosError } from "axios";
 import type { IApiResponseError } from "@/shared/types";
 
+
 export const getAllCategoriesThunk = createAsyncThunk<ICategory[] | null, void>(
   "categories/getAllCategories",
   async (_, { rejectWithValue }) => {
