@@ -37,7 +37,7 @@ export default function Router(): JSX.Element {
             element={
               <ProtectedRouter
                 isAllowed={status === "logged"} // ✅ разрешаем только авторизованным
-                redirectTo={CLIENT_ROUTES.LOGIN} // если не залогинен — на логин
+                redirectTo={CLIENT_ROUTES.HOME} // если не залогинен — на главную
               />
             }
           >
