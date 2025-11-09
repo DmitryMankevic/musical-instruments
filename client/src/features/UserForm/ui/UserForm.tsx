@@ -38,36 +38,48 @@ export default function UserForm({ onClose }: UserFormProps): JSX.Element {
 
   return (
     <>
-      <div className={styles.headerContainer}>
-        <p>
-          Добро пожаловать,<br /> <strong>{user?.fullName}!</strong>
-        </p>
-        <div className={styles.cartInfo}>
-          <img
-            src="/icons/cart.svg"
-            alt="cart-icon"
-            width={20}
-            height={20}
-            style={{ cursor: "pointer" }}
-            onClick={() => {
-              navigate(CLIENT_ROUTES.CART);
-              onClose();
-            }}
-          />
-          <p>({totalItems})</p>
-        </div>
-      </div>
+      {user?.isAdmin === false && (
+        <>
+          <div className={styles.headerContainer}>
+            <p>
+              Добро пожаловать,
+              <br /> <strong>{user?.fullName}!</strong>
+            </p>
+            <div className={styles.cartInfo}>
+              <img
+                src="/icons/cart.svg"
+                alt="cart-icon"
+                width={20}
+                height={20}
+                style={{ cursor: "pointer" }}
+                onClick={() => {
+                  navigate(CLIENT_ROUTES.CART);
+                  onClose();
+                }}
+              />
+              <p
+                onClick={() => {
+                  navigate(CLIENT_ROUTES.CART);
+                  onClose();
+                }}
+              >
+                ({totalItems})
+              </p>
+            </div>
+          </div>
 
-      <div className={styles.orderStats}>
-        <h4>Статистика заказов:</h4>
-        <ul>
-          <li>Всего заказов: {orders.length}</li>
-          <li>В обработке: {pendingCount}</li>
-          <li>Доставлено: {deliveredCount}</li>
-          <li>Отменено: {canceledCount}</li>
-          <li>Отправлено: {sentCount}</li>
-        </ul>
-      </div>
+          <div className={styles.orderStats}>
+            <h4>Статистика заказов:</h4>
+            <ul>
+              <li>Всего заказов: {orders.length}</li>
+              <li>В обработке: {pendingCount}</li>
+              <li>Доставлено: {deliveredCount}</li>
+              <li>Отменено: {canceledCount}</li>
+              <li>Отправлено: {sentCount}</li>
+            </ul>
+          </div>
+        </>
+      )}
     </>
   );
 }

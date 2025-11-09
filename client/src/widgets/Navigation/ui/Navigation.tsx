@@ -41,6 +41,13 @@ export default function Navigation(): JSX.Element {
 
   return (
     <>
+      <h1
+        onClick={() => navigate(CLIENT_ROUTES.HOME)}
+        className="text-center my-3"
+        style={{ cursor: "pointer" }}
+      >
+        Musical Instruments Store
+      </h1>
       <Navbar bg="light" className="p-3 flex-column align-items-start">
         <Container
           fluid
@@ -139,12 +146,14 @@ export default function Navigation(): JSX.Element {
         <Offcanvas.Body>
           {status === "logged" ? (
             <>
-
               <UserForm onClose={handleClose} />
               <br />
               <button
                 className="btn btn-outline-dark w-100"
-                onClick={logoutHandler}
+                onClick={() => {
+                  logoutHandler();
+                  handleClose();
+                }}
               >
                 Выйти
               </button>
@@ -153,7 +162,6 @@ export default function Navigation(): JSX.Element {
             <>
               <p>Введите данные для входа:</p>
               <LoginForm />
-              
             </>
           )}
           {status !== "logged" && (
