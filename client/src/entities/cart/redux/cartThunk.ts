@@ -2,8 +2,11 @@ import type { IApiResponseError } from "@/shared/types";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { AxiosError } from "axios";
 import { CartApi } from "../api/CartApi";
-import type { ICart, IRawCart } from "../model";
+import type { ICart } from "../model";
 
+/**
+ * Получение корзины
+ */
 export const getCartThunk = createAsyncThunk<ICart | null, void>(
   "cart/getCart",
   async (_, { rejectWithValue }) => {
@@ -17,19 +20,27 @@ export const getCartThunk = createAsyncThunk<ICart | null, void>(
   }
 );
 
-export const createCartThunk = createAsyncThunk<ICart | null, IRawCart>(
-  "cart/createCart",
-  async (cart, { rejectWithValue }) => {
-    try {
-      const response = await CartApi.addToCart(cart);
-      return response.data;
-    } catch (error) {
-      const err = error as AxiosError<IApiResponseError>;
-      return rejectWithValue(err.response?.data.message);
-    }
+/**
+ * Добавление товара в корзину
+ * Если товара нет — сервер добавляет его,
+ * если есть — увеличивает количество.
+ */
+export const addToCartThunk = createAsyncThunk<
+  ICart | null,
+  { itemId: number; quantity?: number }
+>("cart/addToCart", async ({ itemId, quantity = 1 }, { rejectWithValue }) => {
+  try {
+    const response = await CartApi.updateCartItem(itemId, quantity);
+    return response.data;
+  } catch (error) {
+    const err = error as AxiosError<IApiResponseError>;
+    return rejectWithValue(err.response?.data.message);
   }
-);
+});
 
+/**
+ * Обновление количества товара в корзине
+ */
 export const updateCartItemThunk = createAsyncThunk<
   ICart | null,
   { itemId: number; quantity: number }
@@ -43,6 +54,9 @@ export const updateCartItemThunk = createAsyncThunk<
   }
 });
 
+/**
+ * Удаление товара из корзины
+ */
 export const deleteCartThunk = createAsyncThunk<void, number>(
   "cart/deleteCart",
   async (itemId, { rejectWithValue }) => {

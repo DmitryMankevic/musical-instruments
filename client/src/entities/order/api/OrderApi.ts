@@ -4,6 +4,7 @@ import type { IApiResponse } from "@/shared/types";
 import type { IOrder, IRawOrder } from "../model";
 
 export class OrderApi {
+  // Создать новый заказ (создаётся со статусом "ожидает оплаты")
   static async createOrder(
     order: Omit<IRawOrder, "user_id">
   ): Promise<IApiResponse<IOrder>> {
@@ -14,11 +15,13 @@ export class OrderApi {
     return data;
   }
 
+  // Получить все заказы (сервер сам фильтрует: админ → все, юзер → свои)
   static async getOrders(): Promise<IApiResponse<IOrder[]>> {
     const { data } = await axiosInstance.get<IApiResponse<IOrder[]>>("/orders");
     return data;
   }
 
+  // Получить конкретный заказ по ID
   static async getOrderById(id: number): Promise<IApiResponse<IOrder>> {
     const { data } = await axiosInstance.get<IApiResponse<IOrder>>(
       `/orders/${id}`
@@ -26,29 +29,30 @@ export class OrderApi {
     return data;
   }
 
-  static async updateOrder(
-    id: number,
-    order: IRawOrder
-  ): Promise<IApiResponse<IOrder>> {
-    try {
-      const { data } = await axiosInstance.put<IApiResponse<IOrder>>(
-        `/orders/${id}`,
-        order
-      );
-      return data;
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  // Оплатить заказ (меняет статус на "в обработке")
+  static async payOrder(id: number): Promise<IApiResponse<IOrder>> {
+    const { data } = await axiosInstance.put<IApiResponse<IOrder>>(
+      `/orders/${id}/pay`
+    );
+    return data;
   }
 
-  static async deleteOrder(id: number): Promise<AxiosResponse> {
-    try {
-      const { data } = await axiosInstance.delete<AxiosResponse>(
-        `/orders/${id}`
-      );
-      return data;
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  // Обновить заказ (например, админ меняет статус)
+  static async updateOrder(
+    id: number,
+    order: Partial<IRawOrder>
+  ): Promise<IApiResponse<IOrder>> {
+    const { data } = await axiosInstance.put<IApiResponse<IOrder>>(
+      `/orders/${id}`,
+      order
+    );
+    return data;
+  }
+
+  //  Удалить заказ
+  static async deleteOrder(
+    id: number
+  ): Promise<AxiosResponse<IApiResponse<null>>> {
+    return axiosInstance.delete<IApiResponse<null>>(`/orders/${id}`);
   }
 }

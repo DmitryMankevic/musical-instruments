@@ -48,5 +48,14 @@ static async update(id: number, data: IRawCategory): Promise<ICategory> {
       return Promise.reject(error);
     }
   }
-  
+   static async getOneCategoryById(id: number): Promise<IApiResponse<ICategory>> {
+    try {
+      const { data } = await axiosInstance.get<IApiResponse<ICategory>>(
+        `/categories/${id}`
+      );
+      return data;
+    } catch (error) {
+      return Promise.reject(error);
+    }
+  }
 }
