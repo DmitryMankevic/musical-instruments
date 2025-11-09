@@ -32,12 +32,9 @@ function CardForCart({ item, onQuantityChange }: Props): JSX.Element {
       maximumFractionDigits: 2,
     });
 
-  // предотвращаем превышение stock
   const handleIncrease = (): void => {
     if (item.CartItem.quantity < item.stock) {
       onQuantityChange?.(item.id, item.CartItem.quantity + 1);
-    } else {
-      alert(`Нельзя добавить больше, чем ${item.stock} `);
     }
   };
 
@@ -94,6 +91,8 @@ function CardForCart({ item, onQuantityChange }: Props): JSX.Element {
     </div>
   );
 
+  const isMaxReached = item.CartItem.quantity >= item.stock;
+
   return (
     <>
       <div className={styles.card}>
@@ -138,7 +137,16 @@ function CardForCart({ item, onQuantityChange }: Props): JSX.Element {
           <div className={styles.controls}>
             <button onClick={handleDecrease}>−</button>
             <span>{item.CartItem.quantity}</span>
-            <button onClick={handleIncrease}>+</button>
+            <button
+              onClick={handleIncrease}
+              disabled={isMaxReached}
+              className={isMaxReached ? styles.disabledBtn : ""}
+              title={
+                isMaxReached ? "Нельзя добавить больше, товара нет на складе" : ""
+              }
+            >
+              +
+            </button>
           </div>
 
           <div className={styles.total}>
