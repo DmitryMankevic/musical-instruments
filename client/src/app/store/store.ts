@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import userReducer from "@/entities/user/redux/userSlice";
 import itemReducer from "@/entities/item/redux/itemSlice";
-import categoryReducer from "@/entities/category/redux/categorySlise";
+import categoryReducer from "@/entities/category/redux/categorySlice";
 import cartReducer from "@/entities/cart/redux/cartSlice";
 import orderReducer from "@/entities/order/redux/orderSlice";
 
