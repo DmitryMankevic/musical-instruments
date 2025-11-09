@@ -1,7 +1,7 @@
 import { useLayoutEffect, useState, type JSX } from "react";
 import { useSearchParams } from "react-router";
 import styles from "./ItemsPage.module.css";
-import ItemCard from "@/features/CardForm/ItemCard";
+import ItemCard from "@/features/ItemCard/ItemCard";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/hook";
 import { getAllItemsThunk } from "@/entities/item/redux/itemThunk";
 

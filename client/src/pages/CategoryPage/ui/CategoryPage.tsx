@@ -1,4 +1,4 @@
-import ItemCard from "@/features/CardForm/ItemCard";
+import ItemCard from "@/features/ItemCard/ItemCard";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/hook";
 import { useEffect, useLayoutEffect, type JSX } from "react";
 import styles from "./CategoryPage.module.css";
