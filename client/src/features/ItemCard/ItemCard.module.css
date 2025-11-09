@@ -1,0 +1,300 @@
+/* ======== ОСНОВНАЯ КАРТОЧКА ======== */
+
+.card {
+  width: 240px;
+  border-radius: 1rem;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: #fff;
+  font-family: sans-serif;
+  margin: 10px;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.imageWrapper {
+  position: relative;
+  background: #f8f8f8;
+  cursor: pointer;
+}
+
+.image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.2s ease;
+}
+
+.imageWrapper:hover .image {
+  transform: scale(1.03);
+}
+
+.badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background-color: #ff3b30;
+  color: #fff;
+  padding: 2px 8px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.heartBtn {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.content {
+  padding: 12px;
+}
+
+.title {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 8px;
+}
+
+.price {
+  font-size: 20px;
+  font-weight: bold;
+  color: #000;
+}
+
+.addButton {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background-color: #2a2a2a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background-color 0.2s ease;
+}
+
+.addButton:hover {
+  background-color: #000;
+}
+
+/* ======== СОСТОЯНИЕ "ДОБАВЛЕНО" ======== */
+
+.added {
+  background-color: #000000 !important;
+  color: #fff !important;
+  cursor: default;
+  animation: pop 0.3s ease;
+}
+
+.added:hover {
+  background-color: #000000 !important;
+}
+
+/* ======== МОДАЛЬНОЕ ОКНО ======== */
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(17, 17, 17, 0.6);
+  backdrop-filter: blur(3px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.25s ease;
+}
+
+.modalContent {
+  background: #fff;
+  border-radius: 16px;
+  max-width: 800px;
+  width: 90%;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  position: relative;
+  animation: slideUp 0.25s ease;
+}
+
+.modalClose {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #777;
+  transition: color 0.2s ease;
+}
+
+.modalClose:hover {
+  color: #000;
+}
+
+.modalBody {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.modalImage {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.modalInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: center;
+}
+
+.modalTitle {
+  font-size: 22px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.modalDesc {
+  font-size: 15px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.modalPrice {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111;
+}
+
+.modalStock {
+  font-size: 14px;
+  color: #666;
+}
+
+.modalArticle {
+  font-size: 14px;
+  color: #999;
+}
+
+.modalButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.modalAddButton {
+  padding: 10px 16px;
+  background-color: #111;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.modalAddButton:hover {
+  background-color: #000;
+}
+
+.modalFavButton {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #fff;
+  cursor: pointer;
+  font-weight: 500;
+  color: #111;
+  transition: all 0.2s ease;
+}
+
+.modalFavButton:hover {
+  border-color: #111;
+}
+
+.favActive {
+  background-color: #000000;
+  border-color: #ffffff;
+  color: #fff;
+}
+
+.favActive:hover {
+  background-color: #e0352a;
+}
+
+/* ======== АНИМАЦИИ ======== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pop {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* ======== АДАПТИВ ======== */
+
+@media (max-width: 600px) {
+  .modalBody {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modalImage {
+    width: 240px;
+    height: 240px;
+  }
+
+  .modalContent {
+    padding: 16px;
+  }
+
+  .modalTitle {
+    text-align: center;
+  }
+
+  .modalButtons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
