@@ -12,6 +12,7 @@ import { logoutAsyncThunk } from "@/entities/user/redux/userThunk";
 import LoginForm from "@/features/LoginForm/ui/LoginForm";
 import { getAllCategoriesThunk } from "@/entities/category/redux/categoryThunk";
 import style from "./Navigation.module.css";
+import UserForm from "@/features/UserForm/ui/UserForm";
 
 export default function Navigation(): JSX.Element {
   const { user, status } = useAppSelector((state) => state.user);
@@ -21,7 +22,7 @@ export default function Navigation(): JSX.Element {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  // 👉 состояние для Offcanvas
+  //  состояние для Offcanvas
   const [show, setShow] = useState(false);
   const handleClose = (): void => setShow(false);
   const handleShow = (): void => setShow(true);
@@ -131,14 +132,16 @@ export default function Navigation(): JSX.Element {
       <Offcanvas show={show} onHide={handleClose} placement="end">
         <Offcanvas.Header closeButton>
           <Offcanvas.Title>
-            {status === "logged" ? user?.fullName : "Авторизация"}
+            {status === "logged" ? user?.email : "Авторизация"}
           </Offcanvas.Title>
         </Offcanvas.Header>
 
         <Offcanvas.Body>
           {status === "logged" ? (
             <>
-              <p>Добро пожаловать, {user?.fullName}!</p>
+
+              <UserForm onClose={handleClose} />
+              <br />
               <button
                 className="btn btn-outline-dark w-100"
                 onClick={logoutHandler}
@@ -150,6 +153,7 @@ export default function Navigation(): JSX.Element {
             <>
               <p>Введите данные для входа:</p>
               <LoginForm />
+              
             </>
           )}
           {status !== "logged" && (

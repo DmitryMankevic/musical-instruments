@@ -1,0 +1,26 @@
+p {
+  margin: 5px 0;
+}
+.orderStats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.headerContainer {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+
+.cartInfo {
+  display: flex;
+  align-items: end;
+  /* gap: 5px; */
+  cursor: pointer;
+}

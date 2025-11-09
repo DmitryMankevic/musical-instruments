@@ -14,7 +14,7 @@ module.exports = {
       },
       {
         total: 5999.50,
-        status: 'Подтвержден',
+        status: 'подтвержден',
         decs: 'Заказ: ударная установка',
         user_id: 2,
         createdAt: new Date(),
@@ -22,7 +22,7 @@ module.exports = {
       },
       {
         total: 129.00,
-        status: 'Доставлен',
+        status: 'доставлен',
         decs: 'Аксессуар: ремень для гитары',
         user_id: 2,
         createdAt: new Date(),
@@ -30,7 +30,7 @@ module.exports = {
       },
       {
         total: 3499.95,
-        status: 'Отправлен',
+        status: 'отправлен',
         decs: 'Клавишный синтезатор 61 клавиша',
         user_id: 2,
         createdAt: new Date(),
@@ -38,7 +38,7 @@ module.exports = {
       },
       {
         total: 1499.00,
-        status: 'Отменен',
+        status: 'отменён',
         decs: 'Заказ отменён: духовой инструмент',
         user_id: 2,
         createdAt: new Date(),
