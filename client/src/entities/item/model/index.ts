@@ -2,7 +2,7 @@ export interface IRawItem {
   title: string;
   desc: string;
   price: number;
-  marker: string;
+  marker: string | null;  // возможно null
   article: string;
   img: string;
   stock: number; 
