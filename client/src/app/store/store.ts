@@ -4,16 +4,20 @@ import itemReducer from "@/entities/item/redux/itemSlice";
 import categoryReducer from "@/entities/category/redux/categorySlice";
 import cartReducer from "@/entities/cart/redux/cartSlice";
 import orderReducer from "@/entities/order/redux/orderSlice";
+import userInfoReducer from "@/entities/user-info/redux/userInfoSlice";
 import favouritesReducer from "@/entities/favourites/redux/favouritesSlice";
+import adminUserReducer from "@/entities/admin-users/redux/adminUsersSlice";
 
 export const store = configureStore({
   reducer: {
     user: userReducer,
     item: itemReducer,
+    userInfo: userInfoReducer,
     categories: categoryReducer,
     cart: cartReducer,
     order: orderReducer,
     favourites: favouritesReducer,
+    adminUsers: adminUserReducer,
   },
 });
 
