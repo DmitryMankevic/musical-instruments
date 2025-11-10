@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { IUserDB } from "../model";
+
 import {
   loginAsyncThunk,
   logoutAsyncThunk,

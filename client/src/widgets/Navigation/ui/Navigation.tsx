@@ -11,6 +11,8 @@ import { useAppDispatch, useAppSelector } from "@/shared/hooks/hook";
 import { logoutAsyncThunk } from "@/entities/user/redux/userThunk";
 import LoginForm from "@/features/LoginForm/ui/LoginForm";
 import { getAllCategoriesThunk } from "@/entities/category/redux/categoryThunk";
+import { clearUserInfo } from "@/entities/user-info/redux/userInfoSlice";
+
 import style from "./Navigation.module.css";
 import UserForm from "@/features/UserForm/ui/UserForm";
 
@@ -34,6 +36,7 @@ export default function Navigation(): JSX.Element {
   const logoutHandler = async (): Promise<void> => {
     try {
       dispatch(logoutAsyncThunk());
+      dispatch(clearUserInfo());
     } catch (error) {
       console.log(error);
     }

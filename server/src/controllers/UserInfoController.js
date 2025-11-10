@@ -21,11 +21,10 @@ class UserInfoController {
   static async updateUserInfo(req, res) {
     try {
       const userId = res.locals.user.id;
-      const userInfo = await UserInfoService.getUserInfoByUserId(userId);
-      if (!userInfo) {
+      const updatedInfo = await UserInfoService.updateUserInfo(userId, req.body);
+      if (!updatedInfo) {
         return res.status(404).json(formatResponse(404, 'User info not found'));
       }
-      const updatedInfo = await UserInfoService.updateUserInfo(userId, req.body);
       return res.json(formatResponse(200, 'User info updated successfully', updatedInfo));
     } catch (err) {
       console.error('Error updating user info:', err);
