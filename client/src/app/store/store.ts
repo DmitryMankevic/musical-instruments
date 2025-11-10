@@ -4,6 +4,7 @@ import itemReducer from "@/entities/item/redux/itemSlice";
 import categoryReducer from "@/entities/category/redux/categorySlice";
 import cartReducer from "@/entities/cart/redux/cartSlice";
 import orderReducer from "@/entities/order/redux/orderSlice";
+import favouritesReducer from "@/entities/favourites/redux/favouritesSlice";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     categories: categoryReducer,
     cart: cartReducer,
     order: orderReducer,
+    favourites: favouritesReducer,
   },
 });
 

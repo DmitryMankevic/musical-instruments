@@ -4,8 +4,12 @@ import { createPortal } from "react-dom";
 import { X, Heart } from "lucide-react";
 import styles from "./CardForCart.module.css";
 import type { IItem } from "@/entities/item/model";
-import { useAppDispatch } from "@/shared/hooks/hook";
+import { useAppDispatch, useAppSelector } from "@/shared/hooks/hook";
 import { deleteCartThunk, getCartThunk } from "@/entities/cart/redux/cartThunk";
+import {
+  addItemToFavouritesThunk,
+  deleteFavouriteThunk,
+} from "@/entities/favourites/redux/favouritesThunk";
 
 type Props = {
   item: IItem & { CartItem: { quantity: number } };
@@ -15,7 +19,21 @@ type Props = {
 function CardForCart({ item, onQuantityChange }: Props): JSX.Element {
   const dispatch = useAppDispatch();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [liked, setLiked] = useState(false);
+
+  const favouriteItems = useAppSelector((state) => state.favourites.items);
+  const isFavourited = favouriteItems.some((favItem) => favItem.id === item.id);
+
+  const handleToggleFavourite = async () => {
+    try {
+      if (isFavourited) {
+        await dispatch(deleteFavouriteThunk(item.id));
+      } else {
+        await dispatch(addItemToFavouritesThunk(item));
+      }
+    } catch (err) {
+      console.log("Ошибка избранного:", err); // Ошибка уже обработана в rejected
+    }
+  };
 
   const handleRemove = async (): Promise<void> => {
     try {
@@ -74,16 +92,16 @@ function CardForCart({ item, onQuantityChange }: Props): JSX.Element {
 
             <button
               className={`${styles.modalFavButton} ${
-                liked ? styles.favActive : ""
+                isFavourited ? styles.favActive : ""
               }`}
-              onClick={() => setLiked(!liked)}
+              onClick={handleToggleFavourite}
             >
               <Heart
                 size={18}
-                color={liked ? "white" : "#111"}
-                fill={liked ? "red" : "none"}
+                color={isFavourited ? "white" : "#111"}
+                fill={isFavourited ? "red" : "none"}
               />
-              {liked ? " В избранном" : " В избранное"}
+              {isFavourited ? " В избранном" : " В избранное"}
             </button>
           </div>
         </div>
@@ -117,7 +135,7 @@ function CardForCart({ item, onQuantityChange }: Props): JSX.Element {
                 e.currentTarget.src = "/img/yamaha-p225b.png";
               }}
             />
-            {liked && (
+            {isFavourited && (
               <Heart
                 className={styles.heartIcon}
                 size={18}
@@ -142,7 +160,9 @@ function CardForCart({ item, onQuantityChange }: Props): JSX.Element {
               disabled={isMaxReached}
               className={isMaxReached ? styles.disabledBtn : ""}
               title={
-                isMaxReached ? "Нельзя добавить больше, товара нет на складе" : ""
+                isMaxReached
+                  ? "Нельзя добавить больше, товара нет на складе"
+                  : ""
               }
             >
               +
