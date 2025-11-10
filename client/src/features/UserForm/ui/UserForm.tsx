@@ -144,6 +144,21 @@ export default function UserForm({ onClose }: UserFormProps): JSX.Element {
           <br />
         </>
       )}
+      {user?.isAdmin && (
+        <>
+        <button
+          className="btn btn-outline-dark w-100 mt-3"
+          onClick={() => {
+            navigate(CLIENT_ROUTES.ADMIN);
+            onClose();
+          }}
+        >
+          Админка
+        </button>
+        <br />
+        </>
+
+      )}
 
       {/* МОДАЛЬНОЕ ОКНО */}
       {isModalOpen && (

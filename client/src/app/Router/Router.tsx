@@ -12,6 +12,7 @@ import {
   ProfilePage,
   OrdersPage,
   CategoryPage,
+  AdminPage
 } from "@/pages";
 import { CLIENT_ROUTES } from "@/shared/enums/client_routes";
 import ProtectedRouter from "@/shared/HOCs/ProtectedRouter/ui/ProtectedRouter";
@@ -19,6 +20,7 @@ import { useAppSelector } from "@/shared/hooks/hook";
 
 export default function Router(): JSX.Element {
   const status = useAppSelector((state) => state.user.status);
+  const isAdmin = useAppSelector((state) => state.user.user?.isAdmin);
 
   return (
     <BrowserRouter>
@@ -45,6 +47,9 @@ export default function Router(): JSX.Element {
             <Route path={CLIENT_ROUTES.FAVOURITE} element={<FavouritePage />} />
             <Route path={CLIENT_ROUTES.CART} element={<CartPage />} />
             <Route path={CLIENT_ROUTES.ORDER} element={<OrdersPage />} />
+            {isAdmin && (
+            <Route path={CLIENT_ROUTES.ADMIN} element={<AdminPage />} />
+            )}
           </Route>
         </Route>
       </Routes>
