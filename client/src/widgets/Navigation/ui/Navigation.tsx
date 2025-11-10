@@ -37,6 +37,7 @@ export default function Navigation(): JSX.Element {
     try {
       dispatch(logoutAsyncThunk());
       dispatch(clearUserInfo());
+      navigate(CLIENT_ROUTES.HOME);
     } catch (error) {
       console.log(error);
     }
