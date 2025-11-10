@@ -1,6 +1,6 @@
 import { useEffect, useState, type JSX } from "react";
 import Carousel from "@/widgets/Carousel/ui/Carousel";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import CategoryCard from "@/widgets/Category/CategoryCard/ui/CategoryCard";
 import { useAppSelector, useAppDispatch } from "@/shared/hooks/hook";
 import { getAllCategoriesThunk } from "@/entities/category/redux/categoryThunk";
@@ -24,7 +24,7 @@ export function MainPage(): JSX.Element {
 
 
   return (
-    <Container className="py-4">
+    <><Container className="py-4">
       <h3 className="text-center mb-4">Добро пожаловать в наш Магазин!</h3>
       <Carousel />
       <h2 className="text-center mb-4">Категории</h2>
@@ -32,7 +32,7 @@ export function MainPage(): JSX.Element {
       <Row xs={1} md={2} lg={3} className="g-4">
         {categoriesArr.map((elem) => (
           <Col key={elem.id}>
-            <CategoryCard id={elem.id} name={elem.name} photo={elem.photo} isAdmin={isAdmin}/>
+            <CategoryCard id={elem.id} name={elem.name} photo={elem.photo} isAdmin={isAdmin} />
           </Col>
         ))}
         {isAdmin === true && (
@@ -45,10 +45,25 @@ export function MainPage(): JSX.Element {
             >
               Создать новую категорию
             </Button>
+            < br />
           </Col>
         )}
       </Row>
       <CategoryCreateModalForm show={showCreateModal} onClose={() => setShowCreateModal(false)} />
-    </Container>
+    </Container><>
+        <Card id="instrument-rental-card" style={{ width: '100%' }}>
+          <Card.Img variant="top" src="girl.jpg" />
+          <Card.Body>
+            <Card.Title>Долгожданный прокат музыкальных инструментов</Card.Title>
+            <Card.Text>
+              Скоро открытие. Some quick example text to build on the card title and make up the
+              bulk of the card's content. Скоро открытие. Some quick example text to build on the card title and make up the
+              bulk of the card's content. Скоро открытие. Some quick example text to build on the card title and make up the
+              bulk of the card's content.Скоро открытие. Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </Card.Text>
+            <Button variant="outline-dark" className="w-100" href="/">Оставить заявку</Button>
+          </Card.Body>
+        </Card></></>
   );
 }
