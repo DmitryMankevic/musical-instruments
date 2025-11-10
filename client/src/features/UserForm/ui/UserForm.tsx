@@ -10,6 +10,7 @@ import {
 import styles from "./UserForm.module.css";
 import { CLIENT_ROUTES } from "@/shared/enums/client_routes";
 import { useNavigate } from "react-router";
+import AIChat from "@/features/AIChat/AIChat";
 
 interface UserFormProps {
   onClose: () => void;
@@ -132,6 +133,10 @@ export default function UserForm({ onClose }: UserFormProps): JSX.Element {
             </ul>
           </div>
 
+          <div className={styles.aiBlock}>
+            <AIChat />
+          </div>
+
           <button
             className="btn btn-outline-dark w-100 mt-3"
             onClick={() => {
@@ -145,7 +150,6 @@ export default function UserForm({ onClose }: UserFormProps): JSX.Element {
         </>
       )}
 
-      {/* МОДАЛЬНОЕ ОКНО */}
       {isModalOpen && (
         <div className={styles.modalOverlay} onClick={() => setIsModalOpen(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
