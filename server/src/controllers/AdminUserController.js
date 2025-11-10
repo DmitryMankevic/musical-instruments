@@ -1,4 +1,4 @@
-const { User } = require('../../db/models');
+const { User, UserInfo } = require('../../db/models');
 const formatResponse = require('../utils/formatResponse');
 
 class AdminUsersController {
@@ -11,13 +11,22 @@ class AdminUsersController {
 
       const users = await User.findAll({
         attributes: ['id', 'fullName', 'email', 'isAdmin', 'createdAt'],
+        include: [
+          {
+            model: UserInfo,
+            as: 'userInfo', // важно: совпадает с ассоциацией в модели
+            attributes: ['phoneNumber', 'country', 'city', 'address'],
+          },
+        ],
         order: [['id', 'ASC']],
       });
 
       res.json(formatResponse(200, 'Success', users));
     } catch (err) {
       console.error('Error fetching all users:', err);
-      res.status(500).json(formatResponse(500, 'Internal Server Error', null, err.message));
+      res
+        .status(500)
+        .json(formatResponse(500, 'Internal Server Error', null, err.message));
     }
   }
 
@@ -33,7 +42,9 @@ class AdminUsersController {
       res.json(formatResponse(200, 'User deleted successfully'));
     } catch (err) {
       console.error('Error deleting user:', err);
-      res.status(500).json(formatResponse(500, 'Internal Server Error', null, err.message));
+      res
+        .status(500)
+        .json(formatResponse(500, 'Internal Server Error', null, err.message));
     }
   }
 }

@@ -8,9 +8,15 @@ import style from "./AdminPage.module.css";
 export function AdminPage(): JSX.Element {
   const dispatch = useAppDispatch();
 
-  const { users, loading: usersLoading } = useAppSelector((state) => state.adminUsers);
-  const { itemArr, loading: itemsLoading } = useAppSelector((state) => state.item);
-  const { categoriesArr, loading: catLoading } = useAppSelector((state) => state.categories);
+  const { users, loading: usersLoading } = useAppSelector(
+    (state) => state.adminUsers
+  );
+  const { itemArr, loading: itemsLoading } = useAppSelector(
+    (state) => state.item
+  );
+  const { categoriesArr, loading: catLoading } = useAppSelector(
+    (state) => state.categories
+  );
 
   useEffect(() => {
     dispatch(getAllUsersThunk());
@@ -34,6 +40,10 @@ export function AdminPage(): JSX.Element {
                 <th>ID</th>
                 <th>Имя</th>
                 <th>Email</th>
+                <th>Phone</th>
+                <th>Country</th>
+                <th>City</th>
+                <th>Address</th>
                 <th>Admin</th>
               </tr>
             </thead>
@@ -43,6 +53,10 @@ export function AdminPage(): JSX.Element {
                   <td>{u.id}</td>
                   <td>{u.fullName}</td>
                   <td>{u.email}</td>
+                  <td>{u.userInfo?.phoneNumber ?? "-"}</td>
+                  <td>{u.userInfo?.country ?? "-"}</td>
+                  <td>{u.userInfo?.city ?? "-"}</td>
+                  <td>{u.userInfo?.address ?? "-"}</td>
                   <td>{u.isAdmin ? "✅" : "❌"}</td>
                 </tr>
               ))}
@@ -57,13 +71,14 @@ export function AdminPage(): JSX.Element {
         {itemsLoading ? (
           <p>Загрузка...</p>
         ) : (
-          <ul>
+          <div className={style.itemsGrid}>
             {itemArr.map((item) => (
-              <li key={item.id}>
-                {item.title} — {item.price} ₽
-              </li>
+              <div key={item.id} className={style.itemCard}>
+                <h4>{item.title}</h4>
+                <p>{item.price} ₽</p>
+              </div>
             ))}
-          </ul>
+          </div>
         )}
       </div>
 
