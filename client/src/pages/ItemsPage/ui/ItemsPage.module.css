@@ -4,18 +4,20 @@
   justify-content: space-between;
   padding: 16px;
   gap: 24px;
+  flex-wrap: wrap; /* адаптация для мобильных */
 }
 
 /* Левая колонка — фильтры */
 .filterContainer {
-  width: 250px;
+  width: 260px;
   background-color: #f7f7f7;
   padding: 16px;
   border-radius: 12px;
   display: flex;
   flex-direction: column;
   gap: 16px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
 }
 
 .filterContainer h4 {
@@ -39,33 +41,29 @@
 
 .filterGroup input,
 .filterGroup select {
-  padding: 6px 8px;
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
   font-size: 14px;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .filterGroup input:focus,
 .filterGroup select:focus {
   border-color: #212529;
+  box-shadow: 0 0 3px rgba(33, 37, 41, 0.3);
   outline: none;
-}
-
-
-.applyButton:hover {
-  background-color: #343a40;
-  transform: translateY(-1px);
 }
 
 /* Кнопка "Сбросить фильтры" */
 .resetButton {
   margin-top: 8px;
-  padding: 8px 12px;
+  padding: 10px 12px;
   border: 1px solid #212529;
   border-radius: 6px;
   background-color: white;
   color: #212529;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -73,20 +71,74 @@
 .resetButton:hover {
   background-color: #212529;
   color: white;
+  transform: translateY(-1px);
 }
 
 /* Правая колонка — карточки */
 .itemsContainer {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
   flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+  animation: fadeIn 0.3s ease-in-out;
 }
 
 /* Сообщение при отсутствии товаров */
 .itemsContainer p {
-  font-size: 16px;
-  color: #555;
+  grid-column: 1 / -1;
   text-align: center;
+  color: #555;
+  font-size: 16px;
+  padding: 20px;
+}
+
+/* Анимация появления */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Пагинация */
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 20px;
   width: 100%;
+}
+
+.pageBtn {
+  border: 1px solid #212529;
+  background: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pageBtn:hover {
+  background-color: #212529;
+  color: white;
+}
+
+.active {
+  background-color: #212529;
+  color: white;
+}
+
+/* Адаптив */
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .filterContainer {
+    width: 100%;
+  }
 }

@@ -11,6 +11,9 @@ import {
 type ItemState = {
   itemArr: IItem[];
   currentItem: IItem | null;
+  total: number;
+  totalPages: number;
+  currentPage: number;
   loading: boolean;
   errorMessage: string;
 };
@@ -18,6 +21,9 @@ type ItemState = {
 const initialState: ItemState = {
   itemArr: [],
   currentItem: null,
+  total: 0,
+  totalPages: 0,
+  currentPage: 1,
   loading: false,
   errorMessage: "",
 };
@@ -34,7 +40,12 @@ export const itemSlice = createSlice({
       })
       .addCase(getAllItemsThunk.fulfilled, (state, action) => {
         state.loading = false;
-        if (action.payload) state.itemArr = action.payload;
+        if (action.payload) {
+          state.itemArr = action.payload.items;
+          state.total = action.payload.total;
+          state.totalPages = action.payload.totalPages;
+          state.currentPage = action.payload.currentPage;
+        }
       })
       .addCase(getAllItemsThunk.rejected, (state, action) => {
         state.loading = false;
