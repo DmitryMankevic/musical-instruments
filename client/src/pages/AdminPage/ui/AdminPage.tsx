@@ -154,6 +154,11 @@ export function AdminPage(): JSX.Element {
 
       {/* === Пользователи === */}
       <div className={style.section}>
+        <div className={style.addSection}>
+          <button className={style.addBtn} onClick={() => openAddModal()}>
+            ➕ Добавить администратора
+          </button>
+        </div>
         <h3>👤 Все пользователи</h3>
         {usersLoading ? (
           <p>Загрузка...</p>
@@ -190,13 +195,13 @@ export function AdminPage(): JSX.Element {
       </div>
 
       {/* === Товары === */}
-      <div className={style.addSection}>
-        <button className={style.addBtn} onClick={() => openAddModal()}>
-          ➕ Добавить товар
-        </button>
-      </div>
 
       <div className={style.section}>
+        <div className={style.addSection}>
+          <button className={style.addBtn} onClick={() => openAddModal()}>
+            ➕ Добавить товар
+          </button>
+        </div>
         <h3>📦 Все товары</h3>
         {itemsLoading ? (
           <p>Загрузка...</p>
@@ -432,6 +437,11 @@ export function AdminPage(): JSX.Element {
 
       {/* === Категории === */}
       <div className={style.section}>
+        <div className={style.addSection}>
+          <button className={style.addBtn} onClick={() => openAddModal()}>
+            ➕ Добавить категорию
+          </button>
+        </div>
         <h3>🏷 Все категории</h3>
         {catLoading ? (
           <p>Загрузка...</p>
