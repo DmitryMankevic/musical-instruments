@@ -1,4 +1,4 @@
-import { useEffect, type JSX } from "react";
+import { useEffect, useState, type JSX } from "react";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/hook";
 import { getAllUsersThunk } from "@/entities/admin-users/redux/adminUsersThunk";
 import { getAllItemsThunk } from "@/entities/item/redux/itemThunk";
@@ -11,18 +11,26 @@ export function AdminPage(): JSX.Element {
   const { users, loading: usersLoading } = useAppSelector(
     (state) => state.adminUsers
   );
-  const { itemArr, loading: itemsLoading } = useAppSelector(
-    (state) => state.item
-  );
+  const {
+    itemArr,
+    loading: itemsLoading,
+    totalPages,
+    currentPage,
+  } = useAppSelector((state) => state.item);
   const { categoriesArr, loading: catLoading } = useAppSelector(
     (state) => state.categories
   );
 
+  const [page, setPage] = useState(1);
+
   useEffect(() => {
     dispatch(getAllUsersThunk());
-    dispatch(getAllItemsThunk());
     dispatch(getAllCategoriesThunk());
   }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getAllItemsThunk({ page, limit: 5 })); // пагинация по 5 товаров
+  }, [dispatch, page]);
 
   return (
     <div className={style.container}>
@@ -71,14 +79,68 @@ export function AdminPage(): JSX.Element {
         {itemsLoading ? (
           <p>Загрузка...</p>
         ) : (
-          <div className={style.itemsGrid}>
-            {itemArr.map((item) => (
-              <div key={item.id} className={style.itemCard}>
-                <h4>{item.title}</h4>
-                <p>{item.price} ₽</p>
+          <>
+            <table className={style.table}>
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Название</th>
+                  <th>Описание</th>
+                  <th>Цена</th>
+                  <th>Маркер</th>
+                  <th>ID категория</th>
+                  <th>Артикул</th>
+                  <th>Остаток</th>
+                  <th>Изображение</th>
+                  <th>Действия</th>
+                </tr>
+              </thead>
+              <tbody>
+                {itemArr.map((item) => (
+                  <tr key={item.id}>
+                    <td>{item.id}</td>
+                    <td>{item.title}</td>
+                    <td>{item.desc}</td>
+                    <td>{item.price}</td>
+                    <td>{item.marker}</td>
+                    <td>{item.category_id}</td>
+                    <td>{item.article}</td>
+                    <td>{item.stock}</td>
+                    <td>
+                      <img src={item.img} alt={item.title} width={80} />
+                    </td>
+                    <td>
+                      <div className={style.actions}>
+                        <button className={style.iconBtn} title="Редактировать">
+                          ✏️
+                        </button>
+                        <button className={style.iconBtn} title="Удалить">
+                          🗑️
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+
+            {/* === ПАГИНАЦИЯ === */}
+            {totalPages > 1 && (
+              <div className={style.pagination}>
+                {Array.from({ length: totalPages }, (_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setPage(i + 1)}
+                    className={`${style.pageBtn} ${
+                      currentPage === i + 1 ? style.active : ""
+                    }`}
+                  >
+                    {i + 1}
+                  </button>
+                ))}
               </div>
-            ))}
-          </div>
+            )}
+          </>
         )}
       </div>
 
@@ -88,11 +150,26 @@ export function AdminPage(): JSX.Element {
         {catLoading ? (
           <p>Загрузка...</p>
         ) : (
-          <ul>
-            {categoriesArr.map((cat) => (
-              <li key={cat.id}>{cat.name}</li>
-            ))}
-          </ul>
+          <table className={style.table}>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Изображение</th>
+              </tr>
+            </thead>
+            <tbody>
+              {categoriesArr.map((cat) => (
+                <tr key={cat.id}>
+                  <td>{cat.id}</td>
+                  <td>{cat.name}</td>
+                  <td>
+                    <img src={cat.photo} alt={cat.name} width={80} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         )}
       </div>
     </div>

@@ -6,14 +6,26 @@ class ItemController {
   // checked
   static async getAllItems(req, res) {
     try {
-      const items = await ItemService.getAllItems();
-      if (items.length === 0) {
-        return res.json(formatResponse(200, 'Товары не найдены', []));
-      }
-      return res.json(formatResponse(200, 'Товары успешно получены', items));
+      // получаем параметры из query
+      const page = parseInt(req.query.page, 10) || 1;
+      const limit = parseInt(req.query.limit, 10) || 10;
+
+      // запрашиваем у сервиса данные
+      const { items, total } = await ItemService.getAllItems(page, limit);
+
+      return res.json(
+        formatResponse(200, 'Товары успешно получены', {
+          items,
+          total,
+          currentPage: page,
+          totalPages: Math.ceil(total / limit),
+        }),
+      );
     } catch (err) {
-      console.log(err);
-      return res.json(formatResponse(500, 'Произошла ошибка при получении товаров'));
+      console.error(err);
+      return res
+        .status(500)
+        .json(formatResponse(500, 'Произошла ошибка при получении товаров'));
     }
   }
 
@@ -84,10 +96,16 @@ class ItemController {
       return res.status(400).json(formatResponse(400, 'Ошибка валидации', null, error));
     const { id } = req.params;
     try {
-      const updated = await ItemService.updateItem(
-        id,
-        { title, desc, price, marker, stock, article, img, category_id },
-      );
+      const updated = await ItemService.updateItem(id, {
+        title,
+        desc,
+        price,
+        marker,
+        stock,
+        article,
+        img,
+        category_id,
+      });
       if (!updated) {
         return res.json(formatResponse(400, 'Товар не найден'));
       }

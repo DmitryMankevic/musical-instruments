@@ -1,8 +1,16 @@
 const { Item } = require('../../db/models');
 
 class ItemService {
-  static async getAllItems() {
-    return Item.findAll();
+  static async getAllItems(page = 1, limit = 10) {
+    const offset = (page - 1) * limit;
+
+    const { rows: items, count: total } = await Item.findAndCountAll({
+      limit,
+      offset,
+      order: [['id', 'ASC']],
+    });
+
+    return { items, total };
   }
 
   static async createItem(data) {
@@ -14,18 +22,14 @@ class ItemService {
   }
 
   static async updateItem(id, data) {
-    const item  = await ItemService.getItemById(id);
-    if (item) {
-      await item.update(data);
-    }
-    return item
+    const item = await this.getItemById(id);
+    if (item) await item.update(data);
+    return item;
   }
 
   static async deleteItem(id) {
-    const item = await ItemService.getItemById(id);
-    if (item) {
-      await item.destroy();
-    }
+    const item = await this.getItemById(id);
+    if (item) await item.destroy();
     return item;
   }
 }
