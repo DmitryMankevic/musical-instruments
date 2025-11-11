@@ -124,7 +124,7 @@ export default function Navigation(): JSX.Element {
         {/* НИЖНЯЯ ЛИНИЯ НАВИГАЦИИ */}
         <div className="w-100 bg-dark border-top pt-2">
           <Container fluid>
-            <Nav className="d-flex gap-3">
+            <Nav className="d-flex gap-2 flex-wrap justify-content-center">
               {categoriesArr.map((elem) => (
                 <NavLink
                   key={elem.id}
