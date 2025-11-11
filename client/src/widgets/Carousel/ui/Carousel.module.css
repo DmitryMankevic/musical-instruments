@@ -1,0 +1,26 @@
+@font-face {
+  font-family: "Open Sans";
+  src:
+    url("/fonts/OpenSans-Regular-webfont.woff2") format("woff2"),
+    url("/fonts/OpenSans-Regular-webfont.woff") format("woff");
+}
+
+:global(.carousel-control-prev-icon),
+:global(.carousel-control-next-icon) {
+  width: 2.5rem;   /* ~40px */
+  height: 2.5rem;
+  background-size: 200% 200%;  /* важно для масштабирования иконок */
+}
+
+/* Опционально: увеличить область клика */
+:global(.carousel-control-prev),
+:global(.carousel-control-next) {
+  width: 15%; /* стандартно ~15%, можно оставить или уменьшить */
+  opacity: 0.75;
+}
+
+
+:global(.carousel-control-prev):hover,
+:global(.carousel-control-next):hover {
+  opacity: 1.5;
+}
