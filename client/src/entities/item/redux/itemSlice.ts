@@ -88,12 +88,11 @@ export const itemSlice = createSlice({
       })
       .addCase(deleteItemThunk.fulfilled, (state, action) => {
         state.loading = false;
-        if (action.payload) {
-          state.itemArr = state.itemArr.filter(
-            (item) => item.id !== action.payload
-          );
-        }
+        state.itemArr = action.payload.items;
+        state.totalPages = action.payload.totalPages;
+        state.currentPage = action.payload.currentPage;
       })
+
       .addCase(deleteItemThunk.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.payload as string;

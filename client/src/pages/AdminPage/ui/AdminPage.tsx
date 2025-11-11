@@ -1,7 +1,11 @@
 import { useEffect, useState, type JSX } from "react";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/hook";
 import { getAllUsersThunk } from "@/entities/admin-users/redux/adminUsersThunk";
-import { getAllItemsThunk } from "@/entities/item/redux/itemThunk";
+import {
+  getAllItemsThunk,
+  updateItemThunk,
+  deleteItemThunk,
+} from "@/entities/item/redux/itemThunk";
 import { getAllCategoriesThunk } from "@/entities/category/redux/categoryThunk";
 import style from "./AdminPage.module.css";
 
@@ -23,14 +27,65 @@ export function AdminPage(): JSX.Element {
 
   const [page, setPage] = useState(1);
 
+  // состояние модалки
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editItem, setEditItem] = useState<any>(null);
+
   useEffect(() => {
     dispatch(getAllUsersThunk());
     dispatch(getAllCategoriesThunk());
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getAllItemsThunk({ page, limit: 5 })); // пагинация по 5 товаров
+    dispatch(getAllItemsThunk({ page, limit: 7 })); // пагинация по 7 товаров
   }, [dispatch, page]);
+
+  // функция для открытия модалки
+  const openModal = (item: any) => {
+    setEditItem({ ...item });
+    setIsModalOpen(true);
+  };
+
+  // обработчик изменения полей
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+
+    setEditItem((prev: any) => ({
+      ...prev,
+      [name]:
+        name === "price" || name === "stock" || name === "category_id"
+          ? Number(value)
+          : value,
+    }));
+  };
+
+  // сохранение изменений
+  const handleSave = () => {
+    if (!editItem) return;
+    const normalizedItem = {
+      ...editItem,
+      price: Number(editItem.price),
+      stock: Number(editItem.stock),
+      category_id: Number(editItem.category_id),
+    };
+    dispatch(updateItemThunk({ id: editItem.id, item: normalizedItem }));
+    setIsModalOpen(false);
+  };
+
+  // удаление товара
+const handleDelete = (id: number) => {
+  if (window.confirm("Вы уверены, что хотите удалить этот товар?")) {
+    dispatch(deleteItemThunk({ id, page, limit: 7 }))
+      .unwrap()
+      .then(() => {
+        // сразу перезапрашиваем обновлённый список
+        dispatch(getAllItemsThunk({ page, limit: 7 }));
+      });
+  }
+};
+
 
   return (
     <div className={style.container}>
@@ -111,10 +166,18 @@ export function AdminPage(): JSX.Element {
                     </td>
                     <td>
                       <div className={style.actions}>
-                        <button className={style.iconBtn} title="Редактировать">
+                        <button
+                          className={style.iconBtn}
+                          title="Редактировать"
+                          onClick={() => openModal(item)}
+                        >
                           ✏️
                         </button>
-                        <button className={style.iconBtn} title="Удалить">
+                        <button
+                          className={style.iconBtn}
+                          title="Удалить"
+                          onClick={() => handleDelete(item.id)}
+                        >
                           🗑️
                         </button>
                       </div>
@@ -143,6 +206,69 @@ export function AdminPage(): JSX.Element {
           </>
         )}
       </div>
+
+      {/* === МОДАЛЬНОЕ ОКНО === */}
+      {isModalOpen && editItem && (
+        <div className={style.modalOverlay}>
+          <div className={style.modal}>
+            <h3>Редактировать товар</h3>
+            <label>
+              Название:
+              <input
+                name="title"
+                value={editItem.title}
+                onChange={handleChange}
+              />
+            </label>
+            <label>
+              Описание:
+              <input
+                name="desc"
+                value={editItem.desc}
+                onChange={handleChange}
+              />
+            </label>
+            <label>
+              Цена:
+              <input
+                name="price"
+                type="number"
+                value={editItem.price}
+                onChange={handleChange}
+              />
+            </label>
+            <label>
+              Артикул:
+              <input
+                name="article"
+                value={editItem.article}
+                onChange={handleChange}
+              />
+            </label>
+            <label>
+              Остаток:
+              <input
+                name="stock"
+                type="number"
+                value={editItem.stock}
+                onChange={handleChange}
+              />
+            </label>
+
+            <div className={style.modalActions}>
+              <button onClick={handleSave} className={style.saveBtn}>
+                💾 Сохранить
+              </button>
+              <button
+                onClick={() => setIsModalOpen(false)}
+                className={style.cancelBtn}
+              >
+                ✖ Отмена
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* === Категории === */}
       <div className={style.section}>
