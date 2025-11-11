@@ -5,6 +5,7 @@ import {
   getAllItemsThunk,
   updateItemThunk,
   deleteItemThunk,
+  createItemThunk,
 } from "@/entities/item/redux/itemThunk";
 import { getAllCategoriesThunk } from "@/entities/category/redux/categoryThunk";
 import style from "./AdminPage.module.css";
@@ -30,6 +31,67 @@ export function AdminPage(): JSX.Element {
   // состояние модалки
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editItem, setEditItem] = useState<any>(null);
+
+  // функция для открытия модалки добавления товара
+
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [newItem, setNewItem] = useState({
+    title: "",
+    desc: "",
+    price: 0,
+    marker: "",
+    category_id: categoriesArr[0]?.id ?? 1,
+    article: "",
+    stock: 0,
+    img: "",
+  });
+
+  const openAddModal = () => {
+    setNewItem({
+      title: "",
+      desc: "",
+      price: 0,
+      marker: "",
+      category_id: categoriesArr[0]?.id ?? 1,
+      article: "",
+      stock: 0,
+      img: "",
+    });
+    setIsAddModalOpen(true);
+  };
+
+  const handleNewItemChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    const { name, value } = e.target;
+    setNewItem((prev) => ({
+      ...prev,
+      [name]:
+        name === "price" || name === "stock" || name === "category_id"
+          ? Number(value)
+          : value,
+    }));
+  };
+
+  const handleAddItem = () => {
+    if (!newItem.title || !newItem.desc || !newItem.article) {
+      alert("Пожалуйста, заполните все обязательные поля.");
+      return;
+    }
+
+    dispatch(
+      // создаём новый товар через redux-thunk
+      // и потом перезапрашиваем список
+      // чтобы показать его в таблице
+      // без перезагрузки страницы
+      createItemThunk(newItem)
+    )
+      .unwrap()
+      .then(() => {
+        dispatch(getAllItemsThunk({ page, limit: 7 }));
+        setIsAddModalOpen(false);
+      });
+  };
 
   useEffect(() => {
     dispatch(getAllUsersThunk());
@@ -75,17 +137,16 @@ export function AdminPage(): JSX.Element {
   };
 
   // удаление товара
-const handleDelete = (id: number) => {
-  if (window.confirm("Вы уверены, что хотите удалить этот товар?")) {
-    dispatch(deleteItemThunk({ id, page, limit: 7 }))
-      .unwrap()
-      .then(() => {
-        // сразу перезапрашиваем обновлённый список
-        dispatch(getAllItemsThunk({ page, limit: 7 }));
-      });
-  }
-};
-
+  const handleDelete = (id: number) => {
+    if (window.confirm("Вы уверены, что хотите удалить этот товар?")) {
+      dispatch(deleteItemThunk({ id, page, limit: 7 }))
+        .unwrap()
+        .then(() => {
+          // сразу перезапрашиваем обновлённый список
+          dispatch(getAllItemsThunk({ page, limit: 7 }));
+        });
+    }
+  };
 
   return (
     <div className={style.container}>
@@ -129,6 +190,12 @@ const handleDelete = (id: number) => {
       </div>
 
       {/* === Товары === */}
+      <div className={style.addSection}>
+        <button className={style.addBtn} onClick={() => openAddModal()}>
+          ➕ Добавить товар
+        </button>
+      </div>
+
       <div className={style.section}>
         <h3>📦 Все товары</h3>
         {itemsLoading ? (
@@ -261,6 +328,99 @@ const handleDelete = (id: number) => {
               </button>
               <button
                 onClick={() => setIsModalOpen(false)}
+                className={style.cancelBtn}
+              >
+                ✖ Отмена
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* === МОДАЛКА ДОБАВЛЕНИЯ === */}
+      {isAddModalOpen && (
+        <div className={style.modalOverlay}>
+          <div className={style.modal}>
+            <h3>Добавить новый товар</h3>
+            <label>
+              Название:
+              <input
+                name="title"
+                value={newItem.title}
+                onChange={handleNewItemChange}
+              />
+            </label>
+            <label>
+              Описание:
+              <input
+                name="desc"
+                value={newItem.desc}
+                onChange={handleNewItemChange}
+              />
+            </label>
+            <label>
+              Цена:
+              <input
+                name="price"
+                type="number"
+                value={newItem.price}
+                onChange={handleNewItemChange}
+              />
+            </label>
+            <label>
+              Артикул:
+              <input
+                name="article"
+                value={newItem.article}
+                onChange={handleNewItemChange}
+              />
+            </label>
+            <label>
+              Остаток:
+              <input
+                name="stock"
+                type="number"
+                value={newItem.stock}
+                onChange={handleNewItemChange}
+              />
+            </label>
+            <label>
+              Маркер:
+              <input
+                name="marker"
+                value={newItem.marker}
+                onChange={handleNewItemChange}
+              />
+            </label>
+            <label>
+              Изображение (URL):
+              <input
+                name="img"
+                value={newItem.img}
+                onChange={handleNewItemChange}
+              />
+            </label>
+            <label>
+              Категория:
+              <select
+                name="category_id"
+                value={newItem.category_id}
+                onChange={handleNewItemChange}
+              >
+                {categoriesArr.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <div className={style.modalActions}>
+              <button onClick={handleAddItem} className={style.saveBtn}>
+                ✅ Добавить
+              </button>
+              <button
+                onClick={() => setIsAddModalOpen(false)}
                 className={style.cancelBtn}
               >
                 ✖ Отмена

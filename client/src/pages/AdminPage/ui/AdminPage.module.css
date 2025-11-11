@@ -113,7 +113,6 @@
   .table td {
     font-size: 14px;
     padding: 6px;
-
   }
 
   .table img {
@@ -210,4 +209,24 @@
     opacity: 1;
     transform: scale(1);
   }
+}
+
+.addSection {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.addBtn {
+  background-color: #4caf50;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.addBtn:hover {
+  background-color: #45a049;
 }
