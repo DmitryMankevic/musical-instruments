@@ -4,7 +4,7 @@ export enum CLIENT_ROUTES {
   SIGN_UP = "/signup",
   ADMIN = "/admin",
   PROFILE = "/profile",
-  FAVOURITE = "/favourite",
+  FAVOURITE = "/favourites",
   ITEM_CARD = "/item-card",
   ITEMS = "/items",
   CART = "/cart",
