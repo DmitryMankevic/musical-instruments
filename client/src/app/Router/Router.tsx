@@ -1,5 +1,5 @@
 import { type JSX } from "react";
-import { BrowserRouter, Route, Routes } from "react-router";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import Layout from "../Layout/Layout";
 import {
   LoginPage,
@@ -12,7 +12,7 @@ import {
   ProfilePage,
   OrdersPage,
   CategoryPage,
-  AdminPage
+  AdminPage,
 } from "@/pages";
 import { CLIENT_ROUTES } from "@/shared/enums/client_routes";
 import ProtectedRouter from "@/shared/HOCs/ProtectedRouter/ui/ProtectedRouter";
@@ -47,8 +47,13 @@ export default function Router(): JSX.Element {
             <Route path={CLIENT_ROUTES.FAVOURITE} element={<FavouritePage />} />
             <Route path={CLIENT_ROUTES.CART} element={<CartPage />} />
             <Route path={CLIENT_ROUTES.ORDER} element={<OrdersPage />} />
-            {isAdmin && (
-            <Route path={CLIENT_ROUTES.ADMIN} element={<AdminPage />} />
+            {isAdmin ? (
+              <Route path={CLIENT_ROUTES.ADMIN} element={<AdminPage />} />
+            ) : (
+              <Route
+                path={CLIENT_ROUTES.ADMIN}
+                element={<Navigate to={CLIENT_ROUTES.HOME} replace />}
+              />
             )}
           </Route>
         </Route>

@@ -118,16 +118,29 @@ class ItemController {
 
   static async deleteItem(req, res) {
     try {
-      const deleted = await ItemService.deleteItem(req.params.id);
-      if (!deleted) {
+      const { page = 1, limit = 7 } = req.query;
+
+      const result = await ItemService.deleteItem(
+        req.params.id,
+        Number(page),
+        Number(limit),
+      );
+
+      if (!result.deletedItem) {
         return res.json(formatResponse(404, 'Товар не найден'));
       }
-      return res.json(formatResponse(200, 'Товар успешно удалён'));
+
+      return res.json(
+        formatResponse(200, 'Товар успешно удалён', {
+          items: result.items,
+          totalPages: result.totalPages,
+          currentPage: result.currentPage,
+        }),
+      );
     } catch (err) {
       console.log(err);
       return res.json(formatResponse(500, 'Произошла ошибка при удалении товара'));
     }
   }
 }
-
 module.exports = ItemController;
