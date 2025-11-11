@@ -106,7 +106,7 @@ export default function Navigation(): JSX.Element {
                 width={30}
                 height={30}
                 style={{ cursor: "pointer" }}
-                onClick={() => navigate(CLIENT_ROUTES.CART)}
+                onClick={() => navigate(CLIENT_ROUTES.FAVOURITE)}
               />
             )}
 
