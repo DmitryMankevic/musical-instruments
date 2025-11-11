@@ -14,7 +14,7 @@ export default function Loader({ children, isLoading }: Props): JSX.Element {
         alignItems: "center",
       }}
     >
-      <Ring size={50} speed={1.5} bgOpacity={0.25} color="#25b22cff" />
+      <Ring size={50} speed={1.5} bgOpacity={0.25} color="#595959ff" />
     </div>
   ) : (
     children
