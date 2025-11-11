@@ -193,7 +193,7 @@
 }
 
 .saveBtn:hover {
-  background: #218838;
+  background: #0d3515;
 }
 
 .cancelBtn:hover {
@@ -218,7 +218,7 @@
 }
 
 .addBtn {
-  background-color: #4caf50;
+  background-color: #000000;
   color: white;
   padding: 8px 14px;
   border: none;
@@ -228,5 +228,5 @@
 }
 
 .addBtn:hover {
-  background-color: #45a049;
+  background-color: #3b4398;
 }

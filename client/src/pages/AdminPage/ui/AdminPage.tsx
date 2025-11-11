@@ -156,7 +156,7 @@ export function AdminPage(): JSX.Element {
       <div className={style.section}>
         <div className={style.addSection}>
           <button className={style.addBtn} onClick={() => openAddModal()}>
-            ➕ Добавить администратора
+            Добавить
           </button>
         </div>
         <h3>👤 Все пользователи</h3>
@@ -199,7 +199,7 @@ export function AdminPage(): JSX.Element {
       <div className={style.section}>
         <div className={style.addSection}>
           <button className={style.addBtn} onClick={() => openAddModal()}>
-            ➕ Добавить товар
+            Добавить
           </button>
         </div>
         <h3>📦 Все товары</h3>
@@ -439,7 +439,7 @@ export function AdminPage(): JSX.Element {
       <div className={style.section}>
         <div className={style.addSection}>
           <button className={style.addBtn} onClick={() => openAddModal()}>
-            ➕ Добавить категорию
+             Добавить 
           </button>
         </div>
         <h3>🏷 Все категории</h3>
