@@ -27,11 +27,6 @@
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
 
 .card {
   padding: 2em;
@@ -39,4 +34,137 @@
 
 .read-the-docs {
   color: #888;
+}
+
+
+/*   УПРАВЛЕНИЕ ШРИФТАМИ КАРУСЕЛИ  */
+@font-face {
+  font-family: 'rusboycott';
+  src: url('/fonts/rusboycott.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap; /* улучшает загрузку */
+}
+
+
+
+.carousel-title-hot-deals {
+  /* Текст */
+  font-family: 'rusboycott', cursive;
+  font-size: 3.5rem;
+  line-height: 1.1;
+  /* Макет */
+  margin: 0;
+  /* Анимация появления */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s forwards 0.3s ease-out;
+}
+
+.carousel-title-news {
+  /* Текст */
+  font-family: 'rusboycott', cursive;
+  font-size: 3rem;
+  line-height: 1.1;
+  /* Макет */
+  margin: 0;
+  /* Анимация появления */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s forwards 0.3s ease-out;
+}
+
+.carousel-title-hots {
+  /* Текст */
+  font-family: 'rusboycott', cursive;
+  font-size: 3rem;
+  line-height: 1.1;
+  /* Макет */
+  margin: 0;
+  /* Анимация появления */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s forwards 0.3s ease-out;
+}
+
+.carousel-title-rennt {
+  /* Текст */
+  font-family: 'rusboycott', cursive;
+  font-size: 3rem;
+  line-height: 1.1;
+  /* Макет */
+  margin: 0;
+  /* Анимация появления */
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s forwards 0.3s ease-out;
+}
+
+.carousel-title-xl{
+  font-size: 1.5rem;
+  line-height: 1.1;
+  /* Макет */
+  margin: 0;
+  /* Анимация появления */
+ opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s forwards 0.3s ease-out;
+}
+
+
+
+
+@media (max-width: 768px) {
+  .carousel-title-hot-deals,
+  .carousel-title-news,
+  .carousel-title-hots,
+  .carousel-title-rennt {
+    font-size: 2.4rem;
+  }
+
+  .carousel-title-xl {
+    font-size: 1.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .carousel-title-hot-deals,
+  .carousel-title-news,
+  .carousel-title-hots,
+  .carousel-title-rennt {
+    font-size: 2rem;
+  }
+
+  .carousel-title-xl {
+    font-size: 1.2rem;
+  } 
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-title-hot-deals { font-size: 2.5rem; }
+  .carousel-title-news,
+  .carousel-title-hots,
+  .carousel-title-rennt { font-size: 2.2rem; }
+  .carousel-title-xl { font-size: 1.3rem; }
+}
+
+@media (max-width: 480px) {
+  .carousel-title-hot-deals { font-size: 2.1rem; }
+  .carousel-title-news,
+  .carousel-title-hots,
+  .carousel-title-rennt { font-size: 1.8rem; }
+  .carousel-title-xl { font-size: 1.1rem; }
 }

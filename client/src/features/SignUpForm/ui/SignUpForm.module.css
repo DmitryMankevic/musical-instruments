@@ -1,0 +1,99 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 600px;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0px 30px rgba(0, 0, 0, 0.12), 0 14px 30px rgba(0, 0, 0, 0.05);
+  margin-bottom: 3rem;
+}
+
+.inputGroup {
+  display: flex;
+  margin-bottom: 1rem;
+}
+.inputGroup:last-child {
+  margin-bottom: 1.5rem;
+}
+
+.inputLabel {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.75rem;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-right: none;
+  border-radius: 4px 0 0 4px;
+  min-width: 140px;
+  font-weight: 500;
+  color: #171717;
+}
+
+.input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ced4da;
+  border-radius: 0 4px 4px 0;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #353535;
+  box-shadow: 0 0px 20px rgba(0, 0, 0, 0.12), 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+.submitButton {
+  align-self: center;
+  padding: 0.75rem 1.5rem;
+  background-color: #3a3a3a;
+  color: rgb(255, 255, 255);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+}
+
+.submitButton:hover {
+  background-color: #212121;
+}
+
+@media (max-width: 576px) {
+  .inputGroup {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .inputLabel {
+    width: 100%;
+    min-width: auto;
+    border-radius: 4px 4px 0 0;
+    border-right: 1px solid #ced4da; /* восстанавливаем правую границу */
+    border-bottom: none;
+    padding: 0.75rem 1rem;
+    margin-bottom: 0;
+  }
+
+  .input {
+    width: 100%;
+    border-radius: 0 0 4px 4px;
+    border-top: none; /* убираем верхнюю границу — она теперь у label */
+    box-sizing: border-box;
+  }
+}
+
+
