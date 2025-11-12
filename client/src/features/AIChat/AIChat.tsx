@@ -1,54 +1,148 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./AIChat.module.css";
+import { useAppDispatch, useAppSelector } from "@/shared/hooks/hook";
+import { getAllItemsThunk } from "@/entities/item/redux/itemThunk";
+import { addToCartThunk } from "@/entities/cart/redux/cartThunk";
 
 const AIChat: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const { itemArr } = useAppSelector((state) => state.item);
+  const user = useAppSelector((state) => state.user.user);
+
   const [message, setMessage] = useState("");
   const [reply, setReply] = useState("");
   const [loading, setLoading] = useState(false);
+  const [suggested, setSuggested] = useState<any[]>([]);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (!itemArr.length) {
+      dispatch(getAllItemsThunk({ page: 1, limit: 999 }));
+    }
+  }, [dispatch, itemArr.length]);
+
+  const normalize = (text: string) => text.toLowerCase().trim();
+
+  const simplifyWord = (word: string): string => {
+    const w = normalize(word);
+    if (w.startsWith("гитар")) return "гитары";
+    if (w.startsWith("ударн")) return "ударные";
+    if (w.startsWith("клавиш")) return "клавишные";
+    if (w.startsWith("струн")) return "струнные";
+    if (w.startsWith("духов")) return "духовые";
+    if (w.startsWith("смычк")) return "смычковые";
+    if (w.startsWith("синтезатор")) return "синтезаторы";
+    return w;
+  };
+
+  const categoryCaseMap: Record<string, string> = {
+    гитары: "гитар",
+    ударные: "ударных",
+    клавишные: "клавишных",
+    струнные: "струнных",
+    духовые: "духовых",
+    смычковые: "смычковых",
+    синтезаторы: "синтезаторов",
+  };
 
   const sendMessage = async () => {
-    const userInput = message.trim();
-
-    // Проверяем, что пользователь что-то ввёл
-    if (!userInput) return;
-
-    // Проверяем правильный формат: "Исполнитель - Песня"
-    if (!userInput.includes("-")) {
-      setReply(
-        "Пожалуйста, укажите исполнителя и название песни через тире.\nНапример: 'Queen - Bohemian Rhapsody'."
-      );
-      return;
-    }
-
-    // Проверяем, чтобы не было слишком длинного текста
-    if (userInput.length > 100) {
-      setReply("Запрос слишком длинный. Укажите только исполнителя и песню.");
-      return;
-    }
-
+    if (!message.trim()) return;
     setLoading(true);
+    setReply("");
+    setSuggested([]);
+
     try {
-      const res = await axios.post("/api/chat", { message: userInput });
-      setReply(res.data.reply);
+      const res = await axios.post("http://localhost:3000/api/chat", {
+        message,
+      });
+      const aiReply = res.data.reply?.trim();
+
+      if (!aiReply) {
+        setReply("Информация об инструментах недоступна.");
+        setShowModal(true);
+        setLoading(false);
+        return;
+      }
+
+      // Разбор категорий
+      const categories = aiReply
+        .split(",")
+        .map((c: string) => simplifyWord(c))
+        .filter(Boolean);
+
+      const categoryMap: Record<string, number> = {
+        гитары: 1,
+        ударные: 2,
+        клавишные: 3,
+        струнные: 4,
+        духовые: 5,
+        смычковые: 6,
+        синтезаторы: 7,
+      };
+
+      const selectedItems: any[] = [];
+
+      for (const category of categories) {
+        const catId = categoryMap[category];
+        if (!catId) continue;
+
+        const item = itemArr.find(
+          (i) => Number(i.category_id) === Number(catId)
+        );
+        if (item) selectedItems.push({ ...item, altFor: category });
+      }
+
+      if (selectedItems.length === 0) {
+        setReply("Не найдено подходящих инструментов для указанных категорий.");
+      } else {
+        setReply(
+          `🎵 В композиции использованы категории: ${categories.join(", ")}.`
+        );
+      }
+
+      setSuggested(selectedItems);
+      setShowModal(true);
     } catch (err) {
-      console.error("Ошибка при общении с AI:", err);
-      setReply("Ошибка при запросе к музыкальному анализатору.");
+      console.error("Ошибка при запросе к AI:", err);
+      setReply("Ошибка при обращении к AI-сервису.");
     } finally {
       setLoading(false);
     }
   };
 
+  const handleRemove = (id: number): void => {
+    setSuggested((prev) => prev.filter((item) => item.id !== id));
+  };
+
+  const handleAddToCart = (): void => {
+    if (!user) {
+      setReply(
+        "Пожалуйста, войдите в аккаунт, чтобы добавить товары в корзину."
+      );
+      setShowModal(false);
+      return;
+    }
+
+    suggested.forEach((item) => {
+      dispatch(addToCartThunk({ itemId: item.id, quantity: 1 }));
+    });
+
+    setShowModal(false);
+    setReply("🎸 Инструменты добавлены в корзину!");
+  };
+
   return (
     <div className={styles.chatBox}>
       <h2>🎵 Определитель инструментов</h2>
-      <p className={styles.helperText}>
-        Введите исполнителя и название песни, чтобы узнать, какие инструменты использованы.
+      <p className={styles.subtext}>
+        Введите исполнителя и название песни, чтобы узнать, какие категории
+        инструментов использованы.
       </p>
 
-      <textarea
-        rows={3}
-        className={styles.textarea}
+      <input
+        type="text"
+        className={styles.input}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
         placeholder="Например: The Beatles - Let It Be"
@@ -59,13 +153,89 @@ const AIChat: React.FC = () => {
         disabled={loading}
         className={styles.button}
       >
-        {loading ? "Анализирую..." : "Показать инструменты"}
+        {loading ? "Анализ..." : "Показать инструменты"}
       </button>
 
       {reply && (
         <div className={styles.reply}>
           <strong>Результат:</strong>
           <p>{reply}</p>
+        </div>
+      )}
+
+      {showModal && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3>🎸 Найденные и альтернативные инструменты</h3>
+
+            {/* Новый блок — запрос и ответ */}
+            <div style={{ marginBottom: "15px", textAlign: "left" }}>
+              <p>
+                <strong>Вы искали композицию:</strong> {message}
+              </p>
+              <p>
+                <strong>Инструменты в композиции:</strong> {reply}
+              </p>
+              <p>
+                <p>
+                  <b>Наш магазин может предложить такие инструменты:</b>
+                </p>
+              </p>
+            </div>
+
+            {suggested.length > 0 ? (
+              <ul className={styles.itemList}>
+                {suggested.map((item) => (
+                  <li key={item.id} className={styles.itemRow}>
+                    <img
+                      src={item.img}
+                      alt={item.title}
+                      className={styles.itemImg}
+                    />
+                    <div className={styles.itemInfo}>
+                      <p className={styles.itemTitle}>
+                        {item.title}
+                        {item.altFor && (
+                          <span className={styles.altTag}>
+                            вариант для{" "}
+                            {categoryCaseMap[item.altFor] || item.altFor}
+                          </span>
+                        )}
+                      </p>
+                      <p className={styles.itemPrice}>
+                        {Number(item.price).toLocaleString("ru-RU", {
+                          minimumFractionDigits: 2,
+                        })}{" "}
+                        ₽
+                      </p>
+                    </div>
+                    <button
+                      className={styles.removeBtn}
+                      onClick={() => handleRemove(item.id)}
+                    >
+                      ✕
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>Нет подходящих инструментов.</p>
+            )}
+
+            <div className={styles.modalActions}>
+              {suggested.length > 0 && (
+                <button onClick={handleAddToCart} className={styles.addBtn}>
+                  Добавить все
+                </button>
+              )}
+              <button
+                onClick={() => setShowModal(false)}
+                className={styles.cancelBtn}
+              >
+                Закрыть
+              </button>
+            </div>
+          </div>
         </div>
       )}
     </div>
