@@ -86,16 +86,22 @@
 
 /* ===== АДАПТИВ ===== */
 @media (max-width: 768px) {
-  /* скрываем всё, кроме бургера и иконки пользователя */
+  /* скрываем ссылки, поиск и нижний бар */
   .topLinks,
   .searchWrapper,
   .bottomNavbarDesktop {
     display: none;
   }
 
-  /* скрываем только первые две иконки (корзина и избранное) */
-  .rightIcons img:nth-child(-n + 2) {
+  /* скрываем только корзину и избранное */
+  .iconCart,
+  .iconHeart {
     display: none;
+  }
+
+  /* оставляем иконку пользователя */
+  .iconUser {
+    display: inline-block;
   }
 
   .burgerButton {
