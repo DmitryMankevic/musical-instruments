@@ -14,7 +14,7 @@
   border-radius: 10px;
   padding: 16px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  overflow-x: auto; /* 👈 горизонтальный скролл для таблиц */
+  overflow-x: auto;
 }
 
 /* === Таблицы === */
@@ -24,14 +24,14 @@
   margin-top: 10px;
   background: white;
   border-radius: 8px;
-  overflow: hidden;
-  min-width: 700px; /* 👈 предотвращает сжатие таблицы */
+  overflow: visible;
+  min-width: 700px;
 }
 
 .table th,
 .table td {
   border: 1px solid #ddd;
-  padding: 10px 12px;
+  padding: 5px 12px;
   text-align: left;
   vertical-align: middle;
   white-space: nowrap; /* 👈 чтобы текст не переносился */
@@ -45,8 +45,8 @@
 
 /* === Изображения === */
 .table img {
-  width: 60px;
-  height: 60px;
+  width: 30px;
+  height: 30px;
   object-fit: cover;
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -123,7 +123,7 @@
 .addBtn {
   background-color: #000000;
   color: white;
-  padding: 8px 14px;
+  padding: 8px 23px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -190,7 +190,7 @@
 }
 
 .cancelBtn {
-  background: #dc3545;
+  background: #000000;
   border: none;
   color: white;
   padding: 8px 14px;
@@ -199,11 +199,131 @@
 }
 
 .saveBtn:hover {
-  background: #1f7c34;
+  background-color: #32ca55;
 }
 
 .cancelBtn:hover {
-  background: #c82333;
+  background-color: #3b4398;
+}
+
+/* === ограниченная ширина и обрезка === */
+.descCell {
+  position: relative;
+  overflow: visible; /* чтобы tooltip мог выйти за td */
+  vertical-align: middle;
+  white-space: nowrap; /* базовая линия для кнопки */
+}
+
+.descText {
+  display: inline-block;
+  max-width: 220px; /* задаёт ширину «узкой» ячейки */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* === Кнопка 🔍 === */
+.infoBtn {
+  margin-left: 6px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1;
+  vertical-align: middle;
+  transition: transform 0.15s ease;
+}
+
+.infoBtn:hover {
+  transform: scale(1.15);
+}
+
+/* === Tooltip / всплывающее окно === */
+.tooltipWrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltipText {
+  visibility: hidden;
+  opacity: 0;
+  width: 280px;
+  background-color: #222;
+  color: #fff;
+  text-align: left;
+  border-radius: 8px;
+  padding: 8px 10px;
+  position: absolute;
+  z-index: 100; /* выше таблицы */
+  bottom: 130%; /* над кнопкой */
+  left: 50%;
+  transform: translateX(-50%);
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: normal; /* переносы внутри подсказки */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* стрелочка под tooltip */
+.tooltipText::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -6px;
+  border: 6px solid transparent;
+  border-top-color: #222;
+}
+
+/* при наведении показываем подсказку */
+.tooltipWrapper:hover .tooltipText {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* === Заголовок секции === */
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #222;
+}
+
+/* === Кнопка сворачивания (▲ ▼) === */
+.toggleBtn {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #444;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.toggleBtn:hover {
+  color: #000;
+  transform: scale(1.2);
+}
+
+/* === Анимация появления / скрытия === */
+.fade {
+  opacity: 1;
+  max-height: 2000px;
+  transition: opacity 0.4s ease, max-height 0.4s ease;
+}
+
+.fade.hidden {
+  opacity: 0;
+  max-height: 0;
+  overflow: hidden;
 }
 
 @keyframes fadeIn {
