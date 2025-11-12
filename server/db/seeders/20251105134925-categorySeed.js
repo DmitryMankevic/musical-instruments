@@ -18,7 +18,7 @@ module.exports = {
       },
       {
         name: 'Клавишные',
-        photo: 'http://localhost:3000/api/uploads/images/1762710501742.webp',
+        photo: 'http://localhost:3000/api/uploads/images/1762710559331.webp',
         createdAt: new Date(),
         updatedAt: new Date(),
       },
