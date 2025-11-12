@@ -6,10 +6,12 @@ const categoryRouter = require('./categoryRouter');
 const itemRouter = require('./itemRouter');
 const cartRouter = require('./cartRouter');
 const userInfoRouter = require('./userInfoRouter');
+const apiChat = require('./apiChatRouter');
 const adminUserRouter = require('./adminUserRouter');
 
 const apiRouter = express.Router();
 
+apiRouter.use('/chat', apiChat); // AI DeepSeek
 apiRouter.use('/auth', authRouter);
 apiRouter.use('/orders', orderRouter);
 apiRouter.use('/user-info', userInfoRouter);

@@ -11,6 +11,7 @@ p {
   padding: 10px;
   margin-top: 20px;
 }
+
 .orderStats {
   display: flex;
   flex-direction: column;
@@ -27,11 +28,9 @@ p {
   gap: 25px;
 }
 
-
 .cartInfo {
   display: flex;
   align-items: end;
-  /* gap: 5px; */
   cursor: pointer;
 }
 
@@ -78,4 +77,12 @@ p {
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
+}
+
+.aiBlock {
+  margin-top: 20px;
+  padding: 15px;
+  background: #f9f9f9;
+  border-radius: 8px;
+  border: 1px solid #ddd;
 }
