@@ -4,6 +4,8 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 /* === Каждый блок (пользователи, товары, категории) === */
@@ -12,6 +14,7 @@
   border-radius: 10px;
   padding: 16px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* 👈 горизонтальный скролл для таблиц */
 }
 
 /* === Таблицы === */
@@ -22,6 +25,7 @@
   background: white;
   border-radius: 8px;
   overflow: hidden;
+  min-width: 700px; /* 👈 предотвращает сжатие таблицы */
 }
 
 .table th,
@@ -30,6 +34,7 @@
   padding: 10px 12px;
   text-align: left;
   vertical-align: middle;
+  white-space: nowrap; /* 👈 чтобы текст не переносился */
 }
 
 .table th {
@@ -40,8 +45,8 @@
 
 /* === Изображения === */
 .table img {
-  width: 20px;
-  height: 20px;
+  width: 60px;
+  height: 60px;
   object-fit: cover;
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -76,6 +81,7 @@
   justify-content: center;
   margin-top: 16px;
   gap: 6px;
+  flex-wrap: wrap;
 }
 
 .pageBtn {
@@ -107,27 +113,26 @@
   color: #222;
 }
 
-/* === Адаптивность === */
-@media (max-width: 768px) {
-  .table th,
-  .table td {
-    font-size: 14px;
-    padding: 6px;
-  }
+/* === Кнопка "Добавить" === */
+.addSection {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
 
-  .table img {
-    width: 50px;
-    height: 50px;
-  }
+.addBtn {
+  background-color: #000000;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
 
-  .iconBtn {
-    font-size: 16px;
-  }
-
-  .pageBtn {
-    padding: 5px 8px;
-    font-size: 14px;
-  }
+.addBtn:hover {
+  background-color: #3b4398;
 }
 
 /* === МОДАЛЬНОЕ ОКНО === */
@@ -161,7 +166,8 @@
   gap: 4px;
 }
 
-.modal input {
+.modal input,
+.modal select {
   padding: 6px 8px;
   border-radius: 6px;
   border: 1px solid #ccc;
@@ -193,7 +199,7 @@
 }
 
 .saveBtn:hover {
-  background: #0d3515;
+  background: #1f7c34;
 }
 
 .cancelBtn:hover {
@@ -211,22 +217,68 @@
   }
 }
 
-.addSection {
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: flex-end;
+/* === АДАПТИВНОСТЬ === */
+@media (max-width: 1024px) {
+  .modal {
+    min-width: 340px;
+    width: 90%;
+  }
 }
 
-.addBtn {
-  background-color: #000000;
-  color: white;
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-size: 14px;
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .table {
+    font-size: 14px;
+    min-width: 600px;
+  }
+
+  .modal {
+    width: 90%;
+    min-width: auto;
+    padding: 16px;
+  }
+
+  .modal input,
+  .modal select {
+    font-size: 14px;
+  }
+
+  .addBtn {
+    width: 100%;
+  }
+
+  .pageBtn {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
 }
 
-.addBtn:hover {
-  background-color: #3b4398;
+@media (max-width: 480px) {
+  .section {
+    padding: 12px;
+  }
+
+  .table {
+    font-size: 13px;
+    min-width: 500px;
+  }
+
+  .modal {
+    padding: 14px;
+    border-radius: 8px;
+  }
+
+  .modal input,
+  .modal select {
+    font-size: 13px;
+  }
+
+  .addBtn {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
 }
