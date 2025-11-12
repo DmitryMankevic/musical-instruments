@@ -80,10 +80,6 @@ export function AdminPage(): JSX.Element {
     }
 
     dispatch(
-      // создаём новый товар через redux-thunk
-      // и потом перезапрашиваем список
-      // чтобы показать его в таблице
-      // без перезагрузки страницы
       createItemThunk(newItem)
     )
       .unwrap()

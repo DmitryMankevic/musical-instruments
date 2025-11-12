@@ -1,5 +1,104 @@
+/* ===== ЛОГОТИП ===== */
+.logo {
+  text-align: center;
+  margin: 20px 0;
+  font-size: 26px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ===== ВЕРХНИЙ NAVBAR ===== */
+.topNavbar {
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #ddd;
+}
+
+/* ===== ССЫЛКИ (Hot deals, New, Top-Seller) ===== */
+.topLinks {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.navLink {
+  color: #111;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.navLink:hover {
+  color: #ff6600;
+}
+
+/* ===== ПОИСК ===== */
+.searchWrapper {
+  flex-grow: 1;
+  max-width: 320px;
+  margin: 0 16px;
+}
+
+/* ===== ИКОНКИ СПРАВА ===== */
 .rightIcons {
   display: flex;
-  gap: 20px;
   align-items: center;
+  gap: 12px;
+}
+
+.rightIcons img {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.rightIcons img:hover {
+  transform: scale(1.1);
+}
+
+/* ===== БУРГЕР-КНОПКА ===== */
+.burgerButton {
+  background: transparent;
+  border: none;
+  font-size: 26px;
+  cursor: pointer;
+  color: #333;
+  display: none; /* по умолчанию скрыт */
+  transition: transform 0.2s ease;
+}
+
+.burgerButton:hover {
+  color: #ff6600;
+  transform: scale(1.1);
+}
+
+/* ===== НИЖНИЙ НАВБАР (только для десктопа) ===== */
+.bottomNavbarDesktop {
+  display: block;
+}
+
+.buttons {
+  background-color: #000000;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ===== АДАПТИВ ===== */
+@media (max-width: 768px) {
+  /* скрываем всё, кроме бургера и иконки пользователя */
+  .topLinks,
+  .searchWrapper,
+  .bottomNavbarDesktop {
+    display: none;
+  }
+
+  /* скрываем только первые две иконки (корзина и избранное) */
+  .rightIcons img:nth-child(-n + 2) {
+    display: none;
+  }
+
+  .burgerButton {
+    display: block;
+  }
 }
