@@ -8,14 +8,32 @@ const AIChat: React.FC = () => {
   const [loading, setLoading] = useState(false);
 
   const sendMessage = async () => {
-    if (!message.trim()) return;
+    const userInput = message.trim();
+
+    // Проверяем, что пользователь что-то ввёл
+    if (!userInput) return;
+
+    // Проверяем правильный формат: "Исполнитель - Песня"
+    if (!userInput.includes("-")) {
+      setReply(
+        "Пожалуйста, укажите исполнителя и название песни через тире.\nНапример: 'Queen - Bohemian Rhapsody'."
+      );
+      return;
+    }
+
+    // Проверяем, чтобы не было слишком длинного текста
+    if (userInput.length > 100) {
+      setReply("Запрос слишком длинный. Укажите только исполнителя и песню.");
+      return;
+    }
+
     setLoading(true);
     try {
-      const res = await axios.post("/api/chat", { message });
+      const res = await axios.post("/api/chat", { message: userInput });
       setReply(res.data.reply);
     } catch (err) {
       console.error("Ошибка при общении с AI:", err);
-      setReply("Ошибка запроса к AI");
+      setReply("Ошибка при запросе к музыкальному анализатору.");
     } finally {
       setLoading(false);
     }
@@ -23,21 +41,30 @@ const AIChat: React.FC = () => {
 
   return (
     <div className={styles.chatBox}>
-      <h2>🤘 AI Рокер-помощник</h2>
+      <h2>🎵 Определитель инструментов</h2>
+      <p className={styles.helperText}>
+        Введите исполнителя и название песни, чтобы узнать, какие инструменты использованы.
+      </p>
+
       <textarea
-        rows={4}
+        rows={3}
         className={styles.textarea}
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder="Спроси у AI Рокера что-нибудь..."
+        placeholder="Например: The Beatles - Let It Be"
       />
-      <button onClick={sendMessage} disabled={loading} className={styles.button}>
-        {loading ? "Отправка..." : "Отправить"}
+
+      <button
+        onClick={sendMessage}
+        disabled={loading}
+        className={styles.button}
+      >
+        {loading ? "Анализирую..." : "Показать инструменты"}
       </button>
 
       {reply && (
         <div className={styles.reply}>
-          <strong>Ответ:</strong>
+          <strong>Результат:</strong>
           <p>{reply}</p>
         </div>
       )}

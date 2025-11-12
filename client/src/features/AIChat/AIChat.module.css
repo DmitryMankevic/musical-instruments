@@ -1,23 +1,56 @@
 .chatBox {
   padding: 20px;
   max-width: 600px;
-  margin: 0 auto;
+  margin: 30px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  font-family: "Inter", sans-serif;
+}
+
+.chatBox h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 22px;
+  color: #111;
+}
+
+.helperText {
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 15px;
 }
 
 .textarea {
   width: 100%;
-  padding: 10px;
+  padding: 10px 12px;
   font-size: 16px;
-  margin-bottom: 10px;
-  resize: vertical;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  outline: none;
+  resize: none;
+  transition: border-color 0.2s ease;
+}
+
+.textarea:focus {
+  border-color: #111;
 }
 
 .button {
-  padding: 10px 20px;
+  width: 100%;
+  padding: 12px 20px;
   background-color: #111;
   color: white;
   border: none;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+  background-color: #333;
 }
 
 .button:disabled {
@@ -27,7 +60,20 @@
 
 .reply {
   margin-top: 20px;
-  background: #f3f3f3;
-  padding: 15px;
-  border-radius: 8px;
+  background: #f7f7f7;
+  padding: 15px 20px;
+  border-radius: 10px;
+  line-height: 1.5;
+}
+
+.reply strong {
+  display: block;
+  margin-bottom: 6px;
+  color: #111;
+}
+
+.reply p {
+  margin: 0;
+  white-space: pre-wrap;
+  font-size: 15px;
 }
