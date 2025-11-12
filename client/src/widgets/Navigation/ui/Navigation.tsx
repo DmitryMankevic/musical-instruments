@@ -14,6 +14,7 @@ import { getAllCategoriesThunk } from "@/entities/category/redux/categoryThunk";
 import { clearUserInfo } from "@/entities/user-info/redux/userInfoSlice";
 import UserForm from "@/features/UserForm/ui/UserForm";
 import style from "./Navigation.module.css";
+import { Button } from "react-bootstrap";
 
 export default function Navigation(): JSX.Element {
   const { user, status } = useAppSelector((state) => state.user);
@@ -74,12 +75,38 @@ export default function Navigation(): JSX.Element {
           </div>
 
           {/* ==== ПОИСК (только десктоп) ==== */}
-          <div className={style.searchWrapper}>
-            <InputGroup size="sm">
-              <InputGroup.Text>Search</InputGroup.Text>
-              <Form.Control placeholder="Введите товар..." />
-            </InputGroup>
-          </div>
+         <form
+  onSubmit={(e) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const q = (formData.get("search") as string).trim();
+    if (q) {
+      navigate(`/catalog?q=${encodeURIComponent(q)}`);
+      // Закрываем меню, если открыто (для мобильных)
+      setShowMenu(false);
+    }
+  }}
+  className={style.searchForm}
+>
+  <div className={style.searchInputWrapper}>
+    <input
+      name="search"
+      type="text"
+      placeholder="Поиск товаров..."
+      defaultValue={
+        new URLSearchParams(window.location.search).get("q") || ""
+      }
+      className={style.searchInput}
+    />
+    <Button
+      type="submit"
+      className={style.searchButton}
+      aria-label="Найти"
+    >
+      Найти
+    </Button>
+  </div>
+</form>
 
           {/* ==== ИКОНКИ ==== */}
           <div className={style.rightIcons}>

@@ -30,11 +30,54 @@
   color: #ff6600;
 }
 
-/* ===== ПОИСК ===== */
-.searchWrapper {
-  flex-grow: 1;
-  max-width: 320px;
-  margin: 0 16px;
+/* ===== ПОИСКОВАЯ ФОРМА ===== */
+.searchForm {
+  width: 100%;
+  max-width: 400px;
+}
+
+.searchInputWrapper {
+  display: flex;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #2a2a2a;
+  transition: border-color 0.2s ease;
+}
+
+.searchInputWrapper:focus-within {
+  border-color: #282828;
+  box-shadow: 0 0 0 0.2rem rgba(108, 108, 108, 0.25);
+}
+
+.searchInput {
+  flex: 1;
+  padding: 0.65rem 1rem;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  background: #fff;
+  color: #212529;
+}
+
+.searchInput::placeholder {
+  color: #6c757d;
+}
+
+.searchButton {
+  padding: 0.65rem 1rem;
+  background: #282828;
+  border: none;
+  color: #f5f5f5;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.searchButton:hover {
+  background: #e9ecef;
+  color: #212529;
 }
 
 /* ===== ИКОНКИ СПРАВА ===== */
@@ -107,4 +150,36 @@
   .burgerButton {
     display: block;
   }
+@media (max-width: 992px) {
+  .searchForm {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 768px) {
+  .searchForm {
+    max-width: 240px;
+  }
+
+  .searchButton {
+    padding: 0.65rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .searchForm {
+    max-width: 180px;
+  }
+
+  .searchInput {
+    padding: 0.6rem 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  .searchButton {
+    padding: 0.6rem 0.7rem;
+    font-size: 0.85rem;
+  }
+}
 }
