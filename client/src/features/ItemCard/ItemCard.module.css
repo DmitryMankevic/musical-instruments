@@ -1,7 +1,7 @@
 /* ======== ОСНОВНАЯ КАРТОЧКА ======== */
 
 .card {
-  width: 240px;
+  width: 300px;
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -14,14 +14,15 @@
 
 .imageWrapper {
   position: relative;
-  background: #f8f8f8;
+  background: #ffffff;
   cursor: pointer;
 }
 
 .image {
   width: 100%;
   height: 180px;
-  object-fit: cover;
+  object-fit: contain; /* не обрезает картинку */
+  background-color: #ffffff; /* фон под прозрачными фото */
   display: block;
   transition: transform 0.2s ease;
 }
