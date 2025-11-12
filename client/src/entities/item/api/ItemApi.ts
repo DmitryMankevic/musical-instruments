@@ -72,14 +72,15 @@ export class ItemApi {
     }
   }
 
-  static async deleteItem(id: number): Promise<AxiosResponse> {
-    try {
-      const { data } = await axiosInstance.delete<AxiosResponse>(
-        `/items/${id}`
-      );
-      return data;
-    } catch (error) {
-      return Promise.reject(error);
-    }
+  static async deleteItem(
+    id: number,
+    page: number,
+    limit: number
+  ): Promise<
+    AxiosResponse<
+      IApiResponse<{ items: IItem[]; totalPages: number; currentPage: number }>
+    >
+  > {
+    return axiosInstance.delete(`/items/${id}`, { params: { page, limit } });
   }
 }

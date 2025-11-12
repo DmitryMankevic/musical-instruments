@@ -5,6 +5,7 @@ export interface IUserLoginData {
 
 export interface IUserSignUpData extends IUserLoginData {
   fullName: string;
+  confirmPassword?: string;
 }
 
 export interface IUserDB extends IUserSignUpData {

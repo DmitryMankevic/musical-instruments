@@ -182,7 +182,7 @@
 }
 
 
-.modalFavButton {
+.modalAddButton {
   display: flex;
   align-items: center;
   gap: 6px;
@@ -190,15 +190,15 @@
   padding: 10px 16px;
   border: 1px solid #ccc;
   border-radius: 8px;
-  background-color: #fff;
+  background-color: #1f1f1f;
   cursor: pointer;
   font-weight: 500;
-  color: #111;
+  color: #f2f2f2;
   transition: all 0.2s ease;
   width: fit-content;
 }
 
-.modalFavButton:hover {
+.modalAddButton:hover {
   border-color: #111;
 }
 
@@ -208,6 +208,6 @@
   color: #fff;
 }
 
-.favActive:hover {
-  background-color: #000;
+.modalAddButton:hover {
+  background-color: #343434;
 }

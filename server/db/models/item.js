@@ -22,19 +22,17 @@ module.exports = (sequelize, DataTypes) => {
         return { isValid: false, error: 'Description is required' };
       if (typeof price !== 'number' || price <= 0)
         return { isValid: false, error: 'Price must be a positive number' };
-      if (!marker || typeof marker !== 'string' || marker.trim() === '')
-        return { isValid: false, error: 'Marker is required' };
-      if (typeof stock !== 'number' || stock < 0)
+      if (marker && typeof marker !== 'string')
+        return { isValid: false, error: 'Marker must be string' };
+        if (typeof stock !== 'number' || stock < 0)
         return { isValid: false, error: 'Stock must be a non-negative number' };
       if (!article || typeof article !== 'string' || article.trim() === '')
         return { isValid: false, error: 'Article is required' };
-      if (!img || typeof img !== 'string' || img.trim() === '')
+      if (!img || typeof img !== 'string')
         return { isValid: false, error: 'Image URL is required' };
       if (typeof category_id !== 'number' || category_id <= 0)
         return { isValid: false, error: 'Category ID must be a positive number' };
       return { isValid: true, error: null };
-      
-      
     }
   }
   Item.init(
