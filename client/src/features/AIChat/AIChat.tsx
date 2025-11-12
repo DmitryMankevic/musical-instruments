@@ -4,11 +4,19 @@ import styles from "./AIChat.module.css";
 import { useAppDispatch, useAppSelector } from "@/shared/hooks/hook";
 import { getAllItemsThunk } from "@/entities/item/redux/itemThunk";
 import { addToCartThunk } from "@/entities/cart/redux/cartThunk";
+import {
+  addItemToFavouritesThunk,
+  deleteFavouriteThunk,
+} from "@/entities/favourites/redux/favouritesThunk";
+import { useNavigate } from "react-router"; 
 
 const AIChat: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate(); 
+
   const { itemArr } = useAppSelector((state) => state.item);
   const user = useAppSelector((state) => state.user.user);
+  const favourites = useAppSelector((state) => state.favourites.items);
 
   const [message, setMessage] = useState("");
   const [reply, setReply] = useState("");
@@ -53,9 +61,7 @@ const AIChat: React.FC = () => {
     setSuggested([]);
 
     try {
-      const res = await axios.post("http://localhost:3000/api/chat", {
-        message,
-      });
+      const res = await axios.post("http://localhost:3000/api/chat", { message });
       const aiReply = res.data.reply?.trim();
 
       if (!aiReply) {
@@ -65,7 +71,6 @@ const AIChat: React.FC = () => {
         return;
       }
 
-      // Разбор категорий
       const categories = aiReply
         .split(",")
         .map((c: string) => simplifyWord(c))
@@ -97,7 +102,7 @@ const AIChat: React.FC = () => {
         setReply("Не найдено подходящих инструментов для указанных категорий.");
       } else {
         setReply(
-          `🎵 В композиции использованы категории: ${categories.join(", ")}.`
+          `В композиции использованы категории: ${categories.join(", ")}.`
         );
       }
 
@@ -111,15 +116,36 @@ const AIChat: React.FC = () => {
     }
   };
 
-  const handleRemove = (id: number): void => {
-    setSuggested((prev) => prev.filter((item) => item.id !== id));
+  // добавление в избранное + закрытие модалки + редирект
+  const handleToggleFavourite = async () => {
+    if (!user) {
+      setReply("Пожалуйста, войдите в аккаунт, чтобы добавить в избранное.");
+      setShowModal(false);
+      return;
+    }
+
+    try {
+      for (const item of suggested) {
+        const isFavourited = favourites.some((f) => f.id === item.id);
+        if (isFavourited) {
+          await dispatch(deleteFavouriteThunk(item.id));
+        } else {
+          await dispatch(addItemToFavouritesThunk(item));
+        }
+      }
+
+      // Закрываем окно и переходим
+      setShowModal(false);
+      navigate("/favourites");
+    } catch (err) {
+      console.log("Ошибка избранного:", err);
+    }
   };
 
+  // добавление в корзину + закрытие модалки + редирект
   const handleAddToCart = (): void => {
     if (!user) {
-      setReply(
-        "Пожалуйста, войдите в аккаунт, чтобы добавить товары в корзину."
-      );
+      setReply("Пожалуйста, войдите в аккаунт, чтобы добавить товары в корзину.");
       setShowModal(false);
       return;
     }
@@ -128,8 +154,13 @@ const AIChat: React.FC = () => {
       dispatch(addToCartThunk({ itemId: item.id, quantity: 1 }));
     });
 
+    // Закрываем окно и переходим
     setShowModal(false);
-    setReply("🎸 Инструменты добавлены в корзину!");
+    navigate("/cart");
+  };
+
+  const handleRemove = (id: number): void => {
+    setSuggested((prev) => prev.filter((item) => item.id !== id));
   };
 
   return (
@@ -166,9 +197,8 @@ const AIChat: React.FC = () => {
       {showModal && (
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
-            <h3>🎸 Найденные и альтернативные инструменты</h3>
+            <h3>Найденные и альтернативные инструменты</h3>
 
-            {/* Новый блок — запрос и ответ */}
             <div style={{ marginBottom: "15px", textAlign: "left" }}>
               <p>
                 <strong>Вы искали композицию:</strong> {message}
@@ -177,9 +207,7 @@ const AIChat: React.FC = () => {
                 <strong>Инструменты в композиции:</strong> {reply}
               </p>
               <p>
-                <p>
-                  <b>Наш магазин может предложить такие инструменты:</b>
-                </p>
+                <b>Наш магазин может предложить такие инструменты:</b>
               </p>
             </div>
 
@@ -224,8 +252,16 @@ const AIChat: React.FC = () => {
 
             <div className={styles.modalActions}>
               {suggested.length > 0 && (
+                <button
+                  onClick={handleToggleFavourite}
+                  className={styles.addBtn}
+                >
+                  Добавить в избранное
+                </button>
+              )}
+              {suggested.length > 0 && (
                 <button onClick={handleAddToCart} className={styles.addBtn}>
-                  Добавить все
+                  Добавить в корзину
                 </button>
               )}
               <button

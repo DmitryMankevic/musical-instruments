@@ -190,7 +190,7 @@
 }
 
 .removeBtn:hover {
-  color: #000;
+  color: #fd0101;
 }
 
 .modalActions {
@@ -201,7 +201,7 @@
 }
 
 .addBtn {
-  background: #000;
+  background: #2c2b2b;
   color: #fff;
   border: none;
   padding: 10px 20px;
@@ -213,13 +213,13 @@
 }
 
 .addBtn:hover {
-  background: #222;
+  background: #000000;
 }
 
 .cancelBtn {
-  background: #f2f2f2;
-  color: #111;
-  border: 1px solid #ddd;
+  background: #313131;
+  color: #ffffff;
+  border: 1px solid #fffbfb;
   padding: 10px 20px;
   border-radius: 8px;
   cursor: pointer;
@@ -228,7 +228,7 @@
 }
 
 .cancelBtn:hover {
-  background: #e5e5e5;
+  background: #000000;
 }
 
 /* Скрытие скролла */
