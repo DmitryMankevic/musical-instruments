@@ -7,6 +7,7 @@ import orderReducer from "@/entities/order/redux/orderSlice";
 import userInfoReducer from "@/entities/user-info/redux/userInfoSlice";
 import favouritesReducer from "@/entities/favourites/redux/favouritesSlice";
 import adminUserReducer from "@/entities/admin-users/redux/adminUsersSlice";
+import { searchApi } from "@/entities/search/api/searchApi";
 
 export const store = configureStore({
   reducer: {
@@ -18,7 +19,10 @@ export const store = configureStore({
     order: orderReducer,
     favourites: favouritesReducer,
     adminUsers: adminUserReducer,
+    [searchApi.reducerPath]: searchApi.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(searchApi.middleware),
 });
 
 // Infer the `RootState` and `AppDispatch` types from the store itself

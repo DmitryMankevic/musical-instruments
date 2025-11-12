@@ -17,6 +17,7 @@ import {
 import { CLIENT_ROUTES } from "@/shared/enums/client_routes";
 import ProtectedRouter from "@/shared/HOCs/ProtectedRouter/ui/ProtectedRouter";
 import { useAppSelector } from "@/shared/hooks/hook";
+import CatalogPage from "@/pages/CatalogPage/ui/CatalogPage";
 
 export default function Router(): JSX.Element {
   const status = useAppSelector((state) => state.user.status);
@@ -33,6 +34,8 @@ export default function Router(): JSX.Element {
           <Route path={CLIENT_ROUTES.SIGN_UP} element={<SignUpPage />} />
           <Route path={CLIENT_ROUTES.LOGIN} element={<LoginPage />} />
           <Route path={CLIENT_ROUTES.CATEGORY} element={<CategoryPage />} />
+          <Route path={CLIENT_ROUTES.CATALOG} element={<CatalogPage />} />
+          
 
           {/* 🔒 Защищённые страницы */}
           <Route

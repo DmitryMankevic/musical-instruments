@@ -10,4 +10,5 @@ export enum CLIENT_ROUTES {
   CART = "/cart",
   ORDER = "/orders",
   CATEGORY = "/category/:id",
+  CATALOG = "/catalog",
 }

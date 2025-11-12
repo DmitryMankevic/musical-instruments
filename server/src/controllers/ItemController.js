@@ -142,5 +142,20 @@ class ItemController {
       return res.json(formatResponse(500, 'Произошла ошибка при удалении товара'));
     }
   }
+
+static async searchItems(req, res) {
+  try {    
+   const str = req.query.q || "";
+      const results = await ItemService.searchByTitle(String(str));
+      if (results.length === 0) {
+        return res.status(200).json(formatResponse(200, []));
+      }
+      res.status(200).json(formatResponse(200, results));
+    } catch (error) {
+      res.status(500).json(formatResponse(500, { message: "Ошибка при поиске", error: error.message }));
+    }
+  }
+
+
 }
 module.exports = ItemController;
