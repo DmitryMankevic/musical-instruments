@@ -60,7 +60,7 @@ export function MainPage(): JSX.Element {
       </Container>
       <>
         <Card id="instrument-rental-card" style={{ width: "100%" }}>
-          <Card.Img variant="top" src="girl.jpg" />
+          <Card.Img variant="top" src="rennt.png" />
           <Card.Body>
             <Card.Title>
               Долгожданный прокат музыкальных инструментов
@@ -83,7 +83,7 @@ export function MainPage(): JSX.Element {
               style={{ margin: "2rem 0", textAlign: "center", alignItems: 'center' }}
             >
               <h5>Прокат музыкальных инструментов будет осуществляться</h5>
-              <p>по адресу:</p>
+              <p>по адресу: г. Калининград, проспект Победы, дом 17</p>
                <br />
               <div
                 style={{
@@ -96,21 +96,23 @@ export function MainPage(): JSX.Element {
                 }}
               >
                 <iframe
-                  src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d4607.22413746199!2d20.475878865911017!3d54.73403816005187!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sru!2sru!4v1762878947484!5m2!1sru!2sru"
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: "100%",
-                    border: 0,
-                    boxShadow: '0 14px 12px rgba(0,0,0,0.1)', // опционально — тень для глубины
-                  }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="no-referrer-when-downgrade"
-                  title="Адрес магазина на карте"
-                ></iframe>
+  src="https://www.google.com/maps?q=Калининград,+проспект+Победы,+17&z=15&output=embed"
+  style={{
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    border: 0,
+    boxShadow: "0 14px 12px rgba(0, 0, 0, 0.1)"
+  }}
+  allowFullScreen
+  loading="lazy"
+  referrerPolicy="no-referrer-when-downgrade"
+  title="Адрес магазина — Калининград, пр-т Победы 17"
+>
+
+</iframe>
               </div>
             </section>
           </Card.Body>

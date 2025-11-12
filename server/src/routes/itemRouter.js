@@ -5,6 +5,9 @@ const itemRouter = express.Router();
 // GET /api/items — получить все товары
 itemRouter.get('/', ItemController.getAllItems);
 
+// GET /api/items/search — поиск товаров в searchBar
+itemRouter.get('/search', ItemController.searchItems);
+
 // GET /api/items/:id — получить товар по ID
 itemRouter.get('/:id', ItemController.getItemById);
 
@@ -16,5 +19,6 @@ itemRouter.put('/:id', ItemController.updateItem);
 
 // DELETE /api/items/:id — удалить товар
 itemRouter.delete('/:id', ItemController.deleteItem);
+
 
 module.exports = itemRouter;

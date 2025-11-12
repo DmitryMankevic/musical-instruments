@@ -1,4 +1,5 @@
 const { Item } = require('../../db/models');
+const { Op, fn, col, where } = require("sequelize");
 
 class ItemService {
   static async getAllItems(page = 1, limit = 10) {
@@ -47,6 +48,24 @@ class ItemService {
       totalPages: Math.ceil(total / limit),
       currentPage: page,
     };
+  }
+
+static async searchByTitle(str) {
+  const term = str.trim();
+  if (!term) return [];
+  
+    return Item.findAll({
+     where: {
+    [Op.or]: [
+      where(fn('LOWER', col('title')), {
+        [Op.like]: `%${str.toLowerCase()}%`,
+      }),
+      where(fn('LOWER', col('desc')), {
+        [Op.like]: `%${str.toLowerCase()}%`,
+      }),
+    ],
+  },
+    });
   }
 }
 
