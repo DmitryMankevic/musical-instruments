@@ -7,6 +7,7 @@ const itemRouter = require('./itemRouter');
 const cartRouter = require('./cartRouter');
 const userInfoRouter = require('./userInfoRouter');
 const apiChat = require('./apiChatRouter');
+const adminUserRouter = require('./adminUserRouter');
 
 const apiRouter = express.Router();
 
@@ -17,6 +18,7 @@ apiRouter.use('/user-info', userInfoRouter);
 apiRouter.use('/favourites', favouriteRouter);
 apiRouter.use('/categories', categoryRouter);
 apiRouter.use('/items', itemRouter);
+apiRouter.use('/admin/users', adminUserRouter);
 apiRouter.use('/cart', cartRouter);
 
 module.exports = apiRouter;

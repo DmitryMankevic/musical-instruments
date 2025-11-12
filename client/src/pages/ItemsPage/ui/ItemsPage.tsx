@@ -6,11 +6,12 @@ import { useAppDispatch, useAppSelector } from "@/shared/hooks/hook";
 import { getAllItemsThunk } from "@/entities/item/redux/itemThunk";
 
 export function ItemsPage(): JSX.Element {
-  const itemsArr = useAppSelector((state) => state.item.itemArr);
   const dispatch = useAppDispatch();
-  const [searchParams] = useSearchParams();
+  const { itemArr, totalPages, currentPage, loading } = useAppSelector(
+    (state) => state.item
+  );
 
-  // начальное значение фильтра из URL
+  const [searchParams] = useSearchParams();
   const initialMarker = searchParams.get("marker") ?? "";
 
   const [selectedMarker, setSelectedMarker] = useState(initialMarker);
@@ -18,19 +19,14 @@ export function ItemsPage(): JSX.Element {
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("asc");
 
   useLayoutEffect(() => {
-    dispatch(getAllItemsThunk());
+    dispatch(getAllItemsThunk({ page: 1 })); // теперь thunk принимает объект с page
   }, [dispatch]);
 
   useLayoutEffect(() => {
     document.title = "Страница товаров";
   }, []);
 
-  // обновляем фильтр, если marker в URL меняется
-  useLayoutEffect(() => {
-    setSelectedMarker(initialMarker);
-  }, [initialMarker]);
-
-  const filteredItems = itemsArr
+  const filteredItems = itemArr
     .filter((item) => {
       if (selectedMarker && item.marker !== selectedMarker) return false;
       if (maxPrice && item.price > Number(maxPrice)) return false;
@@ -39,6 +35,10 @@ export function ItemsPage(): JSX.Element {
     .sort((a, b) =>
       sortOrder === "asc" ? a.price - b.price : b.price - a.price
     );
+
+  const handlePageChange = (page: number): void => {
+    dispatch(getAllItemsThunk({ page }));
+  };
 
   return (
     <div className={styles.container}>
@@ -97,12 +97,30 @@ export function ItemsPage(): JSX.Element {
       </div>
 
       <div className={styles.itemsContainer}>
-        {filteredItems.length > 0 ? (
+        {loading ? (
+          <p>Загрузка...</p>
+        ) : filteredItems.length > 0 ? (
           filteredItems.map((item) => <ItemCard key={item.id} item={item} />)
         ) : (
           <p>Нет товаров по выбранным параметрам</p>
         )}
       </div>
+
+      {totalPages > 1 && (
+        <div className={styles.pagination}>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              onClick={() => handlePageChange(i + 1)}
+              className={`${styles.pageBtn} ${
+                currentPage === i + 1 ? styles.active : ""
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

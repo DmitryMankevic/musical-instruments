@@ -12,7 +12,10 @@ module.exports = (sequelize, DataTypes) => {
         as: 'items',
       });
       User.hasOne(models.Cart, { foreignKey: 'user_id', as: 'cart' });
-      User.hasOne(models.UserInfo, { foreignKey: 'user_id', as: 'info' });
+      User.hasOne(models.UserInfo, {
+        foreignKey: 'user_id',
+        as: 'userInfo',
+      });
     }
 
     static validateSignup(user) {

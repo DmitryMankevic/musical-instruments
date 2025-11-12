@@ -1,0 +1,284 @@
+/* === Общий контейнер === */
+.container {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* === Каждый блок (пользователи, товары, категории) === */
+.section {
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  overflow-x: auto; /* 👈 горизонтальный скролл для таблиц */
+}
+
+/* === Таблицы === */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  background: white;
+  border-radius: 8px;
+  overflow: hidden;
+  min-width: 700px; /* 👈 предотвращает сжатие таблицы */
+}
+
+.table th,
+.table td {
+  border: 1px solid #ddd;
+  padding: 10px 12px;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap; /* 👈 чтобы текст не переносился */
+}
+
+.table th {
+  background-color: #f3f3f3;
+  font-weight: 600;
+  color: #333;
+}
+
+/* === Изображения === */
+.table img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+}
+
+/* === Кнопки действий (иконки) === */
+.actions {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  align-items: center;
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  transition: transform 0.15s, color 0.2s;
+  color: #333;
+}
+
+.iconBtn:hover {
+  transform: scale(1.15);
+  color: #111;
+}
+
+/* === Пагинация === */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 16px;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.pageBtn {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+}
+
+.pageBtn:hover {
+  background: #eee;
+}
+
+.pageBtn.active {
+  background: #111;
+  color: white;
+  border-color: #111;
+}
+
+/* === Заголовки === */
+.section h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #222;
+}
+
+/* === Кнопка "Добавить" === */
+.addSection {
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.addBtn {
+  background-color: #000000;
+  color: white;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.addBtn:hover {
+  background-color: #3b4398;
+}
+
+/* === МОДАЛЬНОЕ ОКНО === */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  animation: fadeIn 0.2s ease;
+}
+
+.modal label {
+  display: flex;
+  flex-direction: column;
+  font-weight: 500;
+  font-size: 14px;
+  gap: 4px;
+}
+
+.modal input,
+.modal select {
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.modalActions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.saveBtn {
+  background: #28a745;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancelBtn {
+  background: #dc3545;
+  border: none;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.saveBtn:hover {
+  background: #1f7c34;
+}
+
+.cancelBtn:hover {
+  background: #c82333;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* === АДАПТИВНОСТЬ === */
+@media (max-width: 1024px) {
+  .modal {
+    min-width: 340px;
+    width: 90%;
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .table {
+    font-size: 14px;
+    min-width: 600px;
+  }
+
+  .modal {
+    width: 90%;
+    min-width: auto;
+    padding: 16px;
+  }
+
+  .modal input,
+  .modal select {
+    font-size: 14px;
+  }
+
+  .addBtn {
+    width: 100%;
+  }
+
+  .pageBtn {
+    padding: 6px 8px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 12px;
+  }
+
+  .table {
+    font-size: 13px;
+    min-width: 500px;
+  }
+
+  .modal {
+    padding: 14px;
+    border-radius: 8px;
+  }
+
+  .modal input,
+  .modal select {
+    font-size: 13px;
+  }
+
+  .addBtn {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+}

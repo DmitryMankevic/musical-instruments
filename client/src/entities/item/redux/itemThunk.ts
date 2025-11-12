@@ -4,19 +4,37 @@ import { AxiosError } from "axios";
 import { ItemApi } from "../api/ItemApi";
 import type { IItem, IRawItem } from "../model";
 
-export const getAllItemsThunk = createAsyncThunk<IItem[] | null, void>(
-  "item/getAllItems",
-  async (_, { rejectWithValue }) => {
-    try {
-      const response = await ItemApi.getAllItems();
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      const err = error as AxiosError<IApiResponseError>;
-      return rejectWithValue(err.response?.data.message);
-    }
+// export const getAllItemsThunk = createAsyncThunk<IItem[] | null, void>(
+//   "item/getAllItems",
+//   async (_, { rejectWithValue }) => {
+//     try {
+//       const response = await ItemApi.getAllItems();
+//       return response.data;
+//     } catch (error) {
+//       console.log(error);
+//       const err = error as AxiosError<IApiResponseError>;
+//       return rejectWithValue(err.response?.data.message);
+//     }
+//   }
+// );
+
+export const getAllItemsThunk = createAsyncThunk<
+  {
+    items: IItem[];
+    total: number;
+    totalPages: number;
+    currentPage: number;
+  } | null,
+  { page?: number; limit?: number }
+>("item/getAllItems", async ({ page = 1, limit = 10 }, { rejectWithValue }) => {
+  try {
+    const response = await ItemApi.getAllItems(page, limit);
+    return response.data;
+  } catch (error) {
+    const err = error as AxiosError<IApiResponseError>;
+    return rejectWithValue(err.response?.data.message);
   }
-);
+});
 
 export const createItemThunk = createAsyncThunk<IItem | null, IRawItem>(
   "item/createItem",
@@ -59,17 +77,20 @@ export const updateItemThunk = createAsyncThunk<
     return rejectWithValue(err.response?.data.message);
   }
 });
-export const deleteItemThunk = createAsyncThunk<number, number>(
-  "item/deleteItem",
-  async (id: number, { rejectWithValue }) => {
-    try {
-      const response = await ItemApi.deleteItem(id);
-      return response.data;
-    } catch (error) {
-      console.log(error);
-      const err = error as AxiosError<IApiResponseError>;
-      return rejectWithValue(err.response?.data.message);
-    }
+export const deleteItemThunk = createAsyncThunk<
+  { items: IItem[]; totalPages: number; currentPage: number },
+  { id: number; page: number; limit: number }
+>("item/deleteItem", async ({ id, page, limit }, { rejectWithValue }) => {
+  try {
+    const response = await ItemApi.deleteItem(id, page, limit);
+    // безопасное обращение
+    return response.data?.data ?? { items: [], totalPages: 1, currentPage: 1 };
+  } catch (error) {
+    const err = error as AxiosError<IApiResponseError>;
+    return rejectWithValue(err.response?.data.message);
   }
-);
+});
+
+
+
 

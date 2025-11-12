@@ -4,20 +4,14 @@ const FavouriteController = require('../controllers/FavouriteController');
 const { verifyAccessToken } = require('../middlewares/verifyTokens');
 
 // GET /api/favourites/:userId — получить все избранные товары пользователя
-router.get(
-  '/:userId',
-  verifyAccessToken,
-  FavouriteController.getAllFavouritesItemsByUser,
-);
-// POST /api/favourites/:userId/add/:itemId — добавить товар в избранное
-router.post(
-  '/:userId/add/:itemId',
-  verifyAccessToken,
-  FavouriteController.addItemInFavourites,
-);
-// DELETE /api/favourites/:userId/remove/:itemId — удалить из избранного
+router.get('/', verifyAccessToken, FavouriteController.getAllFavouritesItemsByUser);
+
+// POST /api/favourites/add/:itemId — добавить товар в избранное
+router.post('/:itemId', verifyAccessToken, FavouriteController.addItemInFavourites);
+
+// DELETE /api/favourites/delete/:itemId — удалить из избранного
 router.delete(
-  '/:userId/delete/:itemId',
+  '/:itemId',
   verifyAccessToken,
   FavouriteController.deleteItemFromFavourites,
 );

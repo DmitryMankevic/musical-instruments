@@ -8,4 +8,5 @@ export { CartPage } from "./CartPage/ui/CartPage";
 export { OrdersPage } from "./OrdersPage/ui/OrdersPage";
 export { ProfilePage } from "./ProfilePage/ui/ProfilePage";
 export { CategoryPage } from ".//CategoryPage/ui/CategoryPage";
+export { AdminPage } from "./AdminPage/ui/AdminPage";
 
