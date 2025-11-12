@@ -63,13 +63,13 @@ export default function Navigation(): JSX.Element {
           {/* ==== ЛЕВЫЕ ССЫЛКИ (только десктоп) ==== */}
           <div className={style.topLinks}>
             <NavLink to="/items?marker=Hot deals" className={style.navLink}>
-              Hot deals
+              Горячее предложение
             </NavLink>
             <NavLink to="/items?marker=New" className={style.navLink}>
-              New
+              Новинка
             </NavLink>
             <NavLink to="/items?marker=Top-Seller" className={style.navLink}>
-              Top-Seller
+              Топ-продаж
             </NavLink>
           </div>
 
@@ -88,6 +88,7 @@ export default function Navigation(): JSX.Element {
                 <img
                   src="/icons/cart.svg"
                   alt="cart"
+                  className={style.iconCart}
                   width={28}
                   height={28}
                   onClick={() => navigate(CLIENT_ROUTES.CART)}
@@ -95,6 +96,7 @@ export default function Navigation(): JSX.Element {
                 <img
                   src="/icons/heart.svg"
                   alt="heart"
+                  className={style.iconHeart}
                   width={28}
                   height={28}
                   onClick={() => navigate(CLIENT_ROUTES.FAVOURITE)}
@@ -104,6 +106,7 @@ export default function Navigation(): JSX.Element {
             <img
               src="/icons/person-circle.svg"
               alt="user"
+              className={style.iconUser}
               width={28}
               height={28}
               onClick={() => setShowUserPanel(true)}
