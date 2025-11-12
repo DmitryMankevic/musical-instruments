@@ -4,18 +4,13 @@ import path from 'path';
 
 export default defineConfig({
   plugins: [react()],
-   server: {
-    proxy: {
-      '/api': 'http://localhost:3000', 
-    },
-  },
   resolve: {
-    alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
+    alias: [{ find: '@', replacement: path.resolve(__dirname, 'src') }],
   },
   server: {
     proxy: {
-      "/api": {
-        target: "http://localhost:3000", // <-- твой бэкенд
+      '/api': {
+        target: 'http://localhost:3000', // твой бэкенд
         changeOrigin: true,
         secure: false,
       },
