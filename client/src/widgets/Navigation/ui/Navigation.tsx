@@ -43,9 +43,15 @@ export default function Navigation(): JSX.Element {
 
   return (
     <>
-      <h1 onClick={() => navigate(CLIENT_ROUTES.HOME)} className={style.logo}>
-        Musical Instruments Store
-      </h1>
+      {/* ======== ЛОГОТИП ======== */}
+      <div className={style.logoWrapper}>
+        <img
+          src="/logoMuzPortal_rem.png"
+          alt="Logo"
+          className={style.logo}
+          onClick={() => navigate(CLIENT_ROUTES.HOME)}
+        />
+      </div>
 
       {/* ======== ВЕРХНИЙ НАВБАР ======== */}
       <Navbar bg="light" className={`p-3 border-bottom ${style.topNavbar}`}>
