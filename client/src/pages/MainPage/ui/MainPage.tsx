@@ -1,10 +1,11 @@
 import { useEffect, useState, type JSX } from "react";
 import Carousel from "@/widgets/Carousel/ui/Carousel";
-import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import { Container, Row, Col, Button, Card, Modal } from "react-bootstrap";
 import CategoryCard from "@/widgets/Category/CategoryCard/ui/CategoryCard";
 import { useAppSelector, useAppDispatch } from "@/shared/hooks/hook";
 import { getAllCategoriesThunk } from "@/entities/category/redux/categoryThunk";
 import CategoryCreateModalForm from "@/widgets/Category/CategoryCreateModalForm/ui/CategoryCreateModalForm";
+import styles from "./MainPage.module.css";
 
 export function MainPage(): JSX.Element {
   const categoriesArr = useAppSelector(
@@ -14,6 +15,14 @@ export function MainPage(): JSX.Element {
 
   const [showCreateModal, setShowCreateModal] = useState(false);
   const dispatch = useAppDispatch();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const handleClose = () => setIsModalOpen(false);
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpanded = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   useEffect(() => {
     document.title = "Категории";
@@ -71,27 +80,108 @@ export function MainPage(): JSX.Element {
             variant="top"
             src="rennt.png"
             style={{
-              height: "470px", // <-- выбирай нужную высоту
-              objectFit: "cover", // растягивает и обрезает
-              objectPosition: "top", // показывает верх изображения
+              height: "470px", 
+              objectFit: "cover", 
+              objectPosition: "top", 
+              marginBottom: '1rem',
             }}
           />
           <Card.Body>
             <Card.Title>
-              Долгожданный прокат музыкальных инструментов
+             <h4> Долгожданный прокат музыкальных инструментов</h4>
             </Card.Title>
-            <Card.Text>
-              Музыка теперь доступна каждому! Мы рады сообщить прекрасную
-              новость, которую так долго ждали наши клиенты и все любители
-              музыки: у нашего магазина официально запускается служба проката
-              музыкальных инструментов! Это стало возможно благодаря вашим
-              многочисленным запросам, поддержке и вере в то, что музыка должна
-              быть доступной — независимо от возраста, опыта или бюджета. И вот
-              грядёт он — момент, когда мечта превращается в реальность.
-            </Card.Text>
-            <Button variant="outline-dark" className="w-100" href="/">
-              Оставить заявку
-            </Button>
+             <Card.Text
+          className={`${styles.formalAnnouncement} ${isExpanded ? styles.expanded : ''}`}
+        >
+          <p>Уважаемые клиенты и партнёры! С большим удовольствием сообщаем,
+          что с начала 2026 года в ассортименте услуг "МузПортал" официально
+          запускается служба краткосрочного проката музыкальных
+          инструментов. Данное решение принято в ответ на многочисленные
+          обращения наших клиентов и в рамках стратегии расширения
+          доступности музыкального образования и творчества для широкой
+          аудитории. Мы убеждены, что знакомство с музыкой не должно
+          зависеть от возраста, уровня подготовки или финансовых
+          возможностей.</p>
+{isExpanded && (
+            <>
+          <p>Теперь каждый желающий сможет: протестировать
+          инструмент перед покупкой, взять оборудование на время обучения,
+          репетиции или выступления, подарить себе или близким возможность
+          попробовать новое музыкальное направление без значительных
+          первоначальных вложений. В прокат будут выдаваться высококачественные,
+          профессионально настроенные и технически проверенные инструменты:
+          акустические и электрогитары, укулеле, цифровые пианино, струнные
+          (скрипки, альты), духовые (флейты, кларнеты, саксофоны), ударные
+          установки и сопутствующие аксессуары. Все инструменты проходят
+          предварительную диагностику и обслуживание.</p>
+
+          
+              <p>Условия проката разработаны с учётом комфорта и прозрачности:
+              гибкие сроки аренды — от 7 дней, фиксированная стоимость без скрытых платежей,
+              минимальный страховой депозит, возможность, при необходимости, выкупа инструмента в
+              течение срока аренды. Мы выражаем искреннюю благодарность нашей
+              аудитории за доверие, активность и поддержку, которые стали
+              основой для реализации этого проекта.</p>
+
+              <p>Надеемся, что новая услуга станет важным шагом в развитии музыкальной культуры и поможет
+              многим открыть для себя радость игры на настоящем инструменте. С
+              полной информацией о правилах, тарифах и доступных позициях вы
+              можете ознакомиться в нашем магазине по
+              адресу: г. Калининград, проспект Победы, дом 17. С уважением, Команда "МузПортал"</p>
+            </>
+          )}
+        </Card.Text>
+         <div className="text-center mt-2">
+          <Button
+            variant="link"
+            onClick={toggleExpanded}
+            className="p-0"
+            style={{ color: '#343941' }}
+          >
+            {isExpanded ? 'Скрыть' : 'Показать сообщение полностью'}
+          </Button> 
+          </div>
+             <br />
+            <Button
+      variant="outline-dark"
+      className="w-100"
+      onClick={() => setIsModalOpen(true)}
+    >Оставить заявку</Button>
+
+    {/* МОДАЛЬНОЕ ОКНО ПРОКАТА*/}
+    <Modal show={isModalOpen} onHide={handleClose} centered>
+      <Modal.Header closeButton>
+        <Modal.Title>Оставьте заявку на прокат</Modal.Title>
+      </Modal.Header>
+      <Modal.Body className="text-center">
+        <img
+          src="/ModalRenntPict.png" // ← замени на путь к твоей картинке
+          alt="Прокат музыкальных инструментов"
+          style={{
+            width: '100%',
+            maxWidth: '300px',
+            height: 'auto',
+            borderRadius: '8px',
+            marginBottom: '1rem',
+          }}
+        />
+        <p>
+          Заполните короткую форму, и наш менеджер свяжется с вами  для уточнения деталей проката. Напоминаем, что прокат
+          инструментов будет осуществляется с начала 2026 года и только в пределах
+          города Калининграда и области.
+        </p>
+          <br />
+        <div className="text-start">
+          <label className="form-label">Ваше имя</label>
+          <input type="text" className="form-control mb-2" />
+          <label className="form-label">Телефон или email</label>
+          <input type="text" className="form-control mb-3" />
+          <Button variant="dark" className="w-100" onClick={handleClose}>
+            Отправить заявку
+          </Button>
+        </div>
+      </Modal.Body>
+    </Modal>
             {/* КАРТА */}
             <section
               className="map-section"
@@ -101,7 +191,7 @@ export function MainPage(): JSX.Element {
                 alignItems: "center",
               }}
             >
-              <h5>Прокат музыкальных инструментов будет осуществляться</h5>
+              <h4>Прокат музыкальных инструментов будет осуществляться</h4>
               <p>по адресу: г. Калининград, проспект Победы, дом 17</p>
               <br />
               <div
@@ -132,6 +222,10 @@ export function MainPage(): JSX.Element {
                 ></iframe>
               </div>
             </section>
+            <Card.Title>
+              <h4> Представленые бренды </h4>
+            </Card.Title>
+            <Card.Img variant="top" src="TopBands.jpg" />
           </Card.Body>
         </Card>
       </>
