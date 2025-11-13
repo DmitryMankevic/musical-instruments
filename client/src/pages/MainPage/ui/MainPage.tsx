@@ -23,7 +23,6 @@ export function MainPage(): JSX.Element {
   return (
     <>
       <Container className="py-4">
-        <h3 className="text-center mb-4">Добро пожаловать в наш Магазин!</h3>
         <Carousel />
         <br />
         <h2 className="text-center mb-4">Категории товаров</h2>
@@ -59,8 +58,24 @@ export function MainPage(): JSX.Element {
         />
       </Container>
       <>
-        <Card id="instrument-rental-card" style={{ width: "100%" }}>
-          <Card.Img variant="top" src="rennt.png" />
+        <Card
+          id="instrument-rental-card"
+          style={{
+            width: "100%",
+            marginTop: "2rem",
+            boxShadow: "0 14px 12px rgba(0, 0, 0, 0.1)",
+            border: "none",
+          }}
+        >
+          <Card.Img
+            variant="top"
+            src="rennt.png"
+            style={{
+              height: "470px", // <-- выбирай нужную высоту
+              objectFit: "cover", // растягивает и обрезает
+              objectPosition: "top", // показывает верх изображения
+            }}
+          />
           <Card.Body>
             <Card.Title>
               Долгожданный прокат музыкальных инструментов
@@ -77,42 +92,44 @@ export function MainPage(): JSX.Element {
             <Button variant="outline-dark" className="w-100" href="/">
               Оставить заявку
             </Button>
-              {/* КАРТА */}
+            {/* КАРТА */}
             <section
               className="map-section"
-              style={{ margin: "2rem 0", textAlign: "center", alignItems: 'center' }}
+              style={{
+                margin: "2rem 0",
+                textAlign: "center",
+                alignItems: "center",
+              }}
             >
               <h5>Прокат музыкальных инструментов будет осуществляться</h5>
               <p>по адресу: г. Калининград, проспект Победы, дом 17</p>
-               <br />
+              <br />
               <div
                 style={{
                   position: "relative",
                   overflow: "hidden",
-                  display: 'flex',
-                  justifyContent: 'center', 
+                  display: "flex",
+                  justifyContent: "center",
                   width: "100%",
                   paddingTop: "56.25%" /* Соотношение 16:9 */,
                 }}
               >
                 <iframe
-  src="https://www.google.com/maps?q=Калининград,+проспект+Победы,+17&z=15&output=embed"
-  style={{
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
-    border: 0,
-    boxShadow: "0 14px 12px rgba(0, 0, 0, 0.1)"
-  }}
-  allowFullScreen
-  loading="lazy"
-  referrerPolicy="no-referrer-when-downgrade"
-  title="Адрес магазина — Калининград, пр-т Победы 17"
->
-
-</iframe>
+                  src="https://www.google.com/maps?q=Калининград,+проспект+Победы,+17&z=15&output=embed"
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "100%",
+                    height: "100%",
+                    border: 0,
+                    boxShadow: "0 14px 12px rgba(0, 0, 0, 0.1)",
+                  }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title="Адрес магазина — Калининград, пр-т Победы 17"
+                ></iframe>
               </div>
             </section>
           </Card.Body>
