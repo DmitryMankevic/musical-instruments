@@ -38,12 +38,19 @@ export function CartPage(): JSX.Element {
         (sum, item) => sum + item.CartItem.quantity * item.price,
         0
       );
+
       const orderData = {
         total: totalSum,
         status: "новый",
         decs: "Заказ создан из корзины",
+        items: itemsInCart.map((item) => ({
+          item_id: item.id,
+          quantity: item.CartItem.quantity,
+        })),
       };
+
       const result = await dispatch(createOrderThunk(orderData));
+
       if (createOrderThunk.fulfilled.match(result)) {
         navigate("/orders");
       }

@@ -13,9 +13,17 @@ import EditItemModal from "./components/EditItemModal";
 import CollapsibleSection from "./components/CollapsibleSection";
 
 import style from "./AdminPage.module.css";
+import type { ICategory } from "@/entities/category/model";
+import EditCategoryModal from "./components/EditCategoryModal";
+import AddCategoryModal from "./components/AddCategoryModal";
+
+import OrdersTable from "./components/OrdersTable";
+import { getOrdersThunk } from "@/entities/order/redux/orderThunk";
 
 export function AdminPage(): JSX.Element {
   const dispatch = useAppDispatch();
+
+  const { orders, loading: ordersLoading } = useAppSelector((s) => s.order);
 
   const { users, loading: usersLoading } = useAppSelector((s) => s.adminUsers);
   const {
@@ -32,6 +40,9 @@ export function AdminPage(): JSX.Element {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editItem, setEditItem] = useState<IItem | null>(null);
 
+  const [isAddCategoryOpen, setIsAddCategoryOpen] = useState(false);
+  const [editCategory, setEditCategory] = useState<ICategory | null>(null);
+
   useEffect(() => {
     dispatch(getAllUsersThunk());
     dispatch(getAllCategoriesThunk());
@@ -41,11 +52,17 @@ export function AdminPage(): JSX.Element {
     dispatch(getAllItemsThunk({ page, limit: 7 }));
   }, [dispatch, page]);
 
+  useEffect(() => {
+    dispatch(getAllUsersThunk());
+    dispatch(getAllCategoriesThunk());
+    dispatch(getOrdersThunk()); // ← ВАЖНО!
+  }, [dispatch]);
+
   return (
     <div className={style.container}>
       <h2>Админ-панель</h2>
 
-      {/* 👤 Пользователи */}
+      {/*  Пользователи */}
       <CollapsibleSection title="👤 Все пользователи">
         <UsersTable
           users={users.map((user) => ({
@@ -65,7 +82,7 @@ export function AdminPage(): JSX.Element {
         />
       </CollapsibleSection>
 
-      {/* 📦 Товары */}
+      {/*  Товары */}
       <CollapsibleSection title="📦 Все товары">
         <ItemsTable
           items={itemArr.map((item) => ({
@@ -82,9 +99,30 @@ export function AdminPage(): JSX.Element {
         />
       </CollapsibleSection>
 
-      {/* 🏷 Категории */}
+      {/*  Заказы */}
+      <CollapsibleSection title="🧾 Заказы пользователей">
+        <OrdersTable orders={orders} loading={ordersLoading} />
+      </CollapsibleSection>
+
+      {/*  Категории */}
       <CollapsibleSection title="🏷 Все категории">
-        <CategoriesTable categories={categoriesArr} loading={catLoading} />
+        <CategoriesTable
+          categories={categoriesArr}
+          loading={catLoading}
+          openAddModal={() => setIsAddCategoryOpen(true)}
+          openEditModal={(cat) => setEditCategory(cat)}
+        />
+
+        {isAddCategoryOpen && (
+          <AddCategoryModal onClose={() => setIsAddCategoryOpen(false)} />
+        )}
+
+        {editCategory && (
+          <EditCategoryModal
+            category={editCategory}
+            onClose={() => setEditCategory(null)}
+          />
+        )}
       </CollapsibleSection>
 
       {/* === Модалки === */}

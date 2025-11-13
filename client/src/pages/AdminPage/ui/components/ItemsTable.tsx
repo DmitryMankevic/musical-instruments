@@ -53,7 +53,6 @@ export default function ItemsTable({
 
   return (
     <div className={style.section}>
-      <h3>📦 Все товары</h3>
 
       {loading ? (
         <p>Загрузка...</p>

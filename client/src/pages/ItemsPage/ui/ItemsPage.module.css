@@ -79,7 +79,7 @@
   flex: 1;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
+  gap: 80px;
   animation: fadeIn 0.3s ease-in-out;
 }
 
@@ -90,6 +90,7 @@
   color: #555;
   font-size: 16px;
   padding: 20px;
+  
 }
 
 /* Анимация появления */

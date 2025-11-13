@@ -1,13 +1,23 @@
 /* eslint-disable camelcase */
 /* eslint-disable no-return-await */
-const { Order } = require('../../db/models');
+const { Order, Item, OrderItem } = require('../../db/models');
 
 class OrderService {
-  // Получить заказы конкретного пользователя
+  // Заказы конкретного пользователя
   static async getOrdersByUser(user_id) {
     return await Order.findAll({
       where: { user_id },
       order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: Item,
+          as: 'items',
+          through: {
+            model: OrderItem,
+            attributes: ['quantity'], // количество товара в заказе
+          },
+        },
+      ],
     });
   }
 
@@ -15,6 +25,16 @@ class OrderService {
   static async getUserOrderById(user_id, order_id) {
     return await Order.findOne({
       where: { id: order_id, user_id },
+      include: [
+        {
+          model: Item,
+          as: 'items',
+          through: {
+            model: OrderItem,
+            attributes: ['quantity'],
+          },
+        },
+      ],
     });
   }
 
@@ -22,19 +42,70 @@ class OrderService {
   static async getAllOrders() {
     return await Order.findAll({
       order: [['createdAt', 'DESC']],
+      include: [
+        {
+          model: Item,
+          as: 'items',
+          through: {
+            model: OrderItem,
+            attributes: ['quantity'],
+          },
+        },
+      ],
     });
   }
 
   // Получить заказ по ID без фильтрации по пользователю
   static async getOrderById(id) {
-    return await Order.findByPk(id);
+    return await Order.findByPk(id, {
+      include: [
+        {
+          model: Item,
+          as: 'items',
+          through: {
+            model: OrderItem,
+            attributes: ['quantity'],
+          },
+        },
+      ],
+    });
   }
 
   // Создать новый заказ (при оформлении)
   static async createOrder(data) {
-    return await Order.create({
-      ...data,
+    const { items, ...orderData } = data;
+
+    // 1. создаём заказ
+    const order = await Order.create({
+      ...orderData,
       status: 'ожидает оплаты',
+    });
+
+    // 2. если есть товары — добавляем их в OrderItems
+    if (items && Array.isArray(items)) {
+      await Promise.all(
+        items.map(({ item_id, quantity }) =>
+          OrderItem.create({
+            order_id: order.id,
+            item_id,
+            quantity,
+          }),
+        ),
+      );
+    }
+
+    // 3. возвращаем заказ с товарами
+    return await Order.findByPk(order.id, {
+      include: [
+        {
+          model: Item,
+          as: 'items',
+          through: {
+            model: OrderItem,
+            attributes: ['quantity'],
+          },
+        },
+      ],
     });
   }
 

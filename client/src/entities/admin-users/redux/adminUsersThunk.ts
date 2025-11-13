@@ -4,6 +4,7 @@ import type { AxiosError } from "axios";
 import { AdminUsersApi } from "../api/AdminUserApi";
 import type { IUser } from "../model";
 import type { IApiResponseError } from "@/shared/types";
+import { axiosInstance } from "@/shared/lib/axiosInstance";
 
 export const getAllUsersThunk = createAsyncThunk<
   IUser[],                    // ← payload успешного fulfilled
@@ -32,3 +33,16 @@ export const deleteUserThunk = createAsyncThunk<
     return rejectWithValue(err.response?.data.message ?? "Не удалось удалить пользователя");
   }
 });
+
+export const toggleAdminStatusThunk = createAsyncThunk(
+  "adminUsers/toggleAdminStatus",
+  async (id: number, { rejectWithValue }) => {
+    try {
+      const response = await axiosInstance.patch(`/admin/users/${id}/toggle-admin`);
+      return { id, isAdmin: response.data.isAdmin };
+    } catch (err) {
+      console.error("Ошибка при смене статуса администратора:", err);
+      return rejectWithValue("Не удалось обновить статус администратора");
+    }
+  }
+);
