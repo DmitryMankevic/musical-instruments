@@ -326,6 +326,20 @@
   overflow: hidden;
 }
 
+.orderProductsRow {
+  background: #fafafa;
+}
+
+.orderProductsBox {
+  padding: 10px 5px;
+}
+
+.orderProductsBox h4 {
+  margin: 6px 0 10px 0;
+  font-size: 15px;
+  color: #222;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

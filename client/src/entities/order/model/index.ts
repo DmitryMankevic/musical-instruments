@@ -9,4 +9,15 @@ export interface IOrder extends IRawOrder {
   id: number;
   createdAt: string;
   updatedAt: string;
+
+  items: {
+    id: number;
+    title: string;
+    price: number;
+    img: string;
+    article: string;
+    OrderItem: {
+      quantity: number;
+    };
+  }[];
 }
