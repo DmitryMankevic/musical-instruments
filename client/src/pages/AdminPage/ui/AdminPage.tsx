@@ -63,7 +63,7 @@ export function AdminPage(): JSX.Element {
       <h2>Админ-панель</h2>
 
       {/*  Пользователи */}
-      <CollapsibleSection title="👤 Все пользователи">
+      <CollapsibleSection title="👤 Все пользователи" defaultOpen={false}>
         <UsersTable
           users={users.map((user) => ({
             ...user,
@@ -83,7 +83,7 @@ export function AdminPage(): JSX.Element {
       </CollapsibleSection>
 
       {/*  Товары */}
-      <CollapsibleSection title="📦 Все товары">
+      <CollapsibleSection title="📦 Все товары" defaultOpen={false}>
         <ItemsTable
           items={itemArr.map((item) => ({
             ...item,
@@ -100,12 +100,12 @@ export function AdminPage(): JSX.Element {
       </CollapsibleSection>
 
       {/*  Заказы */}
-      <CollapsibleSection title="🧾 Заказы пользователей">
+      <CollapsibleSection title="🧾 Заказы пользователей" defaultOpen={false}>
         <OrdersTable orders={orders} loading={ordersLoading} />
       </CollapsibleSection>
 
       {/*  Категории */}
-      <CollapsibleSection title="🏷 Все категории">
+      <CollapsibleSection title="🏷 Все категории" defaultOpen={false}>
         <CategoriesTable
           categories={categoriesArr}
           loading={catLoading}
