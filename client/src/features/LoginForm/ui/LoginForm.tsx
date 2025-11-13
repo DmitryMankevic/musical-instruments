@@ -35,6 +35,7 @@ export default function LoginForm(): JSX.Element {
       <InputGroup className="mb-3">
         <InputGroup.Text id="inputGroup-sizing-default">Почта</InputGroup.Text>
         <Form.Control
+          type="email"
           name="email"
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
@@ -44,6 +45,7 @@ export default function LoginForm(): JSX.Element {
       <InputGroup>
         <InputGroup.Text id="inputGroup-sizing-lg">Пароль</InputGroup.Text>
         <Form.Control
+          type="password"
           name="password"
           aria-label="Large"
           aria-describedby="inputGroup-sizing-sm"

@@ -73,43 +73,43 @@ export default function Navigation(): JSX.Element {
               Топ-продаж
             </NavLink>
           </div>
-
-          {/* ==== ПОИСК (только десктоп) ==== */}
-         <form
-  onSubmit={(e) => {
-    e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-    const q = (formData.get("search") as string).trim();
-    if (q) {
-      navigate(`/catalog?q=${encodeURIComponent(q)}`);
-      // Закрываем меню, если открыто (для мобильных)
-      setShowMenu(false);
-    }
-  }}
-  className={style.searchForm}
->
-  <div className={style.searchInputWrapper}>
-    <input
-      name="search"
-      type="text"
-      placeholder="Поиск товаров..."
-      defaultValue={
-        new URLSearchParams(window.location.search).get("q") || ""
-      }
-      className={style.searchInput}
-    />
-    <Button
-      type="submit"
-      className={style.searchButton}
-      aria-label="Найти"
-    >
-      Найти
-    </Button>
-  </div>
-</form>
-
           {/* ==== ИКОНКИ ==== */}
           <div className={style.rightIcons}>
+            {/* ==== ПОИСК (только десктоп) ==== */}
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const q = (formData.get("search") as string).trim();
+                if (q) {
+                  navigate(`/catalog?q=${encodeURIComponent(q)}`);
+                  // Закрываем меню, если открыто (для мобильных)
+                  setShowMenu(false);
+                }
+              }}
+              className={style.searchForm}
+            >
+              <div className={style.searchInputWrapper}>
+                <input
+                  name="search"
+                  type="text"
+                  placeholder="Поиск товаров..."
+                  defaultValue={
+                    new URLSearchParams(window.location.search).get("q") || ""
+                  }
+                  className={style.searchInput}
+                />
+                <Button
+                  variant="outline-dark"
+                  type="submit"
+                  className={style.searchButton}
+                  aria-label="Найти"
+                >
+                  Найти
+                </Button>
+              </div>
+            </form>
+
             {status === "logged" && (
               <>
                 <img
@@ -149,7 +149,7 @@ export default function Navigation(): JSX.Element {
         className={`${style.bottomNavbarDesktop} border-top`}
       >
         <Container fluid>
-          <Nav className="d-flex gap-2 flex-wrap justify-content-center py-2">
+          <Nav className="d-flex gap-2 flex-wrap justify-content-center py-0">
             {categoriesArr.map((elem) => (
               <NavLink
                 key={elem.id}
